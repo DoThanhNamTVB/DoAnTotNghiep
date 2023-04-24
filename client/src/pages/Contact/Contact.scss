@@ -1,0 +1,27 @@
+.contact {
+    padding: 2rem 0px;
+}
+
+.logo-contact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infowebsite-contact {
+    h1 {
+        padding: 2rem;
+        text-align: center;
+    }
+    ul {
+        margin: 0px;
+        li {
+            padding: 1rem;
+
+            &:hover {
+                cursor: pointer;
+                font-weight: 500;
+            }
+        }
+    }
+}

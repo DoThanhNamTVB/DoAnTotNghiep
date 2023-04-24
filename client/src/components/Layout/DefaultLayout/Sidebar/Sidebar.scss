@@ -1,0 +1,35 @@
+.sidebar {
+    padding-right: 2rem;
+    .sidebar-menu-catagory {
+        width: 25rem;
+        .menu-catagory {
+            list-style-type: none;
+        }
+    }
+
+    .sidebar-filter {
+        .filter-by-price,
+        .filter-by-product,
+        .filter-sort-by-price {
+            margin-top: 1rem;
+
+            .price-check,
+            .product-check,
+            .sort-by-check {
+                padding: 1rem 2rem;
+                .form-check {
+                    padding-top: 1rem;
+                    padding-bottom: 1rem;
+                }
+            }
+        }
+    }
+}
+
+.menu-catagory {
+    margin: 0;
+    padding: 0;
+    .menu-catagory-item {
+        padding: 1rem 2rem;
+    }
+}

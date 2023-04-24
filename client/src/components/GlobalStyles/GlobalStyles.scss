@@ -1,19 +1,59 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'normalize.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,700;1,100;1,300;1,400;1,500&display=swap');
 
-:root{
+:root {
+    --bgcolor-all: #00309c;
+    --bgcolor-footer: #6f9cf784;
+    --bgcolor-container: #eff4fb;
 
+    --color-hover: #5685f3;
+    --color-black: #000;
+    --color-white: #ffffff;
+    --color-red: #dd3333;
+    --color-grey: #c9c8c8;
+
+    --font-size: 1.6rem;
+    --font-size-icon-small: 1.6rem;
+    --font-size-icon-medium: 2.5rem;
+    --font-size-icon-large: 3rem;
+
+    --md-width: 768px;
 }
 
-*{
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-html{
+html {
     font-size: 62.5%;
 }
 
-body{
-    font-family: 'Roboto', sans-serif;
+body {
+    font-family: var(--bs-font-sans-serif);
     font-size: 1.6rem;
+}
+
+.content-container {
+    background-color: var(--bgcolor-container);
+}
+
+.row {
+    margin: 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.breadcrumb {
+    a {
+        font-size: 16px;
+    }
+    .active {
+        a {
+            color: #6c757d;
+        }
+    }
 }

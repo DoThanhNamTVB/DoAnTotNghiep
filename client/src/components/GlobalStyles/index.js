@@ -1,6 +1,8 @@
-import './GlobalStyles.scss'
-function GlobalStyles({children}){
-    return children
+import './GlobalStyles.scss';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
+function GlobalStyles({ children }) {
+    return children;
 }
 
-export default GlobalStyles
+export default GlobalStyles;

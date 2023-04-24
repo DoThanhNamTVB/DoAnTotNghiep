@@ -4,14 +4,15 @@ import Sidebar from './Sidebar';
 
 function DefaultLayout({ children }) {
     return (
-        <div>
+        <>
             <Header />
-            <div className="container">
+            {/* style={{ marginTop: '126.25px' }} */}
+            <div className="content-container d-flex p-5">
                 <Sidebar />
                 <div className="content">{children}</div>
             </div>
             <Footer />
-        </div>
+        </>
     );
 }
 

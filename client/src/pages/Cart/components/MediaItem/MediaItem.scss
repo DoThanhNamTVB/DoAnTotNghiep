@@ -1,0 +1,95 @@
+.media-line-item {
+    padding: 15px 10px;
+
+    .media-item-left {
+        max-width: 80px;
+        position: relative;
+        vertical-align: top;
+
+        .item-img {
+            img {
+                border: 1px solid var(--color-grey);
+                max-width: 100%;
+                vertical-align: middle;
+            }
+        }
+
+        .item-remove {
+            position: absolute;
+            top: -12px;
+            left: -7px;
+            .btn-remove-cart {
+                border: none;
+                background-color: #8f9bb3;
+                border-radius: 50%;
+                font-size: 8px;
+                font-weight: 400;
+                width: 20px;
+                height: 20px;
+                text-align: center;
+                line-height: 20px;
+                color: var(--color-white);
+            }
+        }
+    }
+
+    .media-item-right {
+        padding: 0 18px;
+        flex: 1 1 auto;
+
+        .item-info {
+            .item--title {
+                a {
+                    line-height: 1.2;
+                    color: var(--color-black);
+                }
+            }
+        }
+
+        .item-price {
+            span {
+                font-weight: 600;
+                color: #8f9bb3;
+            }
+
+            del {
+                color: #8f9bb3;
+                font-size: 90%;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .media-item-total {
+        .item-qty {
+            .line-item-qty {
+                float: left;
+                font-weight: 500;
+                font-size: 15px;
+                width: 36px;
+                height: 28px;
+                padding: 0;
+                background: #fff;
+                text-align: center;
+                outline: none;
+                border: 1px solid #f3f4f4;
+                margin: 0 3px;
+                border-radius: 4px;
+            }
+
+            .qty-btn {
+                float: left;
+                font-weight: 500;
+                font-size: 1.8rem;
+                padding: 0;
+                height: 28px;
+                width: 28px;
+                text-align: center;
+                background: #ffffff;
+                border: 1px solid #f3f4f4;
+                border-radius: 4px;
+                outline: none;
+            }
+        }
+    }
+}

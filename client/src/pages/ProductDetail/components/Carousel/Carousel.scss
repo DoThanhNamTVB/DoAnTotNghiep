@@ -1,0 +1,17 @@
+.product-detail-img {
+    position: relative;
+
+    .carousel-item {
+        img {
+            object-fit: contain;
+            max-height: 400px;
+            // background-color: var(--color-hover);
+            border-radius: 2rem;
+        }
+    }
+    strong {
+        position: absolute;
+        top: 25px;
+        left: 42px;
+    }
+}

@@ -1,0 +1,43 @@
+.product-deltail {
+    .product-detail-content {
+        background-color: var(--color-white);
+        border-radius: 10px;
+
+        .title-product-detail {
+            background-color: var(--color-hover);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .price-product-detail {
+            span {
+                padding: 0 1rem;
+                font-size: 2rem;
+            }
+
+            .discount-percent {
+                background-color: var(--color-grey);
+            }
+
+            .price {
+                color: #878c8f;
+            }
+        }
+
+        .summary-button {
+            text-align: center;
+            background-color: var(--color-red);
+            font-weight: bolder;
+            line-height: 1.5;
+            padding: 10px;
+            border-radius: 10px;
+            color: var(--color-white);
+
+            &:hover {
+                background-color: var(--color-hover);
+                cursor: pointer;
+            }
+        }
+    }
+}

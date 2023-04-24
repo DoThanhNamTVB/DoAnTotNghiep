@@ -1,0 +1,64 @@
+.admin-page-nav {
+    .navbar-brand,
+    .form-control {
+        font-size: 1.6rem;
+    }
+    .navbar-brand {
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+    }
+}
+.sidebar-admin {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    height: calc(100% - 56px);
+    width: 260px;
+    padding: 0;
+    background-color: #222;
+    color: var(--color-white);
+    z-index: 100;
+    transition: all 0.4s;
+
+    @media (max-width: 992px) {
+        width: 0;
+        &.open {
+            width: 260px;
+        }
+    }
+}
+
+.admin-account {
+    svg {
+        font-size: 2rem;
+    }
+
+    .admin-account-func {
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+    }
+}
+
+.sidebar-admin {
+    svg {
+        vertical-align: inherit;
+    }
+
+    .right-icon {
+        align-items: end;
+        svg {
+            font-size: 1.6rem;
+        }
+    }
+    .sidebar-header {
+        .sidebar-logo {
+            width: 100%;
+            // height: 100px;
+            img {
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    }
+}

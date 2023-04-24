@@ -1,0 +1,19 @@
+.slider {
+    width: 100%;
+}
+
+.carousel-item {
+    .banner-height {
+        // min-height: 170px;
+        height: 455px;
+        object-fit: cover;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .carousel-item {
+        .banner-height {
+            height: 170px;
+        }
+    }
+}
