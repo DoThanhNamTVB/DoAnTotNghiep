@@ -5,6 +5,7 @@ import { AiOutlineCaretDown, AiFillHome } from 'react-icons/ai';
 import { FaUserAlt, FaShoppingCart, FaSearch } from 'react-icons/fa';
 import { HiClipboardList } from 'react-icons/hi';
 import { IoWatch } from 'react-icons/io5';
+import { RiAdminFill } from 'react-icons/ri';
 
 import './NavBar.scss';
 import routesConfig from '~/config/routes';
@@ -15,7 +16,7 @@ function NavBarAdmin() {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark admin-page-nav">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top admin-page-nav">
                 <div className="container-fluid">
                     <button className="navbar-toggler me-2" type="button" onClick={() => setOpen(!open)}>
                         <span className="navbar-toggler-icon" data-bs-target="#offcanvasExample"></span>
@@ -116,9 +117,9 @@ function NavBarAdmin() {
                                 <div className="d-flex justify-content-between">
                                     <div>
                                         <span className="me-3">
-                                            <FaUserAlt />
+                                            <RiAdminFill />
                                         </span>
-                                        <span>Tài khoản</span>
+                                        <span>Admin</span>
                                     </div>
                                     <span className="right-icon ms-auto">
                                         <AiOutlineCaretDown />
@@ -129,18 +130,30 @@ function NavBarAdmin() {
                                 <div>
                                     <ul className="navbar-nav ps-3 ">
                                         <li>
-                                            <Link to="#" className="nav-link px-5 ">
+                                            <Link to={routesConfig.adminCreateAccount} className="nav-link px-5 ">
                                                 <span>Thêm mới</span>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to="#" className="nav-link px-5">
+                                            <Link to={routesConfig.adminManagerAccount} className="nav-link px-5">
                                                 <span>Danh sách tài khoản</span>
                                             </Link>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
+                        </li>
+                        <li>
+                            <Link className="nav-link px-3 sidebar-link" to={routesConfig.userManager}>
+                                <div className="d-flex justify-content-between">
+                                    <div>
+                                        <span className="me-3">
+                                            <FaUserAlt />
+                                        </span>
+                                        <span>Quản lý người dùng</span>
+                                    </div>
+                                </div>
+                            </Link>
                         </li>
                         <li>
                             <Link
@@ -167,12 +180,12 @@ function NavBarAdmin() {
                                 <div>
                                     <ul className="navbar-nav ps-3 ">
                                         <li>
-                                            <Link to="#" className="nav-link px-5">
+                                            <Link to={routesConfig.categoryAdd} className="nav-link px-5">
                                                 <span>Thêm mới</span>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to="#" className="nav-link px-5">
+                                            <Link to={routesConfig.categoryManager} className="nav-link px-5">
                                                 <span>Danh sách danh mục</span>
                                             </Link>
                                         </li>
@@ -205,13 +218,13 @@ function NavBarAdmin() {
                                 <div>
                                     <ul className="navbar-nav ps-3 ">
                                         <li>
-                                            <Link to="#" className="nav-link px-5">
+                                            <Link to={routesConfig.productManagerAdd} className="nav-link px-5">
                                                 <span>Thêm mới</span>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to="#" className="nav-link px-5">
-                                                <span>Danh sách điện thoại</span>
+                                            <Link to={routesConfig.productManagerEdit} className="nav-link px-5">
+                                                <span>Danh sách đồng hồ</span>
                                             </Link>
                                         </li>
                                     </ul>
@@ -221,8 +234,7 @@ function NavBarAdmin() {
                         <li>
                             <Link
                                 className="nav-link px-3 sidebar-link"
-                                data-bs-toggle="collapse"
-                                to="#collapse4"
+                                to={routesConfig.orderManager}
                                 role="button"
                                 aria-expanded="false"
                                 aria-controls="collapse4"
@@ -234,27 +246,8 @@ function NavBarAdmin() {
                                         </span>
                                         <span>Đơn hàng</span>
                                     </div>
-                                    <span className="right-icon ms-auto">
-                                        <AiOutlineCaretDown />
-                                    </span>
                                 </div>
                             </Link>
-                            <div className="collapse" id="collapse4">
-                                <div>
-                                    <ul className="navbar-nav ps-3 ">
-                                        <li>
-                                            <Link to="#" className="nav-link px-5">
-                                                <span>Thêm mới</span>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="#" className="nav-link px-5">
-                                                <span>Danh sách đơn hàng</span>
-                                            </Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </li>
 
                         <li>

@@ -9,7 +9,7 @@ function Cart() {
     return (
         <>
             <nav aria-label="breadcrumb">
-                <div className="container py-3">
+                <div className=" px-5 py-3">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
                             <Link to={routesConfig.home}>Trang chủ</Link>
@@ -23,9 +23,9 @@ function Cart() {
 
             <div className="wrapper-mainCart">
                 <div className="content-bodyCart">
-                    <div className="container py-2">
-                        <div className="row">
-                            <div className="col-md-8 col-sm-12 col-xs-12 contentCart-detail">
+                    <div className=" px-5 py-5">
+                        <div className="row justify-content-between">
+                            <div className="col-lg-8 col-sm-12 col-xs-12 contentCart-detail">
                                 <div className="heading-cart">
                                     <h2>Giỏ hàng của bạn</h2>
                                     <hr className="fw-bold" />
@@ -42,7 +42,7 @@ function Cart() {
                                     </form>
                                 </div>
                             </div>
-                            <div className="col-md-4 col-sm-12 col-xs-12 sidebarCart-sticky">
+                            <div className="col-lg-4 col-sm-12 col-xs-12 sidebarCart-sticky">
                                 <div className="mainCart-sidebar">
                                     <h2 className="summary-title">Thông tin đơn hàng</h2>
                                     <hr />

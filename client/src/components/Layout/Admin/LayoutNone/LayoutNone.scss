@@ -1,0 +1,29 @@
+.layout-admin-none {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .img-logo {
+        display: block;
+        // height: 100vh;
+        background-color: var(--color-);
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .layout-admin-none {
+        flex-direction: column-reverse;
+
+        .children-item {
+            width: 90vw;
+        }
+    }
+}

@@ -1,21 +1,27 @@
 import Button from '~/components/Button';
 import routesConfig from '~/config/routes';
+import { useSelector, useDispatch } from 'react-redux';
+// import { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { MdEmail } from 'react-icons/md';
 import { AiFillClockCircle, AiFillPhone } from 'react-icons/ai';
 import { BsFillPersonFill, BsFillCartFill } from 'react-icons/bs'; //icon-light-off : BsFillLightbulbOffFill
 import { IoLogOutOutline, IoLogInOutline } from 'react-icons/io5';
+import * as actions from '~/store/actions';
 
 // import images from '~/assets/images';
 
 function HeaderBanner() {
-    let currentUser = true;
+    // const isLoggedIn = false;
+    const dispatch = useDispatch();
 
-    const handleLogout = () => {
-        currentUser = false;
+    const { isLoggedIn } = useSelector((state) => state.auth);
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatch(actions.logout());
     };
-
     return (
         <div className="header-contact-content row justify-content-center align-items-center py-2">
             <div className="header-contact-content-left col-10">
@@ -53,7 +59,7 @@ function HeaderBanner() {
                 </Button>
             </li> */}
                     <li>
-                        {currentUser ? (
+                        {isLoggedIn ? (
                             <div className="dropdown">
                                 <div
                                     className="btn btn-secondary dropdown-toggle d-flex justify-content-center align-items-center bg-transparent p-0"
@@ -96,12 +102,12 @@ function HeaderBanner() {
                                 </div>
                                 <ul className="dropdown-menu">
                                     <li>
-                                        <Link className="dropdown-item p-3 fw-bold" to={routesConfig.login}>
+                                        <Link className="dropdown-item p-3 fw-bold" to={routesConfig.loginPage}>
                                             <IoLogInOutline /> <span>Đăng nhập</span>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link className="dropdown-item p-3 fw-bold" to={routesConfig.register}>
+                                        <Link className="dropdown-item p-3 fw-bold" to={routesConfig.registerPage}>
                                             <IoLogOutOutline /> <span>Đăng kí</span>
                                         </Link>
                                     </li>

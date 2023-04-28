@@ -11,6 +11,7 @@
     --color-white: #ffffff;
     --color-red: #dd3333;
     --color-grey: #c9c8c8;
+    --color-readOnly: #c9c8c89e;
 
     --font-size: 1.6rem;
     --font-size-icon-small: 1.6rem;
@@ -55,5 +56,23 @@ a {
         a {
             color: #6c757d;
         }
+    }
+}
+
+.icon-delete {
+    svg {
+        color: var(--color-red);
+        font-size: 1.6rem;
+    }
+}
+
+.icon-lock {
+    svg {
+        color: var(--color-red);
+    }
+}
+.icon-unlock {
+    svg {
+        color: var(--bgcolor-all);
     }
 }

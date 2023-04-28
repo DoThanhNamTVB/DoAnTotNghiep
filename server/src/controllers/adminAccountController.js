@@ -1,0 +1,98 @@
+const adminAccountService = require("../services/adminAccountService");
+
+const createAdminAccount = async (req, res) => {
+    const { userName, email, password, gender, address, phone, role } =
+        req.body;
+
+    try {
+        if (
+            !userName ||
+            !email ||
+            !password ||
+            !gender ||
+            !address ||
+            !phone ||
+            !role
+        ) {
+            return res.status(400).json({
+                err: 1,
+                msg: "Missing inputs !",
+            });
+        }
+        const reponse = await adminAccountService.createAdminService(req.body);
+        return res.status(200).json(reponse);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at admin Account controller : " + error,
+        });
+    }
+};
+
+const getAllAdminAccount = async (req, res) => {
+    try {
+        const response = await adminAccountService.getAllAdminService();
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at getAllAdminAccount controller : " + error,
+        });
+    }
+};
+
+const getAnAdminAccount = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const response = await adminAccountService.getAnAdminService(id);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at getAnAdminAccount controller : " + error,
+        });
+    }
+};
+
+const updateAdminAccount = async (req, res) => {
+    try {
+        const { userName, password, gender, address, phone, role } = req.body;
+        if (!userName || !password || !gender || !address || !phone || !role) {
+            return res.status(400).json({
+                err: 1,
+                msg: "Missing inputs !",
+            });
+        }
+        const id = req.params.id;
+        const response = await adminAccountService.updateAdminService(
+            req.body,
+            id
+        );
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at updateAdminAccount controller : " + error,
+        });
+    }
+};
+
+const deleteAdminAccount = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const response = await adminAccountService.deleteAdminService(id);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at deleteAdminAccount controller : " + error,
+        });
+    }
+};
+module.exports = {
+    createAdminAccount,
+    getAllAdminAccount,
+    getAnAdminAccount,
+    updateAdminAccount,
+    deleteAdminAccount,
+};

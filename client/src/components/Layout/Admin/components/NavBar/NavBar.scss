@@ -23,8 +23,10 @@
 
     @media (max-width: 992px) {
         width: 0;
+        overflow: hidden;
         &.open {
             width: 260px;
+            overflow: visible;
         }
     }
 }
@@ -46,7 +48,6 @@
     }
 
     .right-icon {
-        align-items: end;
         svg {
             font-size: 1.6rem;
         }

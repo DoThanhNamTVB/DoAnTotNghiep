@@ -1,0 +1,31 @@
+import authReducer from './authReducer';
+import userReducer from './userReducer';
+import managerAdminReducer from './managerAdminReducer';
+import managerUserReducer from './managerUserReducer';
+
+import { combineReducers } from 'redux';
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
+import { persistReducer } from 'redux-persist';
+import managerCategoryReducer from './managerCategoryReducer';
+
+const commonConfig = {
+    storage,
+    stateReconciler: autoMergeLevel2,
+};
+
+const authConfig = {
+    ...commonConfig,
+    key: 'auth',
+    whitelist: ['isLoggedIn', 'token'],
+};
+
+const rootReducer = combineReducers({
+    auth: persistReducer(authConfig, authReducer),
+    user: userReducer,
+    managerAdmin: managerAdminReducer,
+    managerUser: managerUserReducer,
+    managerCategory: managerCategoryReducer,
+});
+
+export default rootReducer;

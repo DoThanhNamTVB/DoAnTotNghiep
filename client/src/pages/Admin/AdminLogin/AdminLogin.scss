@@ -1,0 +1,27 @@
+.admin-login {
+    max-width: 800px;
+    padding: 2rem;
+
+    .form-login {
+        input,
+        button {
+            font-size: 1.4rem;
+            padding: 1rem;
+        }
+
+        button {
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        .form-item-password {
+            position: relative;
+            span {
+                position: absolute;
+                top: 37px;
+                right: 25px;
+                color: var(--color-grey);
+            }
+        }
+    }
+}
