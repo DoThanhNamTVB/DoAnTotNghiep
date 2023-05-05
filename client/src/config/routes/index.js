@@ -3,11 +3,11 @@ const routes = {
     contact: '/contact',
     store: '/store',
     blog: '/blog',
-    casioPage: '/casio',
-    casioEdificePage: '/casio-edifice',
-    casioBabyGPage: '/casio-baby-g',
-    casioElectronicGPage: '/casio-electronic',
-    casioVintagePage: '/casio-vintage',
+    categoryPage: '/:categorySlug',
+    // casioEdificePage: '/casio-edifice',
+    // casioBabyGPage: '/casio-baby-g',
+    // casioElectronicGPage: '/casio-electronic',
+    // casioVintagePage: '/casio-vintage',
 
     cartPage: '/cart',
     checkoutstep1Page: '/checkoutstep1',
@@ -16,7 +16,7 @@ const routes = {
     loginPage: '/login',
     registerPage: '/register',
 
-    productDetailPage: '/product-detail',
+    productDetailPage: '/:categorySlug/product-detail/:productId',
     managerInfoPage: '/manager-info',
 
     //admin
@@ -37,13 +37,22 @@ const routes = {
     //catagory manager
     categoryAdd: '/admin/catagory/add',
     categoryManager: '/admin/catagory',
-    categoryEdit: '/admin/catagory/edit/:id',
+    categoryEdit: '/admin/category/edit/:id',
+
+    //catagory manager
+    colorAdd: '/admin/color/add',
+    colorManager: '/admin/color',
+    colorEdit: '/admin/color/edit/:id',
 
     //product manager
-    productManagerAdd: '/product-manager-add',
-    imgProduct: '/product-manager-add/img-product',
-    productManagerEdit: '/product-manager-edit',
-    productManagerEditDetail: '/product-manager-edit-detail',
+    productManagerAdd: '/admin/product/add',
+    imgProduct: '/admin/product/img',
+    productManagerEdit: '/admin/product',
+    productManagerEditDetail: '/admin/product/edit/:id',
+
+    //productColor manager
+    productColorAdd: '/admin/productColor/add/:idProduct',
+    productColorEdit: '/admin/productColor/edit/:idProduct/:idColor',
 
     //order manager
     orderManager: '/admin/order-manager',

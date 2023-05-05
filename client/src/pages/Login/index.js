@@ -16,7 +16,6 @@ function Login() {
 
     useEffect(() => {
         isLoggedIn && navigate(routesConfig.home);
-        console.log(isLoggedIn);
     }, [isLoggedIn, navigate]);
 
     const [payload, setPayload] = useState({
@@ -28,6 +27,7 @@ function Login() {
         setPayload((pre) => ({ ...pre, [e.target.id]: e.target.value }));
     };
 
+    // console.log(payload);
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(actions.login(payload));

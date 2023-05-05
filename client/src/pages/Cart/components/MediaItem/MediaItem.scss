@@ -62,8 +62,10 @@
 
     .media-item-total {
         .item-qty {
+            display: flex;
+            justify-content: right;
             .line-item-qty {
-                float: left;
+                // float: right;
                 font-weight: 500;
                 font-size: 15px;
                 width: 36px;
@@ -78,7 +80,8 @@
             }
 
             .qty-btn {
-                float: left;
+                // float: right;
+
                 font-weight: 500;
                 font-size: 1.8rem;
                 padding: 0;

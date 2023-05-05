@@ -1,13 +1,14 @@
 import actionTypes from '../actions/actionTypes';
 
 const initState = {
-    msgGet: '',
-    msgDelete: '',
-    msgAdd: '',
-    msgGetAll: '',
-    msgPut: '',
+    msg: '',
     categories: [],
     category: {},
+    statusAdd: false,
+    statusGet: false,
+    statusGetAll: false,
+    statusPut: false,
+    statusDelete: false,
 };
 
 const managerCategoryReducer = (state = initState, action) => {
@@ -15,53 +16,106 @@ const managerCategoryReducer = (state = initState, action) => {
         case actionTypes.ADD_CATEGORY_SUCCESS:
             return {
                 ...state,
-                msgAdd: action.msg,
+                statusAdd: true,
+                statusGet: false,
+                statusGetAll: false,
+                statusPut: false,
+                statusDelete: false,
+                msg: '',
             };
         case actionTypes.ADD_CATEGORY_FAIL:
             return {
                 ...state,
-                msgAdd: action.msg,
+                statusAdd: false,
+                statusGet: false,
+                statusGetAll: false,
+                statusPut: false,
+                statusDelete: false,
+                msg: action.msg,
             };
         case actionTypes.GET_ALL_CATEGORY_SUCCESS:
             return {
                 ...state,
-                categories: action.categories || [],
+                statusAdd: false,
+                statusGet: false,
+                statusGetAll: true,
+                statusPut: false,
+                statusDelete: false,
+                categories: action.categories,
+                msg: '',
             };
         case actionTypes.GET_ALL_CATEGORY_FAIL:
             return {
                 ...state,
-                msgGetAll: action.categories,
+                statusAdd: false,
+                statusGet: false,
+                statusGetAll: false,
+                statusPut: false,
+                statusDelete: false,
+                msg: action.categories,
             };
 
         case actionTypes.GET_AN_CATEGORY_SUCCESS:
             return {
                 ...state,
-                category: action.category || {},
+                statusGet: true,
+                statusAdd: false,
+                statusGetAll: false,
+                statusPut: false,
+                statusDelete: false,
+                category: action.category,
+                msg: '',
             };
         case actionTypes.GET_AN_CATEGORY_FAIL:
             return {
                 ...state,
-                msgGet: action.category,
+                statusGet: false,
+                statusAdd: false,
+                statusGetAll: false,
+                statusPut: false,
+                statusDelete: false,
+
+                msg: action.category,
             };
         case actionTypes.PUT_CATEGORY_SUCCESS:
             return {
                 ...state,
-                msgPut: action.category || {},
+                statusPut: true,
+                statusAdd: false,
+                statusGet: false,
+                statusGetAll: false,
+                statusDelete: false,
+                msg: '',
             };
         case actionTypes.PUT_CATEGORY_FAIL:
             return {
                 ...state,
-                msgGet: action.category,
+                statusPut: false,
+                statusAdd: false,
+                statusGet: false,
+                statusGetAll: false,
+                statusDelete: false,
+                msg: action.msg,
             };
         case actionTypes.DELETE_CATEGORY_SUCCESS:
             return {
                 ...state,
-                msgDelete: action.msg,
+                statusDelete: true,
+                statusAdd: false,
+                statusGet: false,
+                statusGetAll: false,
+                statusPut: false,
+                msg: '',
             };
         case actionTypes.DELETE_CATEGORY_FAIL:
             return {
                 ...state,
-                msgDelete: action.msg,
+                statusAdd: false,
+                statusGet: false,
+                statusGetAll: false,
+                statusPut: false,
+                statusDelete: false,
+                msg: action.msg,
             };
         default:
             return state;

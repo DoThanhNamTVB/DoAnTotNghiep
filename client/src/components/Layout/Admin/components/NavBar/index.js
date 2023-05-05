@@ -5,6 +5,7 @@ import { AiOutlineCaretDown, AiFillHome } from 'react-icons/ai';
 import { FaUserAlt, FaShoppingCart, FaSearch } from 'react-icons/fa';
 import { HiClipboardList } from 'react-icons/hi';
 import { IoWatch } from 'react-icons/io5';
+import { IoMdColorPalette } from 'react-icons/io';
 import { RiAdminFill } from 'react-icons/ri';
 
 import './NavBar.scss';
@@ -187,6 +188,44 @@ function NavBarAdmin() {
                                         <li>
                                             <Link to={routesConfig.categoryManager} className="nav-link px-5">
                                                 <span>Danh sách danh mục</span>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <Link
+                                className="nav-link px-3 sidebar-link"
+                                data-bs-toggle="collapse"
+                                to="#collapse2a"
+                                role="button"
+                                aria-expanded="false"
+                                aria-controls="collapse2"
+                            >
+                                <div className="d-flex justify-content-between">
+                                    <div>
+                                        <span className="me-3">
+                                            <IoMdColorPalette />
+                                        </span>
+                                        <span>Màu sắc</span>
+                                    </div>
+                                    <span className="right-icon ms-auto">
+                                        <AiOutlineCaretDown />
+                                    </span>
+                                </div>
+                            </Link>
+                            <div className="collapse" id="collapse2a">
+                                <div>
+                                    <ul className="navbar-nav ps-3 ">
+                                        <li>
+                                            <Link to={routesConfig.colorAdd} className="nav-link px-5">
+                                                <span>Thêm mới</span>
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={routesConfig.colorManager} className="nav-link px-5">
+                                                <span>Danh sách màu sắc</span>
                                             </Link>
                                         </li>
                                     </ul>

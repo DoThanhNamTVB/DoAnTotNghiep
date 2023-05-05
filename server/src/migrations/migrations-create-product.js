@@ -16,52 +16,46 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             price: {
-                type: Sequelize.DECIMAL(15, 2),
+                type: Sequelize.DECIMAL(15, 0),
             },
             discount: {
-                type: Sequelize.INTEGER,
-            },
-            quantity: {
                 type: Sequelize.INTEGER,
             },
             description: {
                 type: Sequelize.TEXT,
             },
             genderFor: {
-                type: Sequelize.BOOLEAN,
+                type: Sequelize.STRING,
             },
             productType: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING,
             },
             glassSurface: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING,
             },
             shellMaterial: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING,
             },
             wireMaterial: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING,
             },
             waterproofDeft: {
-                type: Sequelize.TEXT,
-            },
-            color: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING,
             },
             shape: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING,
             },
             dimension: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING,
             },
             thichness: {
-                type: Sequelize.FLOAT,
+                type: Sequelize.STRING,
             },
             sizeWire: {
-                type: Sequelize.FLOAT,
+                type: Sequelize.STRING,
             },
             origin: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING,
             },
             createdAt: {
                 allowNull: false,

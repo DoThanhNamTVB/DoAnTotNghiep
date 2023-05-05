@@ -1,102 +1,295 @@
-// import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import InputLabel from '~/components/InputLabel';
+import Select from 'react-select';
+
+import { Link } from 'react-router-dom';
 
 import '~/components/CSSForm/index.scss';
 import routesConfig from '~/config/routes';
+import { addProduct, getAllCategory } from '~/store/actions';
 
 function ProductManagerAdd() {
     const navigate = useNavigate();
-    const handleSunmit = (e) => {
-        e.preventDefault();
-        navigate(routesConfig.productManagerEdit);
+    const dispatch = useDispatch();
+    const [categoryOptions, setCategoryOptions] = useState([]);
+    const { statusAdd, msgAdd, productAdd } = useSelector((state) => state.managerProduct);
+    const { categories } = useSelector((state) => state.managerCategory);
+
+    useEffect(() => {
+        dispatch(getAllCategory());
+    }, [dispatch]);
+
+    // console.log(categories);
+    // console.log(statusAdd);
+
+    const [payload, setPayload] = useState({
+        productName: '',
+        categoryName: '',
+        price: '',
+        discount: '',
+        description: '',
+        genderFor: '',
+        productType: '',
+        glassSurface: '',
+        shellMaterial: '',
+        wireMaterial: '',
+        waterproofDeft: '',
+        shape: '',
+        dimension: '',
+        thichness: '',
+        sizeWire: '',
+        origin: '',
+    });
+
+    const [errors, setErrors] = useState();
+
+    const validateForm = (value) => {
+        const errors = {};
+        if (!value.productName) {
+            errors.productName = 'Trường này là bắt buộc !';
+        }
+        if (!value.categoryId) {
+            errors.categoryId = 'Trường này là bắt buộc !';
+        }
+        if (!value.price) {
+            errors.price = 'Trường này là bắt buộc !';
+        } else if (isNaN(value.price)) {
+            errors.quantity = 'Trường này hãy nhập số';
+        }
+        if (!value.discount) {
+            errors.discount = 'Trường này là bắt buộc !';
+        } else if (isNaN(value.discount)) {
+            errors.quantity = 'Trường này hãy nhập số';
+        }
+        if (!value.description) {
+            errors.description = 'Trường này là bắt buộc !';
+        }
+        if (!value.origin) {
+            errors.origin = 'Trường này là bắt buộc !';
+        }
+        if (!value.genderFor) {
+            errors.genderFor = 'Trường này là bắt buộc !';
+        }
+        if (!value.productType) {
+            errors.productType = 'Trường này là bắt buộc !';
+        }
+        return errors;
     };
+
+    useEffect(() => {
+        const options = categories.map((category) => ({ value: category.id, label: category.categoryName }));
+        setCategoryOptions(options);
+    }, [categories]);
+
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const handleChangeSelect = (selectedOption) => {
+        setSelectedOption(selectedOption?.value);
+    };
+
+    const handChange = (e) => {
+        setPayload((pre) => ({ ...pre, [e.target.id]: e.target.value }));
+        if (errors && errors[e.target.id]) {
+            setErrors((prev) => ({ ...prev, [e.target.id]: '' }));
+        }
+    };
+
+    useEffect(() => {
+        if (statusAdd === true) {
+            navigate(`/admin/product/edit/${productAdd.id}`);
+        }
+    }, [statusAdd, navigate, productAdd]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const finalPayload = { ...payload, categoryId: selectedOption };
+        const formErrs = validateForm(finalPayload);
+        if (Object.keys(formErrs).length > 0) {
+            setErrors(formErrs);
+        } else {
+            dispatch(addProduct(finalPayload));
+        }
+    };
+
+    useEffect(() => {
+        if (msgAdd) {
+            toast.error(msgAdd);
+        }
+    }, [msgAdd]);
+
     return (
         <>
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb m-0 py-">
+                    <li className="breadcrumb-item">
+                        <Link to={routesConfig.admin}>Trang chủ</Link>
+                    </li>
+                    <li className="breadcrumb-item" aria-current="page">
+                        <Link to={routesConfig.productManagerEdit}>Sản phẩm</Link>
+                    </li>
+                    <li className="breadcrumb-item active" aria-current="page">
+                        <Link to={routesConfig.productManagerAdd}>Thêm mới</Link>
+                    </li>
+                </ol>
+            </nav>
+            <div className="header-sample text-center">
+                <h2 className="fw-bolder">Thêm sản phẩm mới</h2>
+            </div>
             <div className="d-flex justify-content-center align-items-center py-5 mx-3">
                 <div className="sample w-100 border border-2 rounded-5">
-                    <div className="header-sample text-center ">
-                        <h2 className="fw-bolder">Thêm mới admin</h2>
-                    </div>
                     <form className="form-sample row">
-                        <div className="mb-3 form-sample-item col-md-6 col-12">
-                            <label htmlFor="userName" className="form-label">
-                                Tên người dùng
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="userName"
-                                aria-describedby="emailHelp"
-                                placeholder="Nguyen Van A"
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="productName"
+                            label="Tên sản phẩm"
+                            value={payload.productName}
+                            onChange={handChange}
+                            error={errors?.productName && <small className="text-danger">{errors.productName}</small>}
+                        />
+                        <div className="mb-3 form-sample-item col-sm-4 col-12">
+                            <label className="form-label">Danh mục</label>
+                            <Select
+                                key={[categoryOptions, payload.categoryName]}
+                                defaultValue={categoryOptions?.find((option) => option.label === payload.categoryName)}
+                                onChange={handleChangeSelect}
+                                options={categoryOptions}
+                                isSearchable
+                                noOptionsMessage={() => 'Không có danh mục phù hợp'}
                             />
                         </div>
-                        <div className="mb-3 form-sample-item col-md-6 col-12">
-                            <label htmlFor="email" className="form-label">
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                className="form-control"
-                                id="email"
-                                aria-describedby="emailHelp"
-                                placeholder="abc@gmail.com"
-                            />
-                        </div>
-                        <div className="mb-3 form-sample-item col-md-6">
-                            <label htmlFor="phonenumber" className="form-label">
-                                SĐT
-                            </label>
-                            <input
-                                type="email"
-                                className="form-control"
-                                id="phonenumber"
-                                aria-describedby="emailHelp"
-                                placeholder="0123xxxxxx"
-                            />
-                        </div>
-                        <div className="mb-3 form-sample-item col-md-3">
-                            <label htmlFor="gender" className="form-label">
-                                Giới tính
-                            </label>
-                            <select className="form-select" id="gender" aria-label=" select example">
-                                <option value="1">Nam</option>
-                                <option value="2">Nữ</option>
-                            </select>
-                        </div>
-                        <div className="mb-3 form-sample-item col-md-3">
-                            <label htmlFor="gender" className="form-label">
-                                Phân quyền
-                            </label>
-                            <select className="form-select" id="gender" aria-label=" select example">
-                                <option value="1">Admin</option>
-                                <option value="2">Nhân viên</option>
-                            </select>
-                        </div>
-                        <div className="mb-3 col-12 col-md-12">
-                            <label htmlFor="formFile" className="form-label">
-                                Ảnh đại diện
-                            </label>
-                            <input className="form-control" type="file" id="formFile" />
-                        </div>
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="origin"
+                            label="Xuất sứ"
+                            value={payload.origin}
+                            onChange={handChange}
+                            error={errors?.origin && <small className="text-danger">{errors.origin}</small>}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="price"
+                            label="Giá sản phẩm"
+                            value={payload.price}
+                            onChange={handChange}
+                            error={errors?.price && <small className="text-danger">{errors.price}</small>}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="discount"
+                            label="Phần trăm giảm giá"
+                            value={payload.discount}
+                            onChange={handChange}
+                            error={errors?.disscount && <small className="text-danger">{errors.discount}</small>}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="genderFor"
+                            label="Giành cho"
+                            value={payload.genderFor}
+                            onChange={handChange}
+                            error={errors?.genderFor && <small className="text-danger">{errors.genderFor}</small>}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="productType"
+                            label="Kiểu máy"
+                            value={payload.productType}
+                            onChange={handChange}
+                            error={errors?.productType && <small className="text-danger">{errors.productType}</small>}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="wireMaterial"
+                            label="Chất liệu dây"
+                            value={payload.wireMaterial}
+                            onChange={handChange}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="waterproofDeft"
+                            label="Độ chống nước"
+                            value={payload.waterproofDeft}
+                            onChange={handChange}
+                        />
+                        <InputLabel
+                            textarea
+                            row="5"
+                            className="mb-3 form-sample-item col-12"
+                            type="text"
+                            id="description"
+                            label="Mô tả"
+                            value={payload.description}
+                            onChange={handChange}
+                            error={errors?.description && <small className="text-danger">{errors.description}</small>}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="glassSurface"
+                            label="Mặt kính"
+                            value={payload.glassSurface}
+                            onChange={handChange}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="shellMaterial"
+                            label="Chất liệu vỏ"
+                            value={payload.shellMaterial}
+                            onChange={handChange}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="shape"
+                            label="Kiểu dáng"
+                            value={payload.shape}
+                            onChange={handChange}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="dimension"
+                            label="Kích thước"
+                            value={payload.dimension}
+                            onChange={handChange}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="thichness"
+                            label="Độ dày"
+                            value={payload.thichness}
+                            onChange={handChange}
+                        />
+                        <InputLabel
+                            className="mb-3 form-sample-item col-sm-4 col-12"
+                            type="text"
+                            id="sizeWire"
+                            label="size dây"
+                            value={payload.sizeWire}
+                            onChange={handChange}
+                        />
                         <div className="col-12 col-md-12">
-                            <label htmlFor="address-detail" className="form-label">
-                                Địa chỉ
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="address-detail"
-                                placeholder="Số nhà x, ngõ a/b, đường Cầu Diễn, quận Nam Từ Liêm, Hà Nội"
-                            />
+                            <button onClick={handleSubmit} className="btn btn-primary w-100 mt-3">
+                                Thêm mới
+                            </button>
                         </div>
-
-                        <button type="submit" onClick={handleSunmit} className="btn btn-primary mb-3">
-                            <strong>Thêm Mới</strong>
-                        </button>
                     </form>
                 </div>
             </div>
+            <ToastContainer autoClose={2000} />
         </>
     );
 }

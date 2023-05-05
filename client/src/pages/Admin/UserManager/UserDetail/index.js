@@ -1,22 +1,20 @@
 import '~/components/CSSForm/index.scss';
-import ButtonModal from '~/components/ButtonModal';
+// import ButtonModal from '~/components/ButtonModal';
 import routesConfig from '~/config/routes';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getAnUser, putUser } from '~/store/actions';
+import { Link, useParams } from 'react-router-dom';
+import { getAnUser } from '~/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 function UserDetail() {
-    const navigate = useNavigate();
-
     let { id } = useParams();
 
     const { user } = useSelector((state) => state.managerUser);
-    // console.log('get user : ', user);
 
     const dispatch = useDispatch();
-
-    dispatch(getAnUser(id));
+    useEffect(() => {
+        dispatch(getAnUser(id));
+    }, [dispatch, id]);
 
     const [payload, setPayload] = useState({
         userName: '',
@@ -31,17 +29,17 @@ function UserDetail() {
     useEffect(() => {
         if (user) {
             user.userName &&
-                setPayload({
-                    ...payload,
-                    userName: user.userName,
-                    email: user.email,
-                    phone: user.phone,
-                    gender: user.gender,
-                    img: user.img,
-                    status: user.status,
-                    address: user.address,
-                    password: user.password,
-                });
+                setPayload((prev) => ({
+                    ...prev,
+                    userName: user.userName || '',
+                    email: user.email || '',
+                    phone: user.phone || '',
+                    gender: user.gender || '',
+                    img: user.img || '',
+                    status: user.status || '',
+                    address: user.address || '',
+                    password: user.password || '',
+                }));
         }
     }, [user]);
 
@@ -49,14 +47,21 @@ function UserDetail() {
         setPayload((pre) => ({ ...pre, [e.target.id]: e.target.value }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(putUser(payload, id));
-        navigate(routesConfig.userManager);
-    };
-
     return (
         <>
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb m-0 py-">
+                    <li className="breadcrumb-item">
+                        <Link to={routesConfig.admin}>Trang chủ</Link>
+                    </li>
+                    <li className="breadcrumb-item" aria-current="page">
+                        <Link to={routesConfig.userManager}>Quản lý người dùng</Link>
+                    </li>
+                    <li className="breadcrumb-item active" aria-current="page">
+                        <Link to={routesConfig.userDetail}>Chi tiết</Link>
+                    </li>
+                </ol>
+            </nav>
             <div className="d-flex justify-content-center align-items-center py-5 mx-3">
                 <div className="sample w-100 border border-2 rounded-5">
                     <div className="header-sample text-center ">
@@ -89,7 +94,6 @@ function UserDetail() {
                                 onChange={handChange}
                                 aria-describedby="emailHelp"
                                 readOnly
-                                get
                             />
                         </div>
                         <div className="mb-3 form-sample-item col-md-6">
@@ -123,27 +127,23 @@ function UserDetail() {
                             <label htmlFor="status" className="form-label">
                                 Status
                             </label>
-                            <select
-                                className="form-select"
+                            <input
+                                type="text"
+                                className="form-control"
                                 id="status"
                                 value={payload.status}
                                 onChange={handChange}
                                 aria-label=" select example"
-                            >
-                                <option value="Active">Active</option>
-                                <option value="Block">Block</option>
-                            </select>
+                                readOnly
+                            />
                         </div>
                         <div className="mb-3 col-12 col-md-12">
                             <label htmlFor="img" className="form-label">
                                 Ảnh đại diện
                             </label>
                             <div className="">
-                                <img src={payload.img} alt="anh dai dien" width="100px" height="100px" readOnly />
+                                <img src={payload.img || ''} alt="anh dai dien" width="100px" height="100px" />
                             </div>
-                            {/* <input className="form-control" type="text" id="img" readOnly>
-                                {payload.img}
-                            </input> */}
                         </div>
                         <div className="col-12 col-md-12">
                             <label htmlFor="address" className="form-label">
@@ -156,18 +156,6 @@ function UserDetail() {
                                 onChange={handChange}
                                 id="address"
                                 readOnly
-                            />
-                        </div>
-                        <div className="col-12 col-md-12">
-                            <ButtonModal
-                                id="btnUpdateUser"
-                                nameButtonAll="Cập nhật trạng thái tài khoản"
-                                className="btn-primary mt-4 px-0 w-100"
-                                title="Cập nhật trạng thái tài khoản"
-                                modalBody="Bạn có chắc chắn muốn thay đổi?"
-                                nameButtonClose="Hủy"
-                                nameButtonSubmit="Cập nhật"
-                                onclick={handleSubmit}
                             />
                         </div>
 

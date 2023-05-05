@@ -6,22 +6,36 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MdEmail } from 'react-icons/md';
 import { AiFillClockCircle, AiFillPhone } from 'react-icons/ai';
-import { BsFillPersonFill, BsFillCartFill } from 'react-icons/bs'; //icon-light-off : BsFillLightbulbOffFill
+import { BsFillPersonFill, BsFillCartFill } from 'react-icons/bs';
 import { IoLogOutOutline, IoLogInOutline } from 'react-icons/io5';
 import * as actions from '~/store/actions';
+import { useEffect, useState } from 'react';
 
 // import images from '~/assets/images';
 
 function HeaderBanner() {
-    // const isLoggedIn = false;
     const dispatch = useDispatch();
 
-    const { isLoggedIn } = useSelector((state) => state.auth);
+    const { isLoggedIn, user } = useSelector((state) => state.auth);
 
     const handleLogout = (e) => {
         e.preventDefault();
         dispatch(actions.logout());
     };
+
+    //dispatch cart
+    useEffect(() => {
+        dispatch(actions.getCartByUserId(user?.id));
+    }, [dispatch, user]);
+    const { carts } = useSelector((state) => state.managerCart);
+
+    const [quantity, setQuantity] = useState(0);
+
+    useEffect(() => {
+        const count = carts?.reduce((accumulator, currentValue) => accumulator + currentValue?.quantity, 0);
+        setQuantity(count);
+    }, [carts]);
+
     return (
         <div className="header-contact-content row justify-content-center align-items-center py-2">
             <div className="header-contact-content-left col-10">
@@ -53,11 +67,6 @@ function HeaderBanner() {
 
             <div className="header-contact-content-right col-2 text-end">
                 <ul className="header-contact-content-right-items d-flex justify-content-end align-items-center">
-                    {/* <li>
-                <Button primary circle>
-                    <BsFillLightbulbFill />
-                </Button>
-            </li> */}
                     <li>
                         {isLoggedIn ? (
                             <div className="dropdown">
@@ -116,12 +125,13 @@ function HeaderBanner() {
                         )}
                     </li>
                     <li className="button-cart">
-                        <Button primary circle to={routesConfig.cartPage}>
+                        <Button primary circle to={isLoggedIn ? routesConfig.cartPage : routesConfig.loginPage}>
                             <BsFillCartFill />
                         </Button>
                         {/* <span className="qty-product-cart">1</span> */}
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            12<span className="visually-hidden">unread messages</span>
+                            {quantity}
+                            <span className="visually-hidden">unread messages</span>
                         </span>
                     </li>
                 </ul>

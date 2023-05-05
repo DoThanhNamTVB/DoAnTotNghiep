@@ -2,10 +2,67 @@ import { Link } from 'react-router-dom';
 
 import MediaItem from './components/MediaItem';
 import routesConfig from '~/config/routes';
+import { deleteCart, getCartByUserId, getCurrentUser } from '~/store/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import formatter from '~/components/FuntionComponent/formatPrice';
 
 import './Cart.scss';
 
 function Cart() {
+    //dispatch cart
+    const dispatch = useDispatch();
+
+    const { user } = useSelector((state) => state.auth);
+    // console.log(user);
+
+    useEffect(() => {
+        dispatch(getCartByUserId(user?.id));
+    }, [dispatch, user]);
+
+    const { carts, statusDelete } = useSelector((state) => state.managerCart);
+    // console.log(carts);
+
+    //set số lượng sản phẩm
+    const [quantity, setQuantity] = useState(0);
+
+    useEffect(() => {
+        const count = carts?.reduce((accumulator, currentValue) => accumulator + currentValue?.quantity, 0);
+        setQuantity(count);
+    }, [carts]);
+
+    //get user
+
+    const products = user?.Products;
+    // console.log(products);
+    //handle delete item
+    const handleDelete = (idUser, idProduct) => {
+        dispatch(deleteCart(idUser, idProduct));
+    };
+
+    useEffect(() => {
+        if (statusDelete === true) {
+            dispatch(getCurrentUser());
+            dispatch(getCartByUserId(user?.id));
+        }
+    }, [statusDelete, dispatch, user]);
+
+    //get total money
+    const [totalMoney, setTotalMoney] = useState();
+
+    useEffect(() => {
+        const total = products?.reduce((accumulator, currentValue) => {
+            return (
+                accumulator +
+                (currentValue?.price - (currentValue?.price * currentValue?.discount) / 100) *
+                    currentValue?.Cart?.quantity
+            );
+        }, 0);
+        setTotalMoney(total);
+    }, [products]);
+
+    const totalMoneyFormat = formatter.format(totalMoney);
+
     return (
         <>
             <nav aria-label="breadcrumb">
@@ -31,15 +88,46 @@ function Cart() {
                                     <hr className="fw-bold" />
                                 </div>
                                 <div className="form-cart">
-                                    <form action={routesConfig.cartPage} method="post" id="cartform">
-                                        <p className="title-number-cart">
-                                            Bạn đang có <strong>1</strong> sản phẩm trong giỏ hàng
-                                        </p>
-                                        <div className="table-cart">
-                                            <MediaItem />
-                                            <MediaItem />
-                                        </div>
-                                    </form>
+                                    <p className="title-number-cart">
+                                        Bạn đang có <strong>{quantity}</strong> sản phẩm trong giỏ hàng
+                                    </p>
+                                    <div className="table-cart">
+                                        {products?.length > 0 &&
+                                            products?.map((item, index) => {
+                                                return (
+                                                    <MediaItem
+                                                        key={index}
+                                                        img={
+                                                            process.env.REACT_APP_SERVER_URL +
+                                                            item?.Colors?.find(
+                                                                (color) => color.id === item?.Cart?.colorId,
+                                                            )?.Product_Color?.img
+                                                        }
+                                                        handleDelete={() => handleDelete(user.id, item.id)}
+                                                        price={item?.price}
+                                                        sale={item?.discount}
+                                                        productName={item?.productName}
+                                                        color={
+                                                            item?.Colors.find(
+                                                                (color) => color.id === item?.Cart?.colorId,
+                                                            )?.colorName
+                                                        }
+                                                        countCurrent={item?.Cart?.quantity}
+                                                        productId={item.id}
+                                                        colorId={
+                                                            item?.Colors?.find(
+                                                                (color) => color.id === item?.Cart?.colorId,
+                                                            )?.id
+                                                        }
+                                                        qtyDatabase={
+                                                            item?.Colors?.find(
+                                                                (color) => color.id === item?.Cart?.colorId,
+                                                            )?.Product_Color?.quantity
+                                                        }
+                                                    />
+                                                );
+                                            })}
+                                    </div>
                                 </div>
                             </div>
                             <div className="col-lg-4 col-sm-12 col-xs-12 sidebarCart-sticky">
@@ -49,7 +137,7 @@ function Cart() {
 
                                     <div className="summary-total">
                                         <p>
-                                            Tổng tiền: <span>1,097,000₫</span>
+                                            Tổng tiền: <span>{totalMoneyFormat}</span>
                                         </p>
                                         <hr />
                                     </div>

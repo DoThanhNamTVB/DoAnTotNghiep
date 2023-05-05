@@ -3,17 +3,28 @@ import { AiFillEye } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllUser } from '~/store/actions';
+import routesConfig from '~/config/routes';
 
 function UserManager() {
     const dispatch = useDispatch();
     const { users } = useSelector((state) => state.managerUser);
-    console.log(users);
+    // console.log(users);
     useEffect(() => {
         dispatch(getAllUser());
-    }, [users]);
+    }, [dispatch]);
 
     return (
         <>
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb m-0 py-">
+                    <li className="breadcrumb-item">
+                        <Link to={routesConfig.admin}>Trang chủ</Link>
+                    </li>
+                    <li className="breadcrumb-item active" aria-current="page">
+                        <Link to={routesConfig.userManager}>Quản lý người dùng</Link>
+                    </li>
+                </ol>
+            </nav>
             <table className="table table-striped">
                 <thead>
                     <tr>
@@ -45,7 +56,7 @@ function UserManager() {
                                     <td>{item.status}</td>
 
                                     <td>
-                                        <Link to={`/admin/user-manager/${item.id}`}>
+                                        <Link to={`/admin/user-manager/${item.id}`} className="fs-3">
                                             <AiFillEye />
                                         </Link>
                                     </td>

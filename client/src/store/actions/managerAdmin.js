@@ -6,7 +6,7 @@ export const addAdmin = (payload) => async (dispatch) => {
     try {
         const response = await apiAddAdmin(payload);
 
-        console.log(response);
+        // console.log(response);
 
         if (response?.data.err === 0) {
             dispatch({

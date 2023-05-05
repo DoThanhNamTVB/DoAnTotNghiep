@@ -2,12 +2,16 @@ import authReducer from './authReducer';
 import userReducer from './userReducer';
 import managerAdminReducer from './managerAdminReducer';
 import managerUserReducer from './managerUserReducer';
+import managerCategoryReducer from './managerCategoryReducer';
+import managerProductReducer from './managerProductReducer';
+import managerColorReducer from './managerColorReducer';
+import managerProductColorReducer from './managerProductColorReducer';
+import managerCartReducer from './managerCartReducer';
 
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 import { persistReducer } from 'redux-persist';
-import managerCategoryReducer from './managerCategoryReducer';
 
 const commonConfig = {
     storage,
@@ -26,6 +30,10 @@ const rootReducer = combineReducers({
     managerAdmin: managerAdminReducer,
     managerUser: managerUserReducer,
     managerCategory: managerCategoryReducer,
+    managerColor: managerColorReducer,
+    managerProduct: managerProductReducer,
+    managerProductColor: managerProductColorReducer,
+    managerCart: managerCartReducer,
 });
 
 export default rootReducer;

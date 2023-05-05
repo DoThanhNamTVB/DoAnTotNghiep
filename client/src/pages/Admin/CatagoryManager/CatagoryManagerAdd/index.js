@@ -1,17 +1,24 @@
-import { useState } from 'react';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+// import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import '~/components/CSSForm/index.scss';
 import routesConfig from '~/config/routes';
 import { addCategory } from '~/store/actions';
+import { ToastContainer, toast } from 'react-toastify';
+import slugify from '@sindresorhus/slugify';
 
 function CategoryAdd() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [errors, setErrors] = useState();
+    const { statusAdd } = useSelector((state) => state.managerCategory);
+    // console.log(msg);
+    // console.log(data);
+
+    const [errors, setErrors] = useState({});
 
     const [payload, setPayload] = useState({
         categoryName: '',
@@ -23,16 +30,11 @@ function CategoryAdd() {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formErrs = validateForm(payload);
-        if (Object.keys(formErrs).length > 0) {
-            setErrors(formErrs);
-        } else {
-            dispatch(addCategory(payload));
+    useEffect(() => {
+        if (statusAdd === true) {
             navigate(routesConfig.categoryManager);
         }
-    };
+    }, [statusAdd, navigate]);
 
     const validateForm = (values) => {
         const errors = {};
@@ -41,8 +43,35 @@ function CategoryAdd() {
         }
         return errors;
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formErrs = validateForm(payload);
+        if (Object.keys(formErrs).length > 0) {
+            setErrors(formErrs);
+        } else {
+            const slug = slugify(payload.categoryName);
+            dispatch(addCategory({ ...payload, slug }));
+            if (statusAdd === false) {
+                toast.error('Danh mục đã tồn tại !');
+            }
+        }
+    };
     return (
         <>
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb m-0 py-">
+                    <li className="breadcrumb-item">
+                        <Link to={routesConfig.admin}>Trang chủ</Link>
+                    </li>
+                    <li className="breadcrumb-item" aria-current="page">
+                        <Link to={routesConfig.categoryManager}>Danh mục</Link>
+                    </li>
+                    <li className="breadcrumb-item active" aria-current="page">
+                        <Link to={routesConfig.categoryAdd}>Thêm mới</Link>
+                    </li>
+                </ol>
+            </nav>
             <div className="d-flex justify-content-center align-items-center py-5 mx-3">
                 <div className="register w-100 border border-2 rounded-5">
                     <div className="header-register text-center ">
@@ -71,6 +100,7 @@ function CategoryAdd() {
                     </form>
                 </div>
             </div>
+            <ToastContainer autoClose={2000} />
         </>
     );
 }

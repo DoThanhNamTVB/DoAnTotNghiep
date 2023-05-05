@@ -9,5 +9,9 @@ router.get("/get-all", managerProductController.getAllProduct);
 router.get("/:id", managerProductController.getAnProduct);
 router.put("/:id", managerProductController.updateProduct);
 router.delete("/:id", managerProductController.deleteProduct);
+router.get(
+    "/getCategory/:categorySlug",
+    managerProductController.getProductByCategory
+);
 
 module.exports = router;

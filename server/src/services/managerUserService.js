@@ -22,7 +22,12 @@ const getAllUseService = () => {
 const getAnUseService = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await db.User.findOne({ where: { id: id } });
+            const response = await db.User.findOne({
+                where: { id: id },
+                include: [
+                    { model: db.Product, include: [{ model: db.Color }] },
+                ],
+            });
             resolve({
                 err: response ? 0 : 2,
                 msg: response ? "Get user is ok" : "Not found user!",

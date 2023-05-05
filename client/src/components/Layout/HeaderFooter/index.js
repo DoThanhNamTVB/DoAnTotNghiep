@@ -6,7 +6,7 @@ function HeaderFooterLayout({ children }) {
         <div>
             <Header />
             {/* style={{ marginTop: '126.25px' }} */}
-            <div className="content-container">
+            <div className="content-container px-3">
                 <div className="content">{children}</div>
             </div>
             <Footer />

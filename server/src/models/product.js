@@ -8,29 +8,41 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            Product.belongsTo(models.Category);
+            Product.belongsToMany(models.Color, {
+                through: "Product_Color",
+                foreignKey: "productId",
+            });
+
+            Product.belongsToMany(models.User, {
+                through: "Cart",
+                foreignKey: "productId",
+            });
+
+            Product.belongsToMany(models.Order, {
+                through: "Order_Detail",
+                foreignKey: "productId",
+            });
         }
     }
     Product.init(
         {
             categoryId: DataTypes.INTEGER,
             productName: DataTypes.STRING,
-            price: DataTypes.DECIMAL(15, 2),
+            price: DataTypes.DECIMAL(15, 0),
             discount: DataTypes.INTEGER,
-            quantity: DataTypes.INTEGER,
             description: DataTypes.TEXT,
-            genderFor: DataTypes.BOOLEAN,
-            productType: DataTypes.TEXT,
-            glassSurface: DataTypes.TEXT,
-            shellMaterial: DataTypes.TEXT,
-            wireMaterial: DataTypes.TEXT,
-            waterproofDeft: DataTypes.TEXT,
-            color: DataTypes.TEXT,
-            shape: DataTypes.TEXT,
-            dimension: DataTypes.TEXT,
-            thichness: DataTypes.FLOAT,
-            sizeWire: DataTypes.FLOAT,
-            origin: DataTypes.TEXT,
+            genderFor: DataTypes.STRING,
+            productType: DataTypes.STRING,
+            glassSurface: DataTypes.STRING,
+            shellMaterial: DataTypes.STRING,
+            wireMaterial: DataTypes.STRING,
+            waterproofDeft: DataTypes.STRING,
+            shape: DataTypes.STRING,
+            dimension: DataTypes.STRING,
+            thichness: DataTypes.STRING,
+            sizeWire: DataTypes.STRING,
+            origin: DataTypes.STRING,
         },
         {
             sequelize,

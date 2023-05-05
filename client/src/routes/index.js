@@ -13,12 +13,12 @@ import Cart from '~/pages/Cart';
 import Blog from '~/pages/Blog';
 
 //pages of catagory
-// import Catagory from '~/pages/Catagory';
-import CasioPage from '~/pages/Catagory/Casio';
-import CasioEdificePage from '~/pages/Catagory/CasioEdifice';
-import CasioElectronicPage from '~/pages/Catagory/CasioElectronic';
-import CasioBaByGPage from '~/pages/Catagory/CasioBaByG';
-import CasioVintagePage from '~/pages/Catagory/CasioVintage';
+import CategoryPage from '~/pages/Catagory';
+// import CasioPage from '~/pages/Catagory/Casio';
+// import CasioEdificePage from '~/pages/Catagory/CasioEdifice';
+// import CasioElectronicPage from '~/pages/Catagory/CasioElectronic';
+// import CasioBaByGPage from '~/pages/Catagory/CasioBaByG';
+// import CasioVintagePage from '~/pages/Catagory/CasioVintage';
 import { CheckoutStep1 } from '~/pages/Checkout';
 import { CheckoutStep2 } from '~/pages/Checkout';
 import Login from '~/pages/Login';
@@ -40,13 +40,19 @@ import UserManager from '~/pages/Admin/UserManager';
 import UserDetail from '~/pages/Admin/UserManager/UserDetail';
 //catagory
 import { CategoryAdd, CategoryManager, CategoryEdit } from '~/pages/Admin/CatagoryManager';
-//catagory
+
+//color
+import { ColorAdd, ColorEdit, ColorManager } from '~/pages/Admin/ColorManager';
+
+//product
 import {
     ProductManagerAdd,
-    ImgProduct,
     ProductManagerEdit,
     ProductManagerEditDetail,
+    ProductColorAdd,
+    ProductColorEdit,
 } from '~/pages/Admin/ProductManager';
+
 //order
 import OrderManager from '~/pages/Admin/OrderManager';
 
@@ -55,11 +61,13 @@ const publicRoutes = [
     { path: routesConfig.home, component: Home, layout: HeaderFooterLayout },
     { path: routesConfig.contact, component: Contact, layout: HeaderFooterLayout },
     { path: routesConfig.blog, component: Blog, layout: HeaderFooterLayout },
-    { path: routesConfig.casioPage, component: CasioPage },
-    { path: routesConfig.casioEdificePage, component: CasioEdificePage },
-    { path: routesConfig.casioBabyGPage, component: CasioBaByGPage },
-    { path: routesConfig.casioElectronicGPage, component: CasioElectronicPage },
-    { path: routesConfig.casioVintagePage, component: CasioVintagePage },
+
+    { path: routesConfig.categoryPage, component: CategoryPage, layout: HeaderFooterLayout },
+    // { path: routesConfig.casioPage, component: CasioPage },
+    // { path: routesConfig.casioEdificePage, component: CasioEdificePage },
+    // { path: routesConfig.casioBabyGPage, component: CasioBaByGPage },
+    // { path: routesConfig.casioElectronicGPage, component: CasioElectronicPage },
+    // { path: routesConfig.casioVintagePage, component: CasioVintagePage },
 
     { path: routesConfig.cartPage, component: Cart, layout: HeaderFooterLayout },
     { path: routesConfig.checkoutstep1Page, component: CheckoutStep1, layout: LayoutNone },
@@ -92,11 +100,19 @@ const privateRoutes = [
     { path: routesConfig.categoryManager, component: CategoryManager, layout: AdminDefaultLayout },
     { path: routesConfig.categoryEdit, component: CategoryEdit, layout: AdminDefaultLayout },
 
+    //color manager
+    { path: routesConfig.colorAdd, component: ColorAdd, layout: AdminDefaultLayout },
+    { path: routesConfig.colorManager, component: ColorManager, layout: AdminDefaultLayout },
+    { path: routesConfig.colorEdit, component: ColorEdit, layout: AdminDefaultLayout },
+
     //product manager
     { path: routesConfig.productManagerAdd, component: ProductManagerAdd, layout: AdminDefaultLayout },
-    { path: routesConfig.imgProduct, component: ImgProduct, layout: AdminDefaultLayout },
     { path: routesConfig.productManagerEdit, component: ProductManagerEdit, layout: AdminDefaultLayout },
     { path: routesConfig.productManagerEditDetail, component: ProductManagerEditDetail, layout: AdminDefaultLayout },
+
+    //productColor manager
+    { path: routesConfig.productColorAdd, component: ProductColorAdd, layout: AdminDefaultLayout },
+    { path: routesConfig.productColorEdit, component: ProductColorEdit, layout: AdminDefaultLayout },
 
     //order
     { path: routesConfig.orderManager, component: OrderManager, layout: AdminDefaultLayout },

@@ -25,6 +25,13 @@
             }
         }
 
+        .btn-count {
+            &:hover {
+                color: white;
+                background-color: var(--color-hover);
+            }
+        }
+
         .summary-button {
             text-align: center;
             background-color: var(--color-red);

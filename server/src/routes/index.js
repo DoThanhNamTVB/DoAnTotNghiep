@@ -8,6 +8,10 @@ const managerCatagoryRouter = require("./managerCatagoryRoute");
 const managerProductRouter = require("./managerProductRoute");
 //manager cart
 const managerCartRouter = require("./managerCartRoute");
+//manager Color
+const managerColorRouter = require("./managerColorRoute");
+//manager ProductColor
+const managerProductColorRouter = require("./managerProductColorRoute");
 //user
 const authRouter = require("./auth");
 
@@ -22,6 +26,10 @@ const initRoutes = (app) => {
     app.use("/api/managerProduct", managerProductRouter);
     //manager cart
     app.use("/api/managerCart", managerCartRouter);
+    //manager color
+    app.use("/api/managerColor", managerColorRouter);
+    //manager productColor
+    app.use("/api/managerProductColor", managerProductColorRouter);
     //user
     app.use("/api/auth", authRouter);
 

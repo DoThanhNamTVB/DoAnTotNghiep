@@ -27,3 +27,16 @@ export const apiLogin = (payload) =>
             reject(error);
         }
     });
+
+export const apiGetCurrentUser = () =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const reponse = await axiosConfig({
+                method: 'get',
+                url: '/api/auth/me',
+            });
+            resolve(reponse);
+        } catch (error) {
+            reject(error);
+        }
+    });

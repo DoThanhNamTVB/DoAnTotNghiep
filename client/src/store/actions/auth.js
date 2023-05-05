@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import { apiRegister, apiLogin } from '~/service/auth';
+import { apiRegister, apiLogin, apiGetCurrentUser } from '~/service/auth';
 
 export const register = (payload) => async (dispatch) => {
     try {
@@ -44,6 +44,29 @@ export const login = (payload) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: actionTypes.LOGIN_FAIL,
+            data: null,
+        });
+    }
+};
+
+export const getCurrentUser = () => async (dispatch) => {
+    try {
+        const response = await apiGetCurrentUser();
+
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionTypes.GET_CURRENT_USER_SUCCESS,
+                data: response.data.response,
+            });
+        } else {
+            dispatch({
+                type: actionTypes.GET_CURRENT_USER_FAIL,
+                data: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionTypes.GET_CURRENT_USER_FAIL,
             data: null,
         });
     }

@@ -4,8 +4,28 @@ import { AiOutlineSearch } from 'react-icons/ai';
 
 import images from '~/assets/images';
 import routesConfig from '~/config/routes';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { getAllCategory } from '~/store/actions';
 
 function HeaderBanner() {
+    //get all category
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getAllCategory());
+    }, [dispatch]);
+
+    const { categories } = useSelector((state) => state.managerCategory);
+    // console.log(categories);
+
+    //end\
+
+    const [categoryArr, setCategoryArr] = useState([]);
+
+    useEffect(() => {
+        setCategoryArr(categories);
+    }, [categories]);
+
     return (
         <nav className="navbar navbar-expand-xl bg-light header-banner">
             <div className="container-fluid">
@@ -42,16 +62,16 @@ function HeaderBanner() {
                                 Trang chủ
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to={routesConfig.casioPage}>
-                                Casio
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to={routesConfig.casioEdificePage}>
-                                Casio Edifice
-                            </Link>
-                        </li>
+                        {categoryArr?.length > 0 &&
+                            categoryArr.slice(-2).map((item, index) => {
+                                return (
+                                    <li className="nav-item" key={index}>
+                                        <Link className="nav-link" to={`/${item?.slug}`}>
+                                            {item?.categoryName}
+                                        </Link>
+                                    </li>
+                                );
+                            })}
                         <li className="nav-item dropdown">
                             <Link
                                 className="nav-link dropdown-toggle"
@@ -63,41 +83,18 @@ function HeaderBanner() {
                                 Dòng sản phẩm khác
                             </Link>
                             <ul className="dropdown-menu">
-                                <li>
-                                    <Link className="dropdown-item" to={routesConfig.casioBabyGPage}>
-                                        Casio BaBy-G
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link className="dropdown-item" to={routesConfig.casioElectronicGPage}>
-                                        Casio Điện tử
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link className="dropdown-item" to={routesConfig.casioVintagePage}>
-                                        Casio Vintage
-                                    </Link>
-                                </li>
+                                {categoryArr?.length > 0 &&
+                                    categoryArr.slice(0, -2).map((item, index) => {
+                                        return (
+                                            <li className="nav-item fs-4" key={index}>
+                                                <Link className="nav-link" to={`/${item?.slug}`}>
+                                                    {item?.categoryName}
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
                             </ul>
                         </li>
-                        {/* <li className="nav-item">
-                    <Link className="nav-link" to="/feature-products">
-                        Sản phẩm hot
-                    </Link>
-                </li> */}
-                        {/* <li className="nav-item">
-                    <Link className="nav-link" to="/blog">
-                        Bài viết
-                    </Link>
-                </li> */}
-                        <li className="nav-item">
-                            <Link className="nav-link" to={routesConfig.contact}>
-                                Contact
-                            </Link>
-                        </li>
-                        {/* <li className="nav-item">
-                    <Link className="nav-link disabled">Disabled</Link>
-                </li> */}
                     </ul>
                 </div>
             </div>

@@ -8,15 +8,25 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            Order.belongsTo(models.User);
+            Order.belongsToMany(models.Product, {
+                through: "Order_Detail",
+                foreignKey: "orderId",
+            });
         }
     }
     Order.init(
         {
-            transactionId: DataTypes.INTEGER,
             userId: DataTypes.INTEGER,
-            amount: DataTypes.DECIMAL(15, 2),
+            quantity: DataTypes.INTEGER,
+            total_Price: DataTypes.DECIMAL(15, 2),
             status: DataTypes.STRING,
+            userName: DataTypes.STRING,
+            email: DataTypes.STRING,
+            phone: DataTypes.STRING,
+            address: DataTypes.STRING,
+            notes: DataTypes.STRING,
+            payment: DataTypes.STRING,
         },
         {
             sequelize,

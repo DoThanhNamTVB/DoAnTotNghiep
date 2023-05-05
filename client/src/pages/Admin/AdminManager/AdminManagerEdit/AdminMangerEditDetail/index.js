@@ -1,9 +1,9 @@
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+// import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import '~/components/CSSForm/index.scss';
 import ButtonModal from '~/components/ButtonModal';
 import routesConfig from '~/config/routes';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { deleteAdmin, getAnAdmin, putAdmin } from '~/store/actions';
+import { getAnAdmin, putAdmin } from '~/store/actions/managerAdmin';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
@@ -18,7 +18,7 @@ function AdminMangerEditDetail() {
 
     useEffect(() => {
         dispatch(getAnAdmin(id));
-    }, [id]);
+    }, [dispatch, id]);
 
     const [payload, setPayload] = useState({
         userName: '',
@@ -32,7 +32,7 @@ function AdminMangerEditDetail() {
     useEffect(() => {
         if (admin) {
             admin.userName &&
-                setPayload({
+                setPayload((payload) => ({
                     ...payload,
                     userName: admin.userName,
                     email: admin.email,
@@ -41,7 +41,7 @@ function AdminMangerEditDetail() {
                     role: admin.role,
                     address: admin.address,
                     password: admin.password,
-                });
+                }));
         }
     }, [admin]);
 
@@ -55,18 +55,25 @@ function AdminMangerEditDetail() {
         setPayload((pre) => ({ ...pre, [e.target.id]: e.target.value }));
     };
 
-    const handleDelete = (e) => {
-        e.preventDefault();
-        dispatch(deleteAdmin(id));
-        navigate(routesConfig.adminManagerAccount);
-    };
-
     return (
         <>
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb m-0 py-">
+                    <li className="breadcrumb-item">
+                        <Link to={routesConfig.admin}>Trang chủ</Link>
+                    </li>
+                    <li className="breadcrumb-item" aria-current="page">
+                        <Link to={routesConfig.categoryManager}>Danh mục</Link>
+                    </li>
+                    <li className="breadcrumb-item active" aria-current="page">
+                        <Link to={routesConfig.adminEditAccount}>Sửa thông tin</Link>
+                    </li>
+                </ol>
+            </nav>
             <div className="d-flex justify-content-center align-items-center py-5 mx-3">
                 <div className="sample w-100 border border-2 rounded-5">
                     <div className="header-sample text-center ">
-                        <h2 className="fw-bolder">Thông tin tài khoản</h2>
+                        <h2 className="fw-bolder">Thông tin tài khoản quản trị</h2>
                     </div>
                     <form className="form-sample row">
                         <div className="mb-3 form-sample-item col-md-6 col-12">
@@ -157,36 +164,28 @@ function AdminMangerEditDetail() {
                                 id="address"
                             />
                         </div>
-                        <div className="col-12 col-md-12">
-                            <ButtonModal
-                                id="btnUpdate"
-                                nameButtonAll="Cập nhật"
-                                className="btn-primary mt-4 px-0 w-100"
-                                title="Cập nhật thông tin tài khoản"
-                                modalBody="Bạn có chắc chắn muốn thay đổi?"
-                                nameButtonClose="Hủy"
-                                nameButtonSubmit="Cập nhật"
-                                onclick={handleSubmit}
-                            />
+                        <div className="row mt-3">
+                            <Link
+                                to={routesConfig.adminManagerAccount}
+                                className="col-12 col-md-6 p-0 my-2 d-flex justify-content-center align-items-center"
+                            >
+                                <button className="btn btn-dark w-100">
+                                    <strong>Quay lại</strong>
+                                </button>
+                            </Link>
+                            <div className="col-12 col-md-6 p-0 my-2 d-flex justify-content-center align-items-center">
+                                <ButtonModal
+                                    id="btnUpdate"
+                                    nameButtonAll="Cập nhật"
+                                    className="btn-primary w-100"
+                                    title="Cập nhật thông tin tài khoản"
+                                    modalBody="Bạn có chắc chắn muốn thay đổi?"
+                                    nameButtonClose="Hủy"
+                                    nameButtonSubmit="Cập nhật"
+                                    onclick={handleSubmit}
+                                />
+                            </div>
                         </div>
-                        <div className="col-12 col-md-12">
-                            <ButtonModal
-                                id="btnDelete"
-                                nameButtonAll="Xóa tài khoản"
-                                className="btn-danger mt-4 px-0 w-100"
-                                title="Xóa tài khoản"
-                                modalBody="Bạn có chắc chắn muốn xóa không?"
-                                nameButtonClose="Hủy"
-                                nameButtonSubmit="Xóa"
-                                onclick={handleDelete}
-                            />
-                        </div>
-
-                        <Link to={routesConfig.adminManagerAccount}>
-                            <button className="btn btn-dark mt-4 mb-3 w-100">
-                                <strong>Quay lại</strong>
-                            </button>
-                        </Link>
                     </form>
                 </div>
             </div>

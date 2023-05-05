@@ -1,13 +1,14 @@
 import actionTypes from '../actions/actionTypes';
 
 const initState = {
-    msgGet: '',
-    msgDelete: '',
-    msgAdd: '',
-    msgGetAll: '',
-    msgPut: '',
+    msg: '',
     admins: [],
     admin: {},
+    statusAdd: false,
+    statusGet: false,
+    statusGetAll: false,
+    statusPut: false,
+    statusDelete: false,
 };
 
 const managerAdminReducer = (state = initState, action) => {
@@ -15,53 +16,70 @@ const managerAdminReducer = (state = initState, action) => {
         case actionTypes.ADD_ADMIN_SUCCESS:
             return {
                 ...state,
-                msgAdd: action.msg,
+                statusAdd: true,
+                msg: action.msg,
             };
         case actionTypes.ADD_ADMIN_FAIL:
             return {
                 ...state,
-                msgAdd: action.msg,
+                statusAdd: false,
+                msg: action.msg,
             };
+
         case actionTypes.GET_ALL_ADMIN_SUCCESS:
             return {
                 ...state,
+                statusAdd: false,
+                statusGet: false,
+                statusGetAll: true,
+                statusPut: false,
+                statusDelete: false,
                 admins: action.admins || [],
             };
         case actionTypes.GET_ALL_ADMIN_FAIL:
             return {
                 ...state,
-                msgGetAll: action.admins,
+                statusGetAll: false,
+                msg: action.admins,
             };
 
         case actionTypes.GET_AN_ADMIN_SUCCESS:
             return {
                 ...state,
+                statusGet: true,
                 admin: action.admin || {},
             };
         case actionTypes.GET_AN_ADMIN_FAIL:
             return {
                 ...state,
-                msgGet: action.admin,
+                statusGet: false,
+                msg: action.admin,
             };
+
         case actionTypes.PUT_ADMIN_SUCCESS:
             return {
                 ...state,
-                msgPut: action.admin || {},
+                statusPut: true,
+                msg: action.admin || {},
             };
         case actionTypes.PUT_ADMIN_FAIL:
             return {
                 ...state,
-                msgGet: action.admin,
+                statusPut: false,
+                msg: action.admin,
             };
+
         case actionTypes.DELETE_ADMIN_SUCCESS:
             return {
                 ...state,
-                msgDelete: action.msg,
+                statusDelete: true,
+                msg: action.msg,
             };
         case actionTypes.DELETE_ADMIN_FAIL:
             return {
                 ...state,
-                msgDelete: action.msg,
+                statusDelete: false,
+                msg: action.msg,
             };
         default:
             return state;

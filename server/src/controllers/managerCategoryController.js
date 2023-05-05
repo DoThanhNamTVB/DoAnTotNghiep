@@ -11,7 +11,7 @@ const createCategory = async (req, res) => {
             });
         }
         const reponse = await managerCategoryService.createCategoryService(
-            categoryName
+            req.body
         );
         return res.status(200).json(reponse);
     } catch (error) {
@@ -58,7 +58,7 @@ const updateCategory = async (req, res) => {
         }
         const id = req.params.id;
         const response = await managerCategoryService.updateCategoryService(
-            categoryName,
+            req.body,
             id
         );
         return res.status(200).json(response);

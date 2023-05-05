@@ -82,7 +82,35 @@ const loginService = ({ email, password }) =>
         }
     });
 
+const getCurrentUserService = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = await db.User.findOne(
+                {
+                    where: { id },
+                    include: [
+                        { model: db.Product, include: [{ model: db.Color }] },
+                    ],
+                    attributes: {
+                        exclude: ["password"],
+                    },
+                },
+                { raw: true },
+                { nest: true }
+            );
+            resolve({
+                err: response ? 0 : 1,
+                msg: response ? "OK" : "Fail to get current user",
+                response,
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 module.exports = {
     registerService,
     loginService,
+    getCurrentUserService,
 };

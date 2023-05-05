@@ -5,6 +5,7 @@ const initRoutes = require("./routes");
 const connectDB = require("./config/connectDB");
 require("dotenv").config();
 const cors = require("cors");
+const path = require("path");
 
 let app = express();
 
@@ -14,6 +15,7 @@ app.use(
         methods: ["POST", "GET", "DELETE", "PUT"],
     })
 );
+app.use(express.static(path.join(__dirname, "public")));
 
 //config app - help read data from client
 app.use(express.json());

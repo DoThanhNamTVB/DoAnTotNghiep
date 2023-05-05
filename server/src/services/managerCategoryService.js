@@ -1,11 +1,12 @@
+const { Op } = require("sequelize");
 const db = require("../models/index");
 
 //create an Category
-const createCategoryService = (categoryName) => {
+const createCategoryService = (payload) => {
     return new Promise(async (resolve, reject) => {
         try {
             const count = await db.Category.count({
-                where: { categoryName },
+                where: { slug: payload.slug },
             });
             if (count > 0) {
                 resolve({
@@ -13,9 +14,7 @@ const createCategoryService = (categoryName) => {
                     msg: "Danh mục đã tồn tại",
                 });
             } else {
-                const response = await db.Category.create({
-                    categoryName,
-                });
+                const response = await db.Category.create(payload);
                 resolve({
                     err: 0,
                     msg: "create Category successfully",
@@ -69,22 +68,22 @@ const getAnCategoryService = (id) => {
 
 //update an Category
 
-const updateCategoryService = (categoryName, id) => {
+const updateCategoryService = (payload, id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const count = await db.Category.findOne({
-                where: { categoryName },
+            const count = await db.Category.count({
+                where: {
+                    id: { [Op.ne]: id },
+                    categoryName: payload.categoryName,
+                },
             });
             if (count > 0) {
                 resolve({
                     err: 2,
-                    msg: "Tên tác giả đã tồn tại",
+                    msg: "Tên danh mục đã tồn tại",
                 });
             } else {
-                await db.Category.update(
-                    { categoryName },
-                    { where: { id: id } }
-                );
+                await db.Category.update(payload, { where: { id: id } });
                 resolve({
                     err: 0,
                     msg: "Updated Category successfully!",

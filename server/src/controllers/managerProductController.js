@@ -1,8 +1,15 @@
 const managerProductService = require("../services/managerProductService");
 
 const createProduct = async (req, res) => {
-    const { categoryId, productName, price, discount, quantity, description } =
-        req.body;
+    const {
+        categoryId,
+        productName,
+        price,
+        discount,
+        description,
+        genderFor,
+        origin,
+    } = req.body;
 
     try {
         if (
@@ -10,8 +17,9 @@ const createProduct = async (req, res) => {
             !productName ||
             !price ||
             !discount ||
-            !quantity ||
-            !description
+            !description ||
+            !genderFor ||
+            !origin
         ) {
             return res.status(400).json({
                 err: 1,
@@ -62,16 +70,18 @@ const updateProduct = async (req, res) => {
             productName,
             price,
             discount,
-            quantity,
             description,
+            genderFor,
+            origin,
         } = req.body;
         if (
             !categoryId ||
             !productName ||
             !price ||
             !discount ||
-            !quantity ||
-            !description
+            !description ||
+            !genderFor ||
+            !origin
         ) {
             return res.status(400).json({
                 err: 1,
@@ -83,6 +93,7 @@ const updateProduct = async (req, res) => {
             req.body,
             id
         );
+        console.log(response);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({
@@ -104,10 +115,27 @@ const deleteProduct = async (req, res) => {
         });
     }
 };
+
+const getProductByCategory = async (req, res) => {
+    try {
+        const categorySlug = req.params.categorySlug;
+        const response =
+            await managerProductService.getProductByCategoryService(
+                categorySlug
+            );
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at  getProductByCategory controller : " + error,
+        });
+    }
+};
 module.exports = {
     createProduct,
     getAllProduct,
     getAnProduct,
     updateProduct,
     deleteProduct,
+    getProductByCategory,
 };

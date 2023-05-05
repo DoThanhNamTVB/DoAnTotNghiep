@@ -1,6 +1,22 @@
 import './ProductDes.scss';
+import { getAnProduct } from '~/store/actions';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 function ProductDes() {
+    const dispatch = useDispatch();
+
+    const { product } = useSelector((state) => state.managerProduct);
+    // console.log(product);
+
+    const colorArr = product.Colors;
+
+    const { productId } = useParams();
+    useEffect(() => {
+        dispatch(getAnProduct(productId));
+    }, [dispatch, productId]);
+
     return (
         <div className="row mt-5 product-des justify-content-around align-items-center">
             <div className="title-product-des col-md-12 mb-1">
@@ -12,27 +28,27 @@ function ProductDes() {
                     <tbody>
                         <tr>
                             <th>Giới tính</th>
-                            <td>Nam</td>
+                            <td>{product.genderFor ? product.genderFor : 'không có'}</td>
                         </tr>
                         <tr>
                             <th>Loại máy</th>
-                            <td>Automatic</td>
+                            <td>{product.productType ? product.productType : 'không có'}</td>
                         </tr>
                         <tr>
                             <th>Mặt kính</th>
-                            <td>Sapphire</td>
+                            <td>{product.glassSurface ? product.glassSurface : 'không có'}</td>
                         </tr>
                         <tr>
                             <th>Chất liệu vỏ</th>
-                            <td>Thép không gỉ 316L</td>
+                            <td>{product.shellMaterial ? product.shellMaterial : 'không có'}</td>
                         </tr>
                         <tr>
                             <th>Chất liệu dây</th>
-                            <td>Thép không gỉ 316L</td>
+                            <td>{product.wireMaterial ? product.wireMaterial : 'không có'}</td>
                         </tr>
                         <tr>
                             <th>Độ chịu nước</th>
-                            <td>30m</td>
+                            <td>{product.waterproofDeft ? product.waterproofDeft : 'không có'}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -42,27 +58,32 @@ function ProductDes() {
                     <tbody>
                         <tr>
                             <th>Kiểu dáng</th>
-                            <td>Mặt tròn</td>
+                            <td>{product.shape ? product.shape : 'không có'}</td>
                         </tr>
                         <tr>
                             <th>Đường kính / Dài - rộng</th>
-                            <td>39.3mm</td>
+                            <td>{product.dimension ? product.dimension : 'không có'}</td>
                         </tr>
                         <tr>
                             <th>Độ dày</th>
-                            <td>9.8mm</td>
+                            <td>{product.thichness ? product.thichness : 'không có'}</td>
                         </tr>
                         <tr>
                             <th>Size dây</th>
-                            <td>19mm</td>
+                            <td>{product.sizeWire ? product.sizeWire : 'không có'}</td>
                         </tr>
                         <tr>
                             <th>Màu mặt</th>
-                            <td>Trắng</td>
+                            <td>
+                                {colorArr?.length > 0 &&
+                                    colorArr.map((item, index) => {
+                                        return <span key={index}>{item.colorName} </span>;
+                                    })}
+                            </td>
                         </tr>
                         <tr>
                             <th>Xuất xứ</th>
-                            <td>Thụy Sỹ</td>
+                            <td>{product.origin ? product.origin : 'không có'}</td>
                         </tr>
                     </tbody>
                 </table>

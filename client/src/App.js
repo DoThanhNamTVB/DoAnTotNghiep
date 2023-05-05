@@ -1,10 +1,25 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { privateRoutes } from './routes';
 import { DefaultLayout } from './components/Layout';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUser } from './store/actions';
 
 function App() {
+    const dispatch = useDispatch();
+
+    const { isLoggedIn } = useSelector((state) => state.auth);
+    // console.log(user);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (isLoggedIn) {
+                dispatch(getCurrentUser());
+            }
+        }, 1000);
+    }, [dispatch, isLoggedIn]);
+
     return (
         <Router>
             <div className="App">

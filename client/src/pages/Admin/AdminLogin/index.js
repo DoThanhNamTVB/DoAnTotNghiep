@@ -1,12 +1,12 @@
 // import { Link } from 'react-router-dom';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { Link, useNavigate } from 'react-router-dom';
+// import { Link, useNavigate } from 'react-router-dom';
 
 import './AdminLogin.scss';
-import routesConfig from '~/config/routes';
-import * as actions from '~/store/actions';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+// import routesConfig from '~/config/routes';
+// import * as actions from '~/store/actions';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useState, useEffect } from 'react';
 
 function AdminLogin() {
     const handleSubmit = () => {};
