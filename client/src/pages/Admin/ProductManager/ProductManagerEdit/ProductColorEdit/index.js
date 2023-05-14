@@ -110,9 +110,9 @@ function ProductColorEdit() {
                 formData.append(key, finalPayload[key] || '');
             }
             formData.append('image', image);
-            for (const [key, value] of formData) {
-                console.log(`${key}: ${value}`);
-            }
+            // for (const [key, value] of formData) {
+            //     console.log(`${key}: ${value}`);
+            // }
             dispatch(putProductColor(formData, idProduct, idColor));
             if (msgPut) {
                 toast.error(msgPut);

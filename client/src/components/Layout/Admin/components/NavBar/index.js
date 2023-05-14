@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { BsFillPersonFill } from 'react-icons/bs';
-import { AiOutlineCaretDown, AiFillHome } from 'react-icons/ai';
+import { AiOutlineCaretDown, AiFillHome, AiFillSetting } from 'react-icons/ai';
 import { FaUserAlt, FaShoppingCart, FaSearch } from 'react-icons/fa';
 import { HiClipboardList } from 'react-icons/hi';
 import { IoWatch } from 'react-icons/io5';
@@ -38,7 +38,7 @@ function NavBarAdmin() {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <form className="d-flex ms-auto my-4 my-lg-0 px-5">
-                            <div className="input-group">
+                            {/* <div className="input-group">
                                 <input
                                     type="text"
                                     className="form-control"
@@ -49,7 +49,7 @@ function NavBarAdmin() {
                                 <button className="btn btn-outline-secondary" type="button" id="button-addon2">
                                     <FaSearch />
                                 </button>
-                            </div>
+                            </div> */}
                         </form>
                         <ul className="navbar-nav mb-2 ps-5 mb-lg-0 admin-account">
                             <li className="nav-item dropdown">
@@ -73,14 +73,6 @@ function NavBarAdmin() {
                                             Đăng xuất
                                         </Link>
                                     </li>
-                                    {/* <li>
-                                        <hr className="dropdown-divider" />
-                                    </li>
-                                    <li>
-                                        <Link className="dropdown-item" to="#">
-                                            Something else here
-                                        </Link>
-                                    </li> */}
                                 </ul>
                             </li>
                         </ul>
@@ -92,7 +84,6 @@ function NavBarAdmin() {
                 <div className="sidebar-header">
                     <h5 className="sidebar-logo">
                         <img src={images.logo} alt="" />
-                        {/* <span className="logo_name fw-bold fs-3">Admin</span> */}
                     </h5>
                 </div>
                 <nav className="navbar-dark sidebar-menu">
@@ -273,22 +264,58 @@ function NavBarAdmin() {
                         <li>
                             <Link
                                 className="nav-link px-3 sidebar-link"
-                                to={routesConfig.orderManager}
+                                data-bs-toggle="collapse"
+                                to="#collapse3a"
                                 role="button"
                                 aria-expanded="false"
-                                aria-controls="collapse4"
+                                aria-controls="collapse3a"
                             >
                                 <div className="d-flex justify-content-between">
                                     <div>
                                         <span className="me-3">
                                             <FaShoppingCart />
                                         </span>
-                                        <span>Đơn hàng</span>
+                                        <span>Quản lý đơn hàng</span>
+                                    </div>
+                                    <span className="right-icon ms-auto">
+                                        <AiOutlineCaretDown />
+                                    </span>
+                                </div>
+                            </Link>
+                            <div className="collapse" id="collapse3a">
+                                <div>
+                                    <ul className="navbar-nav ps-3 ">
+                                        <li>
+                                            <Link to={routesConfig.orderComfirming} className="nav-link px-5 py-3">
+                                                <span>Đơn hàng chưa xác nhận</span>
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={routesConfig.orderConfirmed} className="nav-link px-5 py-3">
+                                                <span>Đơn hàng đã xác nhận</span>
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={routesConfig.orderSuccess} className="nav-link px-5 py-3">
+                                                <span>Đơn hàng đã giao</span>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <Link className="nav-link px-3 sidebar-link" to={routesConfig.setting}>
+                                <div className="d-flex justify-content-between">
+                                    <div>
+                                        <span className="me-3">
+                                            <AiFillSetting />
+                                        </span>
+                                        <span>Quản lý thông tin website</span>
                                     </div>
                                 </div>
                             </Link>
                         </li>
-
                         <li>
                             <hr className="dropdown-divider" />
                         </li>

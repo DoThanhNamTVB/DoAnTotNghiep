@@ -23,14 +23,35 @@ function Login() {
         password: '',
     });
 
+    const [errors, setErrors] = useState();
+
+    const validateForm = (value) => {
+        const errors = {};
+        if (!value.email) {
+            errors.email = 'Trường này là bắt buộc !';
+        }
+        if (!value.password) {
+            errors.password = 'Trường này là bắt buộc !';
+        }
+        return errors;
+    };
+
     const handChange = (e) => {
         setPayload((pre) => ({ ...pre, [e.target.id]: e.target.value }));
+        if (errors && errors[e.target.id]) {
+            setErrors((prev) => ({ ...prev, [e.target.id]: '' }));
+        }
     };
 
     // console.log(payload);
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(actions.login(payload));
+        const formErrs = validateForm(payload);
+        if (Object.keys(formErrs).length > 0) {
+            setErrors(formErrs);
+        } else {
+            dispatch(actions.login(payload));
+        }
     };
 
     return (
@@ -53,6 +74,7 @@ function Login() {
                             value={payload.email}
                             onChange={handChange}
                         />
+                        {errors?.email && <small className="text-danger">{errors.email}</small>}
                     </div>
                     <div className="mb-3 form-login-item form-item-password">
                         <label htmlFor="password" className="form-label">
@@ -72,6 +94,7 @@ function Login() {
                         <span>
                             <AiFillEyeInvisible />
                         </span>
+                        {errors?.password && <small className="text-danger">{errors.password}</small>}
                     </div>
                     <button type="submit" onClick={handleSubmit} className="btn btn-primary mb-3">
                         <strong>Đăng Nhập</strong>

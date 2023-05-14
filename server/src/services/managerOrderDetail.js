@@ -18,6 +18,7 @@ const createOrderDetail = (payload) => {
 };
 
 //get all order
+
 const getOrderByUserStatus = (userId, status) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -131,7 +132,7 @@ const deleteOrder = (orderId) => {
 };
 
 module.exports = {
-    createOrder,
+    createOrderDetail,
     getOrderByUserId,
     getOrderByUserStatus,
     updateStatusOrder,

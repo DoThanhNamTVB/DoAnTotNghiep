@@ -16,7 +16,7 @@ function AdminLogin() {
         <div className="d-flex justify-content-center align-items-center py-5 mx-3">
             <div className="admin-login w-100 border border-2 rounded-5">
                 <div className="header-login text-center ">
-                    <h2 className="fw-bolder">ĐĂNG NHẬP</h2>
+                    <h2 className="fw-bolder">ĐĂNG NHẬP ADMIN</h2>
                 </div>
                 <form className="form-login">
                     <div className="mb-3 form-login-item">

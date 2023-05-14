@@ -10,6 +10,9 @@ import { BsFillPersonFill, BsFillCartFill } from 'react-icons/bs';
 import { IoLogOutOutline, IoLogInOutline } from 'react-icons/io5';
 import * as actions from '~/store/actions';
 import { useEffect, useState } from 'react';
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css';
+import noImage from '~/assets/images/no-image.png';
 
 // import images from '~/assets/images';
 
@@ -22,6 +25,12 @@ function HeaderBanner() {
         e.preventDefault();
         dispatch(actions.logout());
     };
+    //dispatch setting
+    useEffect(() => {
+        dispatch(actions.getAllSetting());
+    }, [dispatch]);
+    const { settings } = useSelector((state) => state.setting);
+    // console.log(settings[0].phone);
 
     //dispatch cart
     useEffect(() => {
@@ -38,32 +47,38 @@ function HeaderBanner() {
 
     return (
         <div className="header-contact-content row justify-content-center align-items-center py-2">
-            <div className="header-contact-content-left col-10">
-                <ul className="header-contact-list">
-                    <li className="header-contact-list-item">
-                        <Link
-                            to="mailto:thanhnamtvb@gmail.com"
-                            data-bs-toggle="tooltip"
-                            data-bs-title="thanhnamtvb@gmail.com"
-                        >
-                            <MdEmail />
-                            <span>Email-Us</span>
-                        </Link>
-                    </li>
-                    <li className="header-contact-list-item">
-                        <Link>
-                            <AiFillClockCircle />
-                            <span>09:00 - 22:00</span>
-                        </Link>
-                    </li>
-                    <li className="header-contact-list-item">
-                        <Link to="tel:0123456788" data-bs-toggle="tooltip" data-bs-title="0123456788">
-                            <AiFillPhone />
-                            <span>0123456788</span>
-                        </Link>
-                    </li>
-                </ul>
-            </div>
+            {settings?.length > 0 && (
+                <div className="header-contact-content-left col-10">
+                    <ul className="header-contact-list">
+                        <li className="header-contact-list-item">
+                            <Link
+                                to={`mailto:${settings[0]?.email}`}
+                                data-tooltip-id="email"
+                                data-tooltip-content={settings[0]?.email}
+                            >
+                                <MdEmail />
+                                <span>{settings[0]?.email}</span>
+                            </Link>
+                        </li>
+                        <li className="header-contact-list-item">
+                            <Link data-tooltip-id="time" data-tooltip-content={settings[0]?.time}>
+                                <AiFillClockCircle />
+                                <span>{settings[0]?.time}</span>
+                            </Link>
+                        </li>
+                        <li className="header-contact-list-item">
+                            <Link
+                                to={`tel:${settings[0]?.phone}`}
+                                data-tooltip-id="phone"
+                                data-tooltip-content={settings[0]?.phone}
+                            >
+                                <AiFillPhone />
+                                <span>{settings[0]?.phone}</span>
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            )}
 
             <div className="header-contact-content-right col-2 text-end">
                 <ul className="header-contact-content-right-items d-flex justify-content-end align-items-center">
@@ -76,10 +91,14 @@ function HeaderBanner() {
                                     aria-expanded="false"
                                 >
                                     <Button primary circle>
-                                        <img
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT2q9D5N5uF8NEZemph09ukfgMJpWHKbN2Hw&usqp=CAU"
-                                            alt="anh dai dien"
-                                        />
+                                        {user?.img ? (
+                                            <img
+                                                src={process.env.REACT_APP_SERVER_URL + user?.img}
+                                                alt="anh dai dien"
+                                            />
+                                        ) : (
+                                            <img src={noImage} alt="anh dai dien" />
+                                        )}
                                     </Button>
                                 </div>
                                 <ul className="dropdown-menu">
@@ -136,6 +155,9 @@ function HeaderBanner() {
                     </li>
                 </ul>
             </div>
+            <Tooltip id="email" />
+            <Tooltip id="time" />
+            <Tooltip id="phone" />
         </div>
     );
 }

@@ -6,23 +6,8 @@ import routesConfig from '~/config/routes';
 
 function CheckoutStep2() {
     return (
-        <LayoutCheckout>
-            <nav aria-label="breadcrumb">
-                <div className=" py-3">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item checkout-breakCrumb">
-                            <Link to={routesConfig.cartPage}>Giỏ hàng</Link>
-                        </li>
-                        <li className="breadcrumb-item checkout-breakCrumb" aria-current="page">
-                            <Link to={routesConfig.checkoutstep1Page}>Thông tin đơn hàng</Link>
-                        </li>
-                        <li className="breadcrumb-item active checkout-breakCrumb" aria-current="page">
-                            <Link to={routesConfig.checkoutstep2Page}>Hoàn tất đơn hàng</Link>
-                        </li>
-                    </ol>
-                </div>
-            </nav>
-            <h2 className="d-flex justify-content-center align-items-center text-primary my-5">
+        <div className="px-4">
+            <h2 className="d-flex justify-content-center align-items-center text-primary mb-5 pt-5">
                 <span className="me-2">Bạn đã đặt đơn hàng thành công</span>
                 <span className="d-flex justify-content-center align-items-center">
                     <BsBagCheckFill />
@@ -51,13 +36,18 @@ function CheckoutStep2() {
                 </table>
             </div>
             <div className="row my-5">
-                <Link to={routesConfig.home} className="col-12 ">
+                <Link to={routesConfig.home} className="col-6 ">
                     <span className="d-block text-center p-3 w-100 bg-primary text-white rounded-5">
                         Quay lại trang chủ
                     </span>
                 </Link>
+                <Link to={routesConfig.home} className="col-6 ">
+                    <span className="d-block text-center p-3 w-100 bg-primary text-white rounded-5">
+                        Xem các đơn hàng đã đặt
+                    </span>
+                </Link>
             </div>
-        </LayoutCheckout>
+        </div>
     );
 }
 

@@ -17,6 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 function ProductDetail() {
     const dispatch = useDispatch();
     const { categorySlug, productId } = useParams();
+    const [count, setCount] = useState(1);
 
     //get product
     const { product } = useSelector((state) => state.managerProduct); // console.log(product);
@@ -30,8 +31,7 @@ function ProductDetail() {
 
     //get color
     const colorsArr = product?.Colors;
-    // console.log(colorsArr);
-    //option select
+
     const [colorOptions, setColorOptions] = useState([]);
     useEffect(() => {
         const options = colorsArr?.map((color) => ({ value: color.id, label: color.colorName }));
@@ -44,37 +44,47 @@ function ProductDetail() {
             setSelectedOption(colorsArr[0]?.id);
         }
     }, [colorsArr]);
+
     const handleChangeSelect = (selectedOption) => {
         setSelectedOption(selectedOption?.value);
     };
+    //add to cart
+    //get curent user
+    const { user } = useSelector((state) => state.auth);
+
+    const payload = { userId: user?.id, productId: productId, colorId: selectedOption, quantity: count };
+
+    const { statusAdd } = useSelector((state) => state.managerCart);
+    // console.log(statusAdd);
+
+    //set limited for product-color
+    const productColors = product?.Colors;
+
+    const [qtyDatabase, setQtyDataBase] = useState(0);
+    useEffect(() => {
+        const qty = productColors?.find((color) => color.id === selectedOption)?.Product_Color?.quantity;
+        setQtyDataBase(qty);
+    }, [productColors, selectedOption]);
 
     //setting quantity
-    const [count, setCount] = useState(1);
     const decrementCount = (e) => {
         e.preventDefault();
         if (count > 1) setCount(count - 1);
+        if (qtyDatabase === 0) setCount(0);
     };
 
     const incrementCount = (e) => {
         e.preventDefault();
-        setCount(count + 1);
+        if (count < qtyDatabase) {
+            setCount(count + 1);
+        }
     };
-
-    //add to cart
-    //get curent user
-    const { user } = useSelector((state) => state.auth);
-    // console.log(user);
-
-    const payload = { userId: user?.id, productId: productId, colorId: selectedOption, quantity: count };
-
-    const { statusAdd, msg } = useSelector((state) => state.managerCart);
-    // console.log(statusAdd);
 
     const handlesubmit = (e) => {
         e.preventDefault();
         dispatch(addCart(payload, user?.id, productId));
-        if (msg) {
-            toast.error(msg);
+        if (statusAdd === false) {
+            toast.error('Sản phẩm đã có trong giỏ hàng');
         }
     };
 
@@ -139,6 +149,9 @@ function ProductDetail() {
                             isSearchable
                             noOptionsMessage={() => 'Chưa có màu bản thể'}
                         />
+                    </div>
+                    <div className="px-5 py-4">
+                        <span>Số lượng kho : {qtyDatabase}</span>
                     </div>
                     <div className="row">
                         <div className="col-md-6 d-flex p-0 px-5 py-3 justify-content-start align-items-center">

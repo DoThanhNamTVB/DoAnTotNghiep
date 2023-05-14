@@ -23,6 +23,7 @@ const routes = {
     admin: '/admin',
     adminLogin: '/admin/login',
     manager: '/admin/manager',
+    setting: '/admin/settingInfo',
 
     //admin manager (account admin)
 
@@ -39,7 +40,7 @@ const routes = {
     categoryManager: '/admin/catagory',
     categoryEdit: '/admin/category/edit/:id',
 
-    //catagory manager
+    //color manager
     colorAdd: '/admin/color/add',
     colorManager: '/admin/color',
     colorEdit: '/admin/color/edit/:id',
@@ -55,7 +56,10 @@ const routes = {
     productColorEdit: '/admin/productColor/edit/:idProduct/:idColor',
 
     //order manager
-    orderManager: '/admin/order-manager',
+    orderComfirming: '/admin/order-confirming',
+    orderConfirmed: '/admin/order-confirmed',
+    orderSuccess: '/admin/order-success',
+    OrderDetail: '/admin/order-detail/:orderId',
 };
 
 export default routes;

@@ -2,7 +2,7 @@
 import routesConfig from '~/config/routes';
 // import layout
 import HeaderFooterLayout from '~/components/Layout/HeaderFooter';
-import { LayoutNone } from '~/components/Layout';
+// import { LayoutNone } from '~/components/Layout';
 // import DefaultLayout from '~/components/Layout/DefaultLayout';
 
 //import pages
@@ -14,23 +14,18 @@ import Blog from '~/pages/Blog';
 
 //pages of catagory
 import CategoryPage from '~/pages/Catagory';
-// import CasioPage from '~/pages/Catagory/Casio';
-// import CasioEdificePage from '~/pages/Catagory/CasioEdifice';
-// import CasioElectronicPage from '~/pages/Catagory/CasioElectronic';
-// import CasioBaByGPage from '~/pages/Catagory/CasioBaByG';
-// import CasioVintagePage from '~/pages/Catagory/CasioVintage';
 import { CheckoutStep1 } from '~/pages/Checkout';
 import { CheckoutStep2 } from '~/pages/Checkout';
 import Login from '~/pages/Login';
 import Register from '~/pages/Register';
 import ProductDetail from '~/pages/ProductDetail';
 import UserManagerInfo from '~/pages/UserManagerInfo';
-// import FeatureProduct from '~/pages/Catagory/FeatureProduct';
 
 //admin layout
 import AdminDefaultLayout from '~/components/Layout/Admin/DefaultLayout';
 import AdminLayoutNone from '~/components/Layout/Admin/LayoutNone';
 //admin page
+import SettingInfo from '~/pages/Admin/SettingInfo';
 import AdminLogin from '~/pages/Admin/AdminLogin';
 import Dashboard from '~/pages/Admin/Dashboard';
 import Manager from '~/pages/Admin/Manager';
@@ -54,7 +49,12 @@ import {
 } from '~/pages/Admin/ProductManager';
 
 //order
-import OrderManager from '~/pages/Admin/OrderManager';
+import {
+    OrderStatusConfirming,
+    OrderDetail,
+    OrderStatusConfirmed,
+    OrderStatusSuccess,
+} from '~/pages/Admin/OrderManager';
 
 //No login required to access the route
 const publicRoutes = [
@@ -63,15 +63,10 @@ const publicRoutes = [
     { path: routesConfig.blog, component: Blog, layout: HeaderFooterLayout },
 
     { path: routesConfig.categoryPage, component: CategoryPage, layout: HeaderFooterLayout },
-    // { path: routesConfig.casioPage, component: CasioPage },
-    // { path: routesConfig.casioEdificePage, component: CasioEdificePage },
-    // { path: routesConfig.casioBabyGPage, component: CasioBaByGPage },
-    // { path: routesConfig.casioElectronicGPage, component: CasioElectronicPage },
-    // { path: routesConfig.casioVintagePage, component: CasioVintagePage },
 
     { path: routesConfig.cartPage, component: Cart, layout: HeaderFooterLayout },
-    { path: routesConfig.checkoutstep1Page, component: CheckoutStep1, layout: LayoutNone },
-    { path: routesConfig.checkoutstep2Page, component: CheckoutStep2, layout: LayoutNone },
+    { path: routesConfig.checkoutstep1Page, component: CheckoutStep1, layout: HeaderFooterLayout },
+    { path: routesConfig.checkoutstep2Page, component: CheckoutStep2, layout: HeaderFooterLayout },
 
     { path: routesConfig.loginPage, component: Login, layout: HeaderFooterLayout },
     { path: routesConfig.registerPage, component: Register, layout: HeaderFooterLayout },
@@ -82,6 +77,10 @@ const publicRoutes = [
 
 //Login required to access the route
 const privateRoutes = [
+    //setting
+    { path: routesConfig.setting, component: SettingInfo, layout: AdminDefaultLayout },
+
+    //login
     { path: routesConfig.adminLogin, component: AdminLogin, layout: AdminLayoutNone },
     { path: routesConfig.admin, component: Dashboard, layout: AdminDefaultLayout },
     { path: routesConfig.manager, component: Manager, layout: AdminDefaultLayout },
@@ -115,7 +114,10 @@ const privateRoutes = [
     { path: routesConfig.productColorEdit, component: ProductColorEdit, layout: AdminDefaultLayout },
 
     //order
-    { path: routesConfig.orderManager, component: OrderManager, layout: AdminDefaultLayout },
+    { path: routesConfig.orderComfirming, component: OrderStatusConfirming, layout: AdminDefaultLayout },
+    { path: routesConfig.orderConfirmed, component: OrderStatusConfirmed, layout: AdminDefaultLayout },
+    { path: routesConfig.orderSuccess, component: OrderStatusSuccess, layout: AdminDefaultLayout },
+    { path: routesConfig.OrderDetail, component: OrderDetail, layout: AdminDefaultLayout },
 ];
 
 export { publicRoutes, privateRoutes };

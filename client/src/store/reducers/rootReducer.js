@@ -7,6 +7,8 @@ import managerProductReducer from './managerProductReducer';
 import managerColorReducer from './managerColorReducer';
 import managerProductColorReducer from './managerProductColorReducer';
 import managerCartReducer from './managerCartReducer';
+import settingReducer from './settingReducer';
+import orderReducer from './managerOrderReduce';
 
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
@@ -34,6 +36,8 @@ const rootReducer = combineReducers({
     managerProduct: managerProductReducer,
     managerProductColor: managerProductColorReducer,
     managerCart: managerCartReducer,
+    setting: settingReducer,
+    managerOrder: orderReducer,
 });
 
 export default rootReducer;

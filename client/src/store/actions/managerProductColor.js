@@ -81,7 +81,7 @@ export const getByIdAnProductColor = (idProduct, idColor) => async (dispatch) =>
 export const putProductColor = (payload, idProduct, idColor) => async (dispatch) => {
     try {
         const response = await apiPutProductColor(payload, idProduct, idColor);
-        console.log('action', response);
+        // console.log('action', response);
         if (response?.data.err === 0) {
             dispatch({
                 type: actionTypes.PUT_PRODUCT_COLOR_SUCCESS,

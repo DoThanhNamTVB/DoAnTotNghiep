@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import MediaItem from './components/MediaItem';
 import routesConfig from '~/config/routes';
@@ -6,12 +6,15 @@ import { deleteCart, getCartByUserId, getCurrentUser } from '~/store/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import formatter from '~/components/FuntionComponent/formatPrice';
+import { ToastContainer, toast } from 'react-toastify';
 
 import './Cart.scss';
 
 function Cart() {
     //dispatch cart
     const dispatch = useDispatch();
+    //navigate
+    const navigate = useNavigate();
 
     const { user } = useSelector((state) => state.auth);
     // console.log(user);
@@ -50,18 +53,30 @@ function Cart() {
     //get total money
     const [totalMoney, setTotalMoney] = useState();
 
+    // console.log(products);
     useEffect(() => {
-        const total = products?.reduce((accumulator, currentValue) => {
+        let total = products?.reduce((accumulator, currentValue) => {
+            // console.log(currentValue);
             return (
                 accumulator +
-                (currentValue?.price - (currentValue?.price * currentValue?.discount) / 100) *
-                    currentValue?.Cart?.quantity
+                ((currentValue?.price * (100 - currentValue?.discount)) / 100) * currentValue?.Cart?.quantity
             );
         }, 0);
-        setTotalMoney(total);
+        const totalMoneyFormat = formatter.format(total);
+        setTotalMoney(totalMoneyFormat);
     }, [products]);
 
-    const totalMoneyFormat = formatter.format(totalMoney);
+    const [message, setMessage] = useState('');
+
+    //set onclick submit
+    const handleSubmit = () => {
+        if (quantity > 0) {
+            navigate(routesConfig.checkoutstep1Page);
+        } else {
+            toast.error('Giỏ hàng của bạn đang trống !');
+            setMessage('Hãy thêm sản phẩm vào giỏ trước khi thanh toán !');
+        }
+    };
 
     return (
         <>
@@ -137,20 +152,20 @@ function Cart() {
 
                                     <div className="summary-total">
                                         <p>
-                                            Tổng tiền: <span>{totalMoneyFormat}</span>
+                                            Tổng tiền: <span>{totalMoney}</span>
                                         </p>
                                         <hr />
                                     </div>
                                     <div className="summary-action">
                                         <p>- Phí vận chuyển sẽ được tính ở trang thanh toán.</p>
                                         <p>- Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.</p>
-                                        <Link
-                                            id="btnCart-checkout"
-                                            className="checkout-btn"
-                                            to={routesConfig.checkoutstep1Page}
+                                        {quantity === 0 && <p className="text-danger">{message}</p>}
+                                        <button
+                                            className="summary-button w-100 text-white border-0 py-4"
+                                            onClick={handleSubmit}
                                         >
-                                            <div className="summary-button">THANH TOÁN</div>
-                                        </Link>
+                                            THANH TOÁN
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -158,6 +173,7 @@ function Cart() {
                     </div>
                 </div>
             </div>
+            <ToastContainer autoClose={2000} />
         </>
     );
 }

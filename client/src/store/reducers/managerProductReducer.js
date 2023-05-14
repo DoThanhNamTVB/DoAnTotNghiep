@@ -16,6 +16,10 @@ const initState = {
     statusCategory: false,
     productAdd: {},
     productCategory: [],
+    msgNew: '',
+    productNew: [],
+    msgHot: '',
+    productHot: [],
 };
 
 const managerProductReducer = (state = initState, action) => {
@@ -87,6 +91,10 @@ const managerProductReducer = (state = initState, action) => {
                 productAdd: {},
                 statusCategory: false,
                 productCategory: [],
+                statusGetAll: false,
+                statusPut: false,
+                statusDelete: false,
+                statusAdd: false,
             };
         case actionTypes.GET_AN_PRODUCT_FAIL:
             return {
@@ -183,6 +191,31 @@ const managerProductReducer = (state = initState, action) => {
                 productAdd: {},
                 statusCategory: false,
                 productCategory: [],
+            };
+
+        case actionTypes.GET_PRODUCT_NEW_SUCCESS:
+            return {
+                ...state,
+                msgNew: '',
+                productNew: action.products,
+            };
+        case actionTypes.GET_PRODUCT_NEW_FAIL:
+            return {
+                ...state,
+                msgNew: action.products,
+                productNew: [],
+            };
+        case actionTypes.GET_PRODUCT_HOT_SUCCESS:
+            return {
+                ...state,
+                msgHot: '',
+                productHot: action.products,
+            };
+        case actionTypes.GET_PRODUCT_HOT_FAIL:
+            return {
+                ...state,
+                msgHot: '',
+                productHot: action.products,
             };
         default:
             return state;

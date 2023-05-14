@@ -38,7 +38,7 @@ function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(payload);
+        // console.log(payload);
         const formErrs = validateForm(payload);
         if (Object.keys(formErrs).length > 0) {
             setErrors(formErrs);
@@ -49,6 +49,7 @@ function Register() {
     };
 
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
     const validateForm = (values) => {
         const errors = {};
@@ -62,8 +63,8 @@ function Register() {
         }
         if (!values.phone) {
             errors.phone = 'Trường này là bắt buộc';
-        } else if (values.phone.length !== 10) {
-            errors.phone = 'Nhập số đt có 10 chữ số!';
+        } else if (!values.phone.match(regexPhoneNumber)) {
+            errors.phone = 'Số điện thoại không hợp lệ';
         }
         if (!values.address) {
             errors.address = 'Trường này là bắt buộc';

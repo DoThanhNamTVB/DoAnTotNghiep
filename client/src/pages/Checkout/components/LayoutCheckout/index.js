@@ -5,20 +5,17 @@ import routesConfig from '~/config/routes';
 // import Logo from '~/components/Logo';
 import SidebarCheckout from '../SidebarCheckout';
 
-function LayoutCheckout({ children }) {
+function LayoutCheckout({ children, link1, nameLink1, link2, nameLink2 }) {
     return (
         <div className="warpper-checkout">
             <nav aria-label="breadcrumb">
                 <div className="py-3">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item checkout-breakCrumb">
-                            <Link to={routesConfig.cartPage}>Giỏ hàng</Link>
+                            <Link to={link1}>{nameLink1}</Link>
                         </li>
                         <li className="breadcrumb-item active checkout-breakCrumb" aria-current="page">
-                            <Link to={routesConfig.checkoutstep1Page}>Thông tin đơn hàng</Link>
-                        </li>
-                        <li className="breadcrumb-item checkout-breakCrumb" aria-current="page">
-                            <Link to="checkoutstep2">Hoàn tất đơn hàng</Link>
+                            <Link to={link2}>{nameLink2}</Link>
                         </li>
                     </ol>
                 </div>

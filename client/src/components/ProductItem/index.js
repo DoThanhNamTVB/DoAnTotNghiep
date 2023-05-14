@@ -33,7 +33,7 @@ function ProductItem({ sale, image, categoryName, productName, price, productId,
             <div className="product-inner">
                 <div className="pro-images">
                     <div className="pro-sale">
-                        <span>-{sale < 100 ? `${sale}%` : `${sale}đ`}</span>
+                        <span>{sale !== 0 ? `-${sale}%` : 'no-sale'}</span>
                     </div>
                     <div className="pro-image">
                         <Link to={`/${categorySlug}/product-detail/${productId}`}>
@@ -47,7 +47,9 @@ function ProductItem({ sale, image, categoryName, productName, price, productId,
                 <div className="pro-details">
                     <p className="pro-vendor">{categoryName}</p>
                     <h3>
-                        <Link to={`/${categorySlug}/product-detail/${productId}`}>{productName}</Link>
+                        <Link to={`/${categorySlug}/product-detail/${productId}`} className="fs-4">
+                            {productName}
+                        </Link>
                     </h3>
                     <p className="pro-price">
                         <span className="price">

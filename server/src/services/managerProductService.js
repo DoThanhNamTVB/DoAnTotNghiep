@@ -1,6 +1,6 @@
 const { response } = require("express");
 const db = require("../models/index");
-const { Op, where } = require("sequelize");
+const { Op } = require("sequelize");
 
 //create an
 const createProductService = ({
@@ -68,43 +68,6 @@ const createProductService = ({
     });
 };
 
-// const createProductService = ({ colors, ...payload }) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             const response = await db.Product.findOrCreate({
-//                 where: { productName: payload.productName },
-//                 defaults: { ...payload },
-//             });
-
-//             if (!response) {
-//                 resolve({
-//                     err: 2,
-//                     msg: "Tên sản phẩm đã tồn tại !",
-//                 });
-//             } else {
-//                 if (colors.length > 0) {
-//                     colors.forEach(async (color) => {
-//                         await db.Product_Color.create({
-//                             productId: response.id,
-//                             colorId: color.id,
-//                             quantity: color.quantity,
-//                             img: color.img,
-//                             status: color.status,
-//                         });
-//                     });
-//                 }
-//             }
-//             resolve({
-//                 err: 0,
-//                 msg: "Hoàn thành thêm sản phẩm",
-//                 response,
-//             });
-//         } catch (error) {
-//             reject(error);
-//         }
-//     });
-// };
-
 //get all product
 const getAllProductService = () => {
     return new Promise(async (resolve, reject) => {
@@ -144,6 +107,66 @@ const getAnProductService = (id) => {
             resolve({
                 err: response ? 0 : 2,
                 msg: response ? "SUCCESSFULL" : "Product is not exits",
+                response,
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+//get product hot
+
+const getProductHot = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const datenow = new Date();
+            const dateLastWeek = new Date(
+                datenow.getFullYear(),
+                datenow.getMonth(),
+                datenow.getDate() - 7
+            );
+            const response = await db.Product.findAll({
+                include: [
+                    { model: db.Color },
+                    {
+                        model: db.Order,
+                        where: {
+                            status: "da-giao",
+                            updatedAt: {
+                                [Op.lte]: datenow,
+                                [Op.gte]: dateLastWeek,
+                            },
+                        },
+                    },
+                ],
+                limit: 6,
+            });
+            resolve({
+                err: response ? 0 : 2,
+                msg: response ? "SUCCESSFULL" : "Fail to get product hot",
+                response,
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+//get product new
+
+const getProductNew = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await db.Product.findAll({
+                order: [["createdAt", "DESC"]],
+                include: [{ model: db.Category }, { model: db.Color }],
+                limit: 6,
+            });
+
+            resolve({
+                err: response ? 0 : 2,
+                msg: response ? "SUCCESSFULL" : "Fail to get product new",
                 response,
             });
         } catch (error) {
@@ -245,4 +268,6 @@ module.exports = {
     updateProductService,
     deleteProductService,
     getProductByCategoryService,
+    getProductHot,
+    getProductNew,
 };

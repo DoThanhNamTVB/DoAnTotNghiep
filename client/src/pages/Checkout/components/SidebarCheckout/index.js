@@ -33,6 +33,8 @@ function SidebarCheckout() {
     const totalMoneyFormat = formatter.format(totalMoney);
 
     const finalPriceFormat = formatter.format(totalMoney + 35000);
+
+    // console.log(products);
     return (
         <>
             <div className="row px-3">
@@ -66,6 +68,12 @@ function SidebarCheckout() {
                                                         item?.price - (item?.price * item?.discount) / 100,
                                                     )}
                                                 </span>
+                                            </div>
+                                            <div className="text-end">
+                                                {
+                                                    item?.Colors.find((color) => color.id === item?.Cart?.colorId)
+                                                        ?.colorName
+                                                }
                                             </div>
                                         </div>
                                     </div>

@@ -39,6 +39,24 @@ const getAnUseService = (id) => {
     });
 };
 
+const updateInfoUser = (payload, id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await db.User.update(payload, {
+                where: { id: id },
+            });
+            resolve({
+                err: response ? 0 : 2,
+                msg: response
+                    ? "Updated status is successfull"
+                    : "Update status fail !",
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 const updateStatusUserService = (status, id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -61,5 +79,6 @@ const updateStatusUserService = (status, id) => {
 module.exports = {
     getAllUseService,
     getAnUseService,
+    updateInfoUser,
     updateStatusUserService,
 };

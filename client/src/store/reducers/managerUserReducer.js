@@ -1,12 +1,14 @@
 import actionTypes from '../actions/actionTypes';
 
 const initState = {
-    msg: '',
+    msgPutInfo: '',
+    msgAll: '',
     users: [],
     user: {},
     statusGet: false,
     statusGetAll: false,
     statusPut: false,
+    statusPutInfo: false,
 };
 
 const managerUserReducer = (state = initState, action) => {
@@ -18,11 +20,13 @@ const managerUserReducer = (state = initState, action) => {
                 statusGetAll: true,
                 statusPut: false,
                 users: action.users,
+                msgAll: '',
+                statusPutInfo: false,
             };
         case actionTypes.GET_ALL_USER_FAIL:
             return {
                 ...state,
-                msg: action.users,
+                msgAll: action.users,
             };
 
         case actionTypes.GET_AN_USER_SUCCESS:
@@ -30,6 +34,7 @@ const managerUserReducer = (state = initState, action) => {
                 ...state,
                 statusGet: true,
                 user: action.user,
+                msg: '',
             };
         case actionTypes.GET_AN_USER_FAIL:
             return {
@@ -38,11 +43,24 @@ const managerUserReducer = (state = initState, action) => {
                 msg: action.user,
             };
 
+        case actionTypes.PUT_INFO_USER_SUCCESS:
+            return {
+                ...state,
+                statusPutInfo: true,
+                msgPutInfo: '',
+            };
+        case actionTypes.PUT_INFO_USER_FAIL:
+            return {
+                ...state,
+                statusPutInfo: false,
+                msgPutInfo: action.msg,
+            };
+
         case actionTypes.PUT_USER_SUCCESS:
             return {
                 ...state,
                 statusPut: true,
-                user: action.user,
+                msg: '',
             };
         case actionTypes.PUT_USER_FAIL:
             return {

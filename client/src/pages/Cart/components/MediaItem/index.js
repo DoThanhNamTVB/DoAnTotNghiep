@@ -22,8 +22,6 @@ function MediaItem({
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
 
-    // console.log(qtyDatabase);
-
     //get quantity product in database
     useEffect(() => {
         dispatch(getByIdAnProductColor(productId, colorId));
@@ -35,13 +33,11 @@ function MediaItem({
 
     //setting quantity
     const [count, setCount] = useState(countCurrent || 1);
+    // console.log(count);
     const decrementCount = (e) => {
         e.preventDefault();
         if (count > 1) {
             setCount(Number(count) - 1);
-            dispatch(getCurrentUser());
-            dispatch(getCartByUserId(user.id));
-            dispatch(putCart({ quantity: Number(count) - 1 }, user.id, productId));
         }
     };
 
@@ -49,11 +45,14 @@ function MediaItem({
         e.preventDefault();
         if (count < Number(qtyDatabase)) {
             setCount(Number(count) + 1);
-            dispatch(getCurrentUser());
-            dispatch(getCartByUserId(user.id));
-            dispatch(putCart({ quantity: Number(count) + 1 }, user.id, productId));
         }
     };
+    useEffect(() => {
+        dispatch(putCart({ quantity: count }, user.id, productId));
+        dispatch(getCurrentUser());
+        dispatch(getCartByUserId(user.id));
+    }, [count, dispatch, user.id, productId]);
+
     //set handle input
     const handleInputQty = (e) => {
         e.preventDefault();
@@ -108,6 +107,9 @@ function MediaItem({
                     <button className="qty-btn qtyplus" onClick={incrementCount}>
                         +
                     </button>
+                </div>
+                <div className="text-end py-3">
+                    <span>Kho : {qtyDatabase}</span>
                 </div>
             </div>
         </div>

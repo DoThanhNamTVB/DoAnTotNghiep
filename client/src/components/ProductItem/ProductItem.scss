@@ -34,6 +34,13 @@
     }
 
     .pro-details {
+        h3 > a {
+            width: 100%;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            display: -webkit-box;
+        }
         .button-add-cart {
             display: flex;
             align-items: center;

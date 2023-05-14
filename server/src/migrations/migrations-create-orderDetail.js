@@ -21,8 +21,11 @@ module.exports = {
             color: {
                 type: Sequelize.STRING,
             },
-            total: {
+            price: {
                 type: Sequelize.DECIMAL(15, 0),
+            },
+            discount: {
+                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,

@@ -1,23 +1,34 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaMoneyBillAlt, FaMoneyCheckAlt } from 'react-icons/fa';
-// import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 import './Form.scss';
 import routesConfig from '~/config/routes';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { addOrder, getCartByUserId, getCurrentUser } from '~/store/actions';
 
 function FormInfo() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     //get user current
     const { user } = useSelector((state) => state.auth);
-    // console.log(user)
+    const { statusAdd, dataAdd, msg } = useSelector((state) => state.managerOrder);
+
+    // console.log(user);
+
+    useEffect(() => {
+        dispatch(getCartByUserId(user?.id));
+    }, [dispatch, user?.id]);
+
+    // const dispatch = useDispatch();
     const [payload, setPayload] = useState({
         userName: '',
         email: '',
         phone: '',
         address: '',
         notes: '',
-        // payment: '',
+        payment: '',
     });
 
     useEffect(() => {
@@ -29,19 +40,39 @@ function FormInfo() {
                     email: user?.email || '',
                     phone: user?.phone || '',
                     address: user?.address || '',
-                    // payment: 'COD',
+                    notes: '',
                 }));
         }
     }, [user]);
 
     const handleChange = (e) => {
-        // setPayload((pre) => ({ ...pre, [e.target.id]: e.target.value }));
-        // if (errors && errors[e.target.id]) {
-        //     setErrors((prev) => ({ ...prev, [e.target.id]: '' }));
-        // }
+        setPayload((pre) => ({ ...pre, [e.target.id]: e.target.value }));
+        if (errors && errors[e.target.id]) {
+            setErrors((prev) => ({ ...prev, [e.target.id]: '' }));
+        }
     };
+    const products = user?.Products;
+    //get qty
+    const [quantity, setQuantity] = useState(0);
+    useEffect(() => {
+        const qtyTotal = products?.reduce((accumulator, currentValue) => accumulator + currentValue?.Cart?.quantity, 0);
+        setQuantity(qtyTotal);
+    }, [products]);
+    //get totalPrice
+    const [totalPrice, setTotalPrice] = useState(0);
+    useEffect(() => {
+        const sumPrice = products?.reduce(
+            (accumulator, currentValue) =>
+                accumulator +
+                ((currentValue?.price * (100 - currentValue?.discount)) / 100) * currentValue?.Cart?.quantity,
+            0,
+        );
+        setTotalPrice(sumPrice + 35000);
+    }, [products]);
 
     const [errors, setErrors] = useState();
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
     const validateForm = (value) => {
         const errors = {};
@@ -50,33 +81,49 @@ function FormInfo() {
         }
         if (!value.email) {
             errors.email = 'Trường này là bắt buộc !';
+        } else if (!value.email.match(validRegex)) {
+            errors.email = 'email không hợp lệ';
         }
         if (!value.phone) {
             errors.phone = 'Trường này là bắt buộc !';
-        } else if (isNaN(value.phone) || value.phone.length !== 10) {
-            errors.phone = 'Trường này hãy nhập số điện thoại có 10 chữ số';
+        } else if (!value.phone.match(regexPhoneNumber)) {
+            errors.phone = 'Số điện thoại không hợp lệ';
         }
         if (!value.address) {
             errors.address = 'Trường này là bắt buộc !';
         }
-        if (!value.notes) {
-            errors.notes = 'Trường này là bắt buộc !';
+        if (!value.payment) {
+            errors.payment = 'Trường này là bắt buộc !';
         }
-        // if (!value.payment) {
-        //     errors.payment = 'Trường này là bắt buộc !';
-        // }
         return errors;
     };
+    //call api order
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const finalPayload = { ...payload };
+        const finalPayload = {
+            ...payload,
+            notes: payload.notes,
+            quantity: quantity,
+            total_Price: totalPrice,
+            userId: user?.id,
+            products: products,
+        };
         // console.log(finalPayload);
         const formErrs = validateForm(finalPayload);
-        if (Object.keys(formErrs).length > 0) {
+        if (Object.keys(formErrs).length > 0 || !finalPayload.quantity || !finalPayload?.total_Price) {
             setErrors(formErrs);
+            if (!finalPayload.quantity || !finalPayload?.total_Price) {
+                toast.error('Đơn hàng đặt đang trống');
+            }
         } else {
-            // dispatch(putProduct(finalPayload, id));
+            dispatch(addOrder(finalPayload));
+            if (!msg) {
+                navigate('/checkoutstep2');
+                dispatch(getCurrentUser());
+            } else {
+                toast.error('Lỗi ! Không thể đặt hàng !');
+            }
         }
     };
 
@@ -96,10 +143,11 @@ function FormInfo() {
                         type="text"
                         className="form-control"
                         id="userName"
-                        value={payload.userName}
+                        value={payload?.userName}
                         onChange={handleChange}
                         placeholder="Nguyen Van A"
                     />
+                    {errors?.userName && <small className="text-danger">{errors.userName}</small>}
                 </div>
                 <div className="col-md-7">
                     <label htmlFor="email" className="form-label">
@@ -109,10 +157,11 @@ function FormInfo() {
                         type="email"
                         className="form-control"
                         id="email"
-                        value={payload.email}
+                        value={payload?.email}
                         onChange={handleChange}
                         placeholder="nguyenvana@gmail.com"
                     />
+                    {errors?.email && <small className="text-danger">{errors.email}</small>}
                 </div>
                 <div className="col-md-5">
                     <label htmlFor="phone" className="form-label">
@@ -122,10 +171,11 @@ function FormInfo() {
                         type="text"
                         className="form-control"
                         id="phone"
-                        value={payload.phone}
+                        value={payload?.phone}
                         onChange={handleChange}
                         placeholder="0123456789"
                     />
+                    {errors?.phone && <small className="text-danger">{errors.phone}</small>}
                 </div>
                 <div className="col-12">
                     <label htmlFor="address" className="form-label">
@@ -136,15 +186,22 @@ function FormInfo() {
                         className="form-control"
                         id="address"
                         placeholder="Số nhà x, ngõ a/b, đường Cầu Diễn, quận Nam Từ Liêm, Hà Nội"
-                        value={payload.address}
+                        value={payload?.address}
                         onChange={handleChange}
                     />
+                    {errors?.address && <small className="text-danger">{errors.address}</small>}
                 </div>
                 <div className="mb-3 col-md-12">
                     <label htmlFor="notes" className="form-label">
                         Ghi chú đơn hàng
                     </label>
-                    <textarea className="form-control" id="notes" rows="3"></textarea>
+                    <textarea
+                        className="form-control"
+                        id="notes"
+                        value={payload?.notes || ''}
+                        onChange={handleChange}
+                        rows="3"
+                    ></textarea>
                 </div>
 
                 {/* Phương thức thanh toán */}
@@ -157,8 +214,9 @@ function FormInfo() {
                             <input
                                 className="form-check-input"
                                 type="radio"
-                                name="inlineRadioOptions"
-                                id="cod"
+                                name="paymentOptions"
+                                id="payment"
+                                onChange={handleChange}
                                 value="COD"
                             />
                             <label className="form-check-label" htmlFor="cod">
@@ -167,15 +225,15 @@ function FormInfo() {
                             </label>
                         </div>
                     </div>
-                    <div className="col-md-12 py-2">
+                    {/* <div className="col-md-12 py-2">
                         <div className="form-check form-check-inline">
                             <input
                                 className="form-check-input"
                                 type="radio"
-                                name="inlineRadioOptions"
-                                id="bank"
+                                name="paymentOptions"
+                                id="payment"
                                 value="BANK"
-                                disabled
+                                onChange={handleChange}
                             />
                             <label
                                 className="form-check-label d-flex justify-content-center align-items-center"
@@ -185,7 +243,8 @@ function FormInfo() {
                                 <span className="ms-4">Chuyển khoản qua ngân hàng</span>
                             </label>
                         </div>
-                    </div>
+                    </div> */}
+                    {errors?.payment && <small className="text-danger">{errors.payment}</small>}
                 </div>
                 <div className="col-6 px-0 py-2">
                     <Link to={routesConfig.cartPage}>
@@ -194,13 +253,13 @@ function FormInfo() {
                 </div>
                 <div className="col-6 px-0 py-2 mb-5 text-end">
                     <Link to={routesConfig.checkoutstep2Page}>
-                        <button type="submit" onClick={handleSubmit} className="btn btn-primary p-3">
+                        <button onClick={handleSubmit} className="btn btn-primary p-3">
                             Hoàn tất đơn hàng
                         </button>
                     </Link>
                 </div>
             </div>
-            {/* <ToastContainer autoClose={2000} /> */}
+            <ToastContainer autoClose={2000} />
         </div>
     );
 }

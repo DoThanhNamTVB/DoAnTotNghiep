@@ -26,6 +26,21 @@ export const apiGetAllUser = () =>
         }
     });
 
+export const apiPutInfoUser = (payload, id) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const response = await axiosConfig({
+                method: 'put',
+                url: '/api/managerUser/info-user/' + id,
+                data: payload,
+            });
+
+            resolve(response);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
 export const apiPutUser = (status, id) =>
     new Promise(async (resolve, reject) => {
         try {

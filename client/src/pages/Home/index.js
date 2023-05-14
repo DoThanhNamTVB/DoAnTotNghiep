@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { FaRegHandPointRight } from 'react-icons/fa';
 
 import Silder from './components/Silder';
-import ProductItems from './components/ProductItems';
+import ProductNews from './components/ProductNews';
+import ProductHots from './components/ProductHots';
 import './Homepage.scss';
 import routesConfig from '~/config/routes';
 
@@ -15,95 +16,18 @@ function Home() {
                 <div className="product-frame">
                     <div className="product-frane-title d-flex justify-content-between">
                         <div className="product-frane-title-item">
-                            <h1>Đồng Hồ Casio</h1>
-                        </div>
-                        <div className="product-frane-title-item">
-                            <Link
-                                to={routesConfig.casioPage}
-                                className="d-flex justify-content-center align-items-center"
-                            >
-                                <FaRegHandPointRight />
-                                <span>Xem tất cả</span>
-                            </Link>
+                            <h1>Sản phẩm mới ra mắt</h1>
                         </div>
                     </div>
-                    <ProductItems />
+                    <ProductNews />
                 </div>
-
-                {/* List  Casio Edifice product */}
                 <div className="product-frame">
                     <div className="product-frane-title d-flex justify-content-between">
                         <div className="product-frane-title-item">
-                            <h1>Đồng Hồ Casio Edifice</h1>
-                        </div>
-                        <div className="product-frane-title-item">
-                            <Link
-                                to={routesConfig.casioEdificePage}
-                                className="d-flex justify-content-center align-items-center"
-                            >
-                                <FaRegHandPointRight />
-                                <span>Xem tất cả</span>
-                            </Link>
+                            <h1>Sản phẩm bán chạy trong tuần</h1>
                         </div>
                     </div>
-                    <ProductItems />
-                </div>
-
-                {/* List  Casio  Baby-G product */}
-                <div className="product-frame">
-                    <div className="product-frane-title d-flex justify-content-between">
-                        <div className="product-frane-title-item">
-                            <h1>Đồng Hồ Casio Baby-G</h1>
-                        </div>
-                        <div className="product-frane-title-item">
-                            <Link
-                                to={routesConfig.casioBabyGPage}
-                                className="d-flex justify-content-center align-items-center"
-                            >
-                                <FaRegHandPointRight />
-                                <span>Xem tất cả</span>
-                            </Link>
-                        </div>
-                    </div>
-                    <ProductItems />
-                </div>
-
-                {/* List  Casio  Điện tử product */}
-                <div className="product-frame">
-                    <div className="product-frane-title d-flex justify-content-between">
-                        <div className="product-frane-title-item">
-                            <h1>Đồng Hồ Casio Điện Tử</h1>
-                        </div>
-                        <div className="product-frane-title-item">
-                            <Link
-                                to={routesConfig.casioElectronicGPage}
-                                className="d-flex justify-content-center align-items-center"
-                            >
-                                <FaRegHandPointRight />
-                                <span>Xem tất cả</span>
-                            </Link>
-                        </div>
-                    </div>
-                    <ProductItems />
-                </div>
-
-                {/* List  Casio  Vintage product */}
-                <div className="product-frame">
-                    <div className="product-frane-title d-flex justify-content-between">
-                        <div className="product-frane-title-item">
-                            <h1>Đồng Hồ Casio Vintage</h1>
-                        </div>
-                        <div className="product-frane-title-item">
-                            <Link
-                                to={routesConfig.casioVintagePage}
-                                className="d-flex justify-content-center align-items-center"
-                            >
-                                <FaRegHandPointRight />
-                                <span>Xem tất cả</span>
-                            </Link>
-                        </div>
-                    </div>
-                    <ProductItems />
+                    <ProductHots />
                 </div>
             </div>
         </div>

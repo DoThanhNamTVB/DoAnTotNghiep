@@ -81,3 +81,29 @@ export const apiGetProductByCategory = (categorySlug) =>
             reject(error);
         }
     });
+
+export const apiGetProductNew = () =>
+    new Promise(async (relsove, reject) => {
+        try {
+            const response = await axiosConfig({
+                method: 'get',
+                url: '/api/managerProduct/get/get-product-new',
+            });
+            relsove(response);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+export const apiGetProductHot = () =>
+    new Promise(async (relsove, reject) => {
+        try {
+            const response = await axiosConfig({
+                method: 'get',
+                url: '/api/managerProduct/get/get-product-hot',
+            });
+            relsove(response);
+        } catch (error) {
+            reject(error);
+        }
+    });

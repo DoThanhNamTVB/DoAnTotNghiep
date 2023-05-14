@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
                 through: "Cart",
                 foreignKey: "userId",
             });
+            // User.belongsToMany(models.Product, {
+            //     through: "Product_Favourite",
+            //     foreignKey: "userId",
+            // });
         }
     }
     User.init(

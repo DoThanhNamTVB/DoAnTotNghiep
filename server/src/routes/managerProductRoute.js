@@ -13,5 +13,7 @@ router.get(
     "/getCategory/:categorySlug",
     managerProductController.getProductByCategory
 );
+router.get("/get/get-product-new", managerProductController.getProductNew);
+router.get("/get/get-product-hot", managerProductController.getProductHot);
 
 module.exports = router;

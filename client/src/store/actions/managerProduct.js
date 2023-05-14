@@ -7,6 +7,8 @@ import {
     apiGetAnProduct,
     apiPutProduct,
     apiGetProductByCategory,
+    apiGetProductNew,
+    apiGetProductHot,
 } from '~/service/managerProduct';
 
 export const addProduct = (payload) => async (dispatch) => {
@@ -146,6 +148,52 @@ export const getProductByCategory = (categorySlug) => async (dispatch) => {
         dispatch({
             type: actionTypes.GET_PRODUCT_BY_CATEGORY_FAIL,
             productCategory: null,
+        });
+    }
+};
+
+export const getProductNew = () => async (dispatch) => {
+    try {
+        const response = await apiGetProductNew();
+        // console.log(response);
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_NEW_SUCCESS,
+                products: response.data.response,
+            });
+        } else {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_NEW_FAIL,
+                products: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionTypes.GET_PRODUCT_NEW_FAIL,
+            products: null,
+        });
+    }
+};
+
+export const getProductHot = () => async (dispatch) => {
+    try {
+        const response = await apiGetProductHot();
+        // console.log(response);
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_HOT_SUCCESS,
+                products: response.data.response,
+            });
+        } else {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_HOT_FAIL,
+                products: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionTypes.GET_PRODUCT_HOT_FAIL,
+            products: null,
         });
     }
 };

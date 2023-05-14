@@ -131,6 +131,31 @@ const getProductByCategory = async (req, res) => {
         });
     }
 };
+
+const getProductHot = async (req, res) => {
+    try {
+        const response = await managerProductService.getProductHot();
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at getProductHot controller : " + error,
+        });
+    }
+};
+
+const getProductNew = async (req, res) => {
+    try {
+        const response = await managerProductService.getProductNew();
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at getProductNew controller : " + error,
+        });
+    }
+};
+
 module.exports = {
     createProduct,
     getAllProduct,
@@ -138,4 +163,6 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getProductByCategory,
+    getProductHot,
+    getProductNew,
 };

@@ -7,6 +7,8 @@ import routesConfig from '~/config/routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getAllCategory } from '~/store/actions';
+import Tippy from '@tippyjs/react/headless';
+import 'tippy.js/dist/tippy.css';
 
 function HeaderBanner() {
     //get all category
@@ -44,18 +46,20 @@ function HeaderBanner() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <form className="d-flex header-banner-search" role="search">
-                        <input
-                            className="input-search header-banner-search-item"
-                            type="search"
-                            placeholder="Tìm kiếm sản phẩm .."
-                            aria-label="Search"
-                            spellCheck="false"
-                        />
-                        <button className="btn btn-outline-success header-banner-search-item" type="submit">
-                            <AiOutlineSearch />
-                        </button>
-                    </form>
+                    <Tippy content="hellos">
+                        <form className="d-flex header-banner-search" role="search">
+                            <input
+                                className="input-search header-banner-search-item"
+                                type="search"
+                                placeholder="Tìm kiếm sản phẩm .."
+                                aria-label="Search"
+                                spellCheck="false"
+                            />
+                            <button className="btn btn-outline-success header-banner-search-item" type="submit">
+                                <AiOutlineSearch />
+                            </button>
+                        </form>
+                    </Tippy>
                     <ul className="navbar-nav mb-2 mb-lg-0 header-banner-menu">
                         <li className="nav-item">
                             <Link className="nav-link" to={routesConfig.home}>

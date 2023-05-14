@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
             productId: DataTypes.INTEGER,
             quantity: DataTypes.INTEGER,
             color: DataTypes.STRING,
-            total: DataTypes.DECIMAL(15, 0),
+            price: DataTypes.DECIMAL(15, 0),
+            discount: DataTypes.INTEGER,
         },
         {
             sequelize,

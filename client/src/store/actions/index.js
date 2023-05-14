@@ -6,3 +6,5 @@ export * from './managerColor';
 export * from './managerProduct';
 export * from './managerProductColor';
 export * from './managerCart';
+export * from './managerOrder';
+export * from './setting';
