@@ -120,3 +120,7 @@ export const deleteColor = (id) => async (dispatch) => {
         });
     }
 };
+
+export const resetColor = () => ({
+    type: actionTypes.RESET_COLOR,
+});

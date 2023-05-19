@@ -4,7 +4,7 @@ const initState = {
     msg: '',
     categories: [],
     category: {},
-    statusAdd: false,
+    statusAdd: null,
     statusGet: false,
     statusGetAll: false,
     statusPut: false,
@@ -13,6 +13,12 @@ const initState = {
 
 const managerCategoryReducer = (state = initState, action) => {
     switch (action.type) {
+        case actionTypes.RESET_CATEGORY:
+            return {
+                ...state,
+                statusAdd: null,
+            };
+
         case actionTypes.ADD_CATEGORY_SUCCESS:
             return {
                 ...state,
@@ -36,7 +42,7 @@ const managerCategoryReducer = (state = initState, action) => {
         case actionTypes.GET_ALL_CATEGORY_SUCCESS:
             return {
                 ...state,
-                statusAdd: false,
+                statusAdd: null,
                 statusGet: false,
                 statusGetAll: true,
                 statusPut: false,

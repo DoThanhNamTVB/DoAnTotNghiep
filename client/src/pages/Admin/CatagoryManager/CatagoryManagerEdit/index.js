@@ -1,33 +1,50 @@
 import { Link } from 'react-router-dom';
 // import routesConfig from '~/config/routes';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
 import { AiFillSetting } from 'react-icons/ai';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import routesConfig from '~/config/routes';
-import { getAllCategory, deleteCategory } from '~/store/actions';
+import { getAllCategory, deleteCategory, getProductByCategory, resetProduct } from '~/store/actions';
 
 function CategoryManager() {
     const dispatch = useDispatch();
 
-    const { categories, statusDelete } = useSelector((state) => state.managerCategory);
+    const { categories } = useSelector((state) => state.managerCategory);
+    const { productCategory } = useSelector((state) => state.managerProduct);
+    // console.log(productCategory);
 
     useEffect(() => {
         dispatch(getAllCategory());
     }, [dispatch]);
 
-    const handleDelete = (id) => {
-        dispatch(deleteCategory(id));
+    const [id, setId] = useState();
+    const handleDelete = (id, slug) => {
+        dispatch(resetProduct());
+        dispatch(getProductByCategory(slug));
+        setId(id);
     };
     useEffect(() => {
-        if (statusDelete === true) {
+        if (productCategory?.length === 0) {
+            dispatch(deleteCategory(id));
+            setId(null);
+            dispatch(resetProduct());
             toast.success('Xóa danh mục thành công!');
             dispatch(getAllCategory());
+        } else if (productCategory?.length > 0) {
+            toast.error('Danh mục hiện tại đang có sản phẩm! Hãy xóa hết sản phẩm để thực hiện chức năng!');
+            dispatch(resetProduct());
         }
-    }, [dispatch, statusDelete]);
+    }, [productCategory, dispatch, id]);
+    // useEffect(() => {
+    //     if (statusDelete === true) {
+    //         toast.success('Xóa danh mục thành công!');
+    //         dispatch(getAllCategory());
+    //     }
+    // }, [dispatch, statusDelete]);
 
     return (
         <>
@@ -91,7 +108,7 @@ function CategoryManager() {
                                                                 ></button>
                                                             </div>
                                                             <div className="modal-body">
-                                                                Bạn có chắc muốn xóa sản phẩm {item.categoryName} không?
+                                                                Bạn có chắc muốn xóa danh mục {item.categoryName} không?
                                                                 <div className="modal-footer fs-3">
                                                                     <button
                                                                         type="button"
@@ -102,7 +119,7 @@ function CategoryManager() {
                                                                     </button>
                                                                     <button
                                                                         type="button"
-                                                                        onClick={() => handleDelete(item.id)}
+                                                                        onClick={() => handleDelete(item.id, item.slug)}
                                                                         className="btn btn-primary"
                                                                         data-bs-dismiss="modal"
                                                                     >
@@ -127,7 +144,6 @@ function CategoryManager() {
                         })}
                 </tbody>
             </table>
-            <ToastContainer autoClose={2000} />
         </>
     );
 }

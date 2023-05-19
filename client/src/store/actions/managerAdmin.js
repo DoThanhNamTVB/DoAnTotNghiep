@@ -117,3 +117,7 @@ export const deleteAdmin = (id) => async (dispatch) => {
         });
     }
 };
+
+export const resetAdmin = () => ({
+    type: actionTypes.RESET_ADMIN,
+});

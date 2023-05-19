@@ -79,12 +79,13 @@ export const apiGetOrderByUserStatus = (userId, statusOrder) =>
         }
     });
 
-export const apiPutOrderStatus = (orderId) =>
+export const apiPutOrderStatus = (payload, orderId) =>
     new Promise(async (resolve, reject) => {
         try {
             const response = await axiosConfig({
                 method: 'put',
                 url: '/api/managerOrder/status/' + orderId,
+                data: payload,
             });
             resolve(response);
         } catch (error) {
@@ -106,12 +107,13 @@ export const apiPutUserOrderId = (payload, orderId) =>
         }
     });
 
-export const apiDeleteOrder = (orderId) =>
+export const apiCancelOrder = (payload, orderId) =>
     new Promise(async (resolve, reject) => {
         try {
             const response = await axiosConfig({
-                method: 'delete',
-                url: '/api/managerOrder/delete/' + orderId,
+                method: 'put',
+                url: '/api/managerOrder/cancel/' + orderId,
+                data: payload,
             });
 
             resolve(response);

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import '~/components/CSSForm/index.scss';
 import routesConfig from '~/config/routes';
 import { addColor } from '~/store/actions';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import slugify from '@sindresorhus/slugify';
 
 function ColorAdd() {
@@ -126,7 +126,7 @@ function ColorAdd() {
                     </form>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={200} /> */}
         </>
     );
 }

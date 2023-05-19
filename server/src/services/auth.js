@@ -82,6 +82,43 @@ const loginService = ({ email, password }) =>
         }
     });
 
+const loginAdminService = ({ email, password }) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const response = await db.Admin.findOne({
+                where: { email: email },
+                raw: true,
+            });
+
+            const isCorrectPassword =
+                response && bcrypt.compareSync(password, response.password);
+
+            const token =
+                isCorrectPassword &&
+                jwt.sign(
+                    { id: response.id, email: response.email },
+                    process.env.SECRET_KEY,
+                    {
+                        expiresIn: "2d",
+                    }
+                );
+            const role = response && response?.role;
+
+            resolve({
+                err: token ? 0 : 2,
+                msg: token
+                    ? "Login admin is sucessfully!"
+                    : response
+                    ? "Password admin is not correct"
+                    : "Email admin not found!",
+                token: token || null,
+                role: token ? role : null,
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+
 const getCurrentUserService = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -109,8 +146,72 @@ const getCurrentUserService = (id) => {
     });
 };
 
+const getCurrentAdminService = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = await db.Admin.findOne(
+                {
+                    where: { id },
+                    attributes: {
+                        exclude: ["password"],
+                    },
+                },
+                { raw: true },
+                { nest: true }
+            );
+            resolve({
+                err: response ? 0 : 1,
+                msg: response ? "OK" : "Fail to get current admin",
+                response,
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+const updatePasswordUserService = (payload, id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await db.User.findOne({ where: { id: id } });
+
+            const isPasswordOld =
+                user && bcrypt.compareSync(payload.passwordOld, user.password);
+
+            if (!isPasswordOld) {
+                resolve({
+                    err: 1,
+                    msg: "Update fail at password old",
+                });
+            }
+
+            const response =
+                isPasswordOld &&
+                (await db.User.update(
+                    { password: hashPassword(payload.passwordNew) },
+                    {
+                        where: { id: id },
+                    },
+                    { raw: true },
+                    { nest: true }
+                ));
+            resolve({
+                err: response ? 0 : 1,
+                msg: response
+                    ? "Update successfull"
+                    : "Fail to update password user",
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 module.exports = {
     registerService,
     loginService,
     getCurrentUserService,
+    getCurrentAdminService,
+    updatePasswordUserService,
+    loginAdminService,
 };

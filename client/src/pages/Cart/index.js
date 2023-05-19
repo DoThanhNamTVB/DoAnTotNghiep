@@ -6,7 +6,7 @@ import { deleteCart, getCartByUserId, getCurrentUser } from '~/store/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import formatter from '~/components/FuntionComponent/formatPrice';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import './Cart.scss';
 
@@ -157,8 +157,13 @@ function Cart() {
                                         <hr />
                                     </div>
                                     <div className="summary-action">
+                                        <b className="text-danger">Lưu ý khi đặt hàng</b>
                                         <p>- Phí vận chuyển sẽ được tính ở trang thanh toán.</p>
-                                        <p>- Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.</p>
+                                        <p>- Hãy kiểm tra thông tin giao hàng kỹ trước khi đặt hàng.</p>
+                                        <p>
+                                            - Nhân viên sẽ gọi cho bạn để xác nhận đơn hàng, nếu không liên hệ được quá
+                                            3 lần đơn hàng của bạn sẽ bị hủy.
+                                        </p>
                                         {quantity === 0 && <p className="text-danger">{message}</p>}
                                         <button
                                             className="summary-button w-100 text-white border-0 py-4"
@@ -173,7 +178,7 @@ function Cart() {
                     </div>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={200} /> */}
         </>
     );
 }

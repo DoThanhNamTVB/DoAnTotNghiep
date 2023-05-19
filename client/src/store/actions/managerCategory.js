@@ -123,3 +123,7 @@ export const deleteCategory = (id) => async (dispatch) => {
         });
     }
 };
+
+export const resetCategory = () => ({
+    type: actionTypes.RESET_CATEGORY,
+});

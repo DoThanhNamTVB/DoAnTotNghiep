@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getAnCategory, putCategory } from '~/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import slugify from '@sindresorhus/slugify';
 
 function CategoryEdit() {
@@ -128,7 +128,7 @@ function CategoryEdit() {
                     </form>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={200} /> */}
         </>
     );
 }

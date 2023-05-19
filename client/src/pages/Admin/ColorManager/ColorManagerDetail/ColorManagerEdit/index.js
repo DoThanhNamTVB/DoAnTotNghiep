@@ -2,10 +2,10 @@ import '~/components/CSSForm/index.scss';
 import ButtonModal from '~/components/ButtonModal';
 import routesConfig from '~/config/routes';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getAnColor, putColor } from '~/store/actions';
+import { getAnColor, putColor, resetColor } from '~/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import slugify from '@sindresorhus/slugify';
 
 function ColorEdit() {
@@ -52,12 +52,6 @@ function ColorEdit() {
         return error;
     };
 
-    useEffect(() => {
-        if (statusPut === true) {
-            navigate(routesConfig.colorManager);
-        }
-    });
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const errForm = validateForm(payload);
@@ -66,12 +60,19 @@ function ColorEdit() {
         } else {
             const slug = slugify(payload.colorName);
             dispatch(putColor({ ...payload, slug }, id));
-            if (statusPut === false) {
-                toast.error('Màu này đã tồn tại');
-            }
         }
     };
 
+    console.log(statusPut);
+    useEffect(() => {
+        if (statusPut === false) {
+            toast.error('Màu này đã tồn tại');
+            dispatch(resetColor());
+        }
+        if (statusPut === true) {
+            navigate(routesConfig.colorManager);
+        }
+    }, [statusPut]);
     return (
         <>
             <nav aria-label="breadcrumb">
@@ -148,7 +149,7 @@ function ColorEdit() {
                     </form>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={2000} /> */}
         </>
     );
 }

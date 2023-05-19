@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
                 through: "Order_Detail",
                 foreignKey: "orderId",
             });
-            Order.hasMany(models.Transaction, { foreignKey: "orderId" });
+            // Order.hasMany(models.Transaction, { foreignKey: "orderId" });
         }
     }
     Order.init(
@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             address: DataTypes.STRING,
             notes: DataTypes.STRING,
             payment: DataTypes.STRING,
+            reason: DataTypes.STRING,
         },
         {
             sequelize,

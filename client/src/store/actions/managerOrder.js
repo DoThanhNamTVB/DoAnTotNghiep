@@ -9,7 +9,7 @@ import {
     apiGetOrderByUserStatus,
     apiPutOrderStatus,
     apiPutUserOrderId,
-    apiDeleteOrder,
+    apiCancelOrder,
 } from '~/service/managerOrder';
 
 export const addOrder = (payload) => async (dispatch) => {
@@ -148,9 +148,9 @@ export const getOrderByUserStatus = (userId, orderId) => async (dispatch) => {
     }
 };
 
-export const putOrderStatus = (orderId) => async (dispatch) => {
+export const putOrderStatus = (payload, orderId) => async (dispatch) => {
     try {
-        const response = await apiPutOrderStatus(orderId);
+        const response = await apiPutOrderStatus(payload, orderId);
         if (response?.data.err === 0) {
             dispatch({
                 type: actionTypes.PUT_ORDER_STATUS_BY_ORDERID_SUCCESS,
@@ -192,23 +192,23 @@ export const putUserOrderId = (payload, orderId) => async (dispatch) => {
     }
 };
 
-export const deleteOrder = (orderId) => async (dispatch) => {
+export const cancelOrder = (payload, orderId) => async (dispatch) => {
     try {
-        const response = await apiDeleteOrder(orderId);
+        const response = await apiCancelOrder(payload, orderId);
         if (response?.data.err === 0) {
             dispatch({
-                type: actionTypes.DELETE_ORDER_SUCCESS,
+                type: actionTypes.CANCEL_ORDER_SUCCESS,
                 msg: response.data.msg,
             });
         } else {
             dispatch({
-                type: actionTypes.DELETE_ORDER_FAIL,
+                type: actionTypes.CANCEL_ORDER_FAIL,
                 msg: response.data.msg,
             });
         }
     } catch (error) {
         dispatch({
-            type: actionTypes.DELETE_ORDER_FAIL,
+            type: actionTypes.CANCEL_ORDER_FAIL,
             msg: null,
         });
     }

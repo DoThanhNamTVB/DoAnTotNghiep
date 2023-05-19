@@ -3,12 +3,14 @@ import './DefaultLayout.scss';
 
 function AdminDefaultLayout({ children }) {
     return (
-        <div className="">
-            <NavBarAdmin />
-            <div className="admin-page-content">
-                <div>{children}</div>
+        <>
+            <div className="">
+                <NavBarAdmin />
+                <div className="admin-page-content">
+                    <div>{children}</div>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 

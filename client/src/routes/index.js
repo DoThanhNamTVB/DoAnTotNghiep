@@ -11,6 +11,10 @@ import Home from '~/pages/Home';
 import Contact from '~/pages/Contact';
 import Cart from '~/pages/Cart';
 import Blog from '~/pages/Blog';
+import { SearchAdvanced } from '~/components/Layout/components/Header/components';
+import ChangePassward from '~/pages/UserManagerInfo/ChangePassWord';
+import HistoryOrder from '~/pages/HistoryOrder';
+import HistoryOrderDetail from '~/pages/HistoryOrder/HistoryDetail';
 
 //pages of catagory
 import CategoryPage from '~/pages/Catagory';
@@ -33,6 +37,7 @@ import { AdminManagerAdd, AdminManagerEdit, AdminMangerEditDetail } from '~/page
 //user
 import UserManager from '~/pages/Admin/UserManager';
 import UserDetail from '~/pages/Admin/UserManager/UserDetail';
+
 //catagory
 import { CategoryAdd, CategoryManager, CategoryEdit } from '~/pages/Admin/CatagoryManager';
 
@@ -54,6 +59,7 @@ import {
     OrderDetail,
     OrderStatusConfirmed,
     OrderStatusSuccess,
+    OrderCancel,
 } from '~/pages/Admin/OrderManager';
 
 //No login required to access the route
@@ -61,6 +67,10 @@ const publicRoutes = [
     { path: routesConfig.home, component: Home, layout: HeaderFooterLayout },
     { path: routesConfig.contact, component: Contact, layout: HeaderFooterLayout },
     { path: routesConfig.blog, component: Blog, layout: HeaderFooterLayout },
+    { path: routesConfig.searchAdvanced, component: SearchAdvanced, layout: HeaderFooterLayout },
+    { path: routesConfig.changePass, component: ChangePassward, layout: HeaderFooterLayout },
+    { path: routesConfig.historyOrder, component: HistoryOrder, layout: HeaderFooterLayout },
+    { path: routesConfig.historyOrderDetail, component: HistoryOrderDetail, layout: HeaderFooterLayout },
 
     { path: routesConfig.categoryPage, component: CategoryPage, layout: HeaderFooterLayout },
 
@@ -118,6 +128,7 @@ const privateRoutes = [
     { path: routesConfig.orderConfirmed, component: OrderStatusConfirmed, layout: AdminDefaultLayout },
     { path: routesConfig.orderSuccess, component: OrderStatusSuccess, layout: AdminDefaultLayout },
     { path: routesConfig.OrderDetail, component: OrderDetail, layout: AdminDefaultLayout },
+    { path: routesConfig.orderCancel, component: OrderCancel, layout: AdminDefaultLayout },
 ];
 
 export { publicRoutes, privateRoutes };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import InputLabel from '~/components/InputLabel';
 import Select from 'react-select';
 
@@ -289,7 +289,6 @@ function ProductManagerAdd() {
                     </form>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
         </>
     );
 }

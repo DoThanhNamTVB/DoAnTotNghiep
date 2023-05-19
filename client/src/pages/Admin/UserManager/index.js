@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllUser } from '~/store/actions';
 import routesConfig from '~/config/routes';
+import images from '~/assets/images';
 
 function UserManager() {
     const dispatch = useDispatch();
@@ -34,11 +35,12 @@ function UserManager() {
                     </tr>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Avartar</th>
                         <th scope="col">Tên</th>
                         <th scope="col">Email</th>
                         <th scope="col">SĐT</th>
                         <th scope="col">Địa chỉ</th>
-                        <th scope="col">Status</th>
+                        {/* <th scope="col">Status</th> */}
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
@@ -49,11 +51,24 @@ function UserManager() {
                             return (
                                 <tr key={index}>
                                     <th scope="row">{index + 1}</th>
+                                    <td>
+                                        <img
+                                            src={
+                                                item?.img
+                                                    ? process.env.REACT_APP_SERVER_URL + item?.img
+                                                    : images.noImage
+                                            }
+                                            alt="anh dai dien"
+                                            width="50px"
+                                            height="50px"
+                                            className="object-fit-contain"
+                                        />
+                                    </td>
                                     <td>{item.userName}</td>
                                     <td>{item.email}</td>
                                     <td>{item.phone}</td>
                                     <td>{item.address}</td>
-                                    <td>{item.status}</td>
+                                    {/* <td>{item.status}</td> */}
 
                                     <td>
                                         <Link to={`/admin/user-manager/${item.id}`} className="fs-3">

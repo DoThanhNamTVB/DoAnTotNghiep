@@ -4,10 +4,9 @@ const routes = {
     store: '/store',
     blog: '/blog',
     categoryPage: '/:categorySlug',
-    // casioEdificePage: '/casio-edifice',
-    // casioBabyGPage: '/casio-baby-g',
-    // casioElectronicGPage: '/casio-electronic',
-    // casioVintagePage: '/casio-vintage',
+    searchAdvanced: '/search-advanced',
+    historyOrder: '/history-order',
+    historyOrderDetail: '/history-order/detail/:orderId',
 
     cartPage: '/cart',
     checkoutstep1Page: '/checkoutstep1',
@@ -18,6 +17,7 @@ const routes = {
 
     productDetailPage: '/:categorySlug/product-detail/:productId',
     managerInfoPage: '/manager-info',
+    changePass: '/change-password',
 
     //admin
     admin: '/admin',
@@ -59,7 +59,8 @@ const routes = {
     orderComfirming: '/admin/order-confirming',
     orderConfirmed: '/admin/order-confirmed',
     orderSuccess: '/admin/order-success',
-    OrderDetail: '/admin/order-detail/:orderId',
+    OrderDetail: '/admin/:orderType/:orderId',
+    orderCancel: '/admin/order-cancel',
 };
 
 export default routes;

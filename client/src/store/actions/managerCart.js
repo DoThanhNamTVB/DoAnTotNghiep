@@ -95,3 +95,7 @@ export const deleteCart = (userId, productId) => async (dispatch) => {
         });
     }
 };
+
+export const resetCart = () => ({
+    type: actionTypes.RESET_CART,
+});

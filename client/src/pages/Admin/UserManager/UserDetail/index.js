@@ -5,11 +5,12 @@ import { Link, useParams } from 'react-router-dom';
 import { getAnUser } from '~/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import images from '~/assets/images';
 
 function UserDetail() {
     let { id } = useParams();
 
-    const { user } = useSelector((state) => state.managerUser);
+    const { account } = useSelector((state) => state.managerUser);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -27,21 +28,21 @@ function UserDetail() {
         password: '',
     });
     useEffect(() => {
-        if (user) {
-            user.userName &&
+        if (account) {
+            account.userName &&
                 setPayload((prev) => ({
                     ...prev,
-                    userName: user.userName || '',
-                    email: user.email || '',
-                    phone: user.phone || '',
-                    gender: user.gender || '',
-                    img: user.img || '',
-                    status: user.status || '',
-                    address: user.address || '',
-                    password: user.password || '',
+                    userName: account.userName || '',
+                    email: account.email || '',
+                    phone: account.phone || '',
+                    gender: account.gender || '',
+                    img: account.img || '',
+                    status: account.status || '',
+                    address: account.address || '',
+                    password: account.password || '',
                 }));
         }
-    }, [user]);
+    }, [account]);
 
     const handChange = (e) => {
         setPayload((pre) => ({ ...pre, [e.target.id]: e.target.value }));
@@ -138,11 +139,16 @@ function UserDetail() {
                             />
                         </div>
                         <div className="mb-3 col-12 col-md-12">
-                            <label htmlFor="img" className="form-label">
-                                Ảnh đại diện
-                            </label>
-                            <div className="">
-                                <img src={payload.img || ''} alt="anh dai dien" width="100px" height="100px" />
+                            <span>Ảnh đại diện</span>
+                            <div>
+                                <img
+                                    src={
+                                        account?.img ? process.env.REACT_APP_SERVER_URL + account?.img : images.noImage
+                                    }
+                                    alt="anh dai dien"
+                                    width="100px"
+                                    height="100px"
+                                />
                             </div>
                         </div>
                         <div className="col-12 col-md-12">

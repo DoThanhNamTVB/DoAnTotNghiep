@@ -3,10 +3,10 @@ const path = require("path");
 const managerProductColorService = require("../services/managerProductColorService");
 
 const createProductColor = async (req, res) => {
-    const { colorId, quantity, status } = req.body;
+    const { colorId, quantity } = req.body;
 
     try {
-        if (!colorId || !quantity || !status) {
+        if (!colorId || !quantity) {
             return res.status(400).json({
                 err: 1,
                 msg: "Missing inputs !",
@@ -16,7 +16,6 @@ const createProductColor = async (req, res) => {
             productId: req.body.productId,
             colorId: req.body.colorId,
             quantity: req.body.quantity,
-            status: req.body.status,
             img: req.file
                 ? "/storageUploads/products/" + req.file.filename
                 : "",
@@ -68,8 +67,8 @@ const getAnByIdProductColor = async (req, res) => {
 
 const updateProductColor = async (req, res) => {
     try {
-        const { colorId, quantity, status } = req.body;
-        if (!colorId || !quantity || !status) {
+        const { colorId, quantity } = req.body;
+        if (!colorId || !quantity) {
             return res.status(400).json({
                 err: 1,
                 msg: "Missing inputs !",
@@ -79,7 +78,6 @@ const updateProductColor = async (req, res) => {
             productId: req.body.productId,
             colorId: req.body.colorId,
             quantity: req.body.quantity,
-            status: req.body.status,
         };
 
         if (req.file) {

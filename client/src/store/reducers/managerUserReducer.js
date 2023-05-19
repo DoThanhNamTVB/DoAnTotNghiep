@@ -4,7 +4,7 @@ const initState = {
     msgPutInfo: '',
     msgAll: '',
     users: [],
-    user: {},
+    account: {},
     statusGet: false,
     statusGetAll: false,
     statusPut: false,
@@ -33,7 +33,7 @@ const managerUserReducer = (state = initState, action) => {
             return {
                 ...state,
                 statusGet: true,
-                user: action.user,
+                account: action.user,
                 msg: '',
             };
         case actionTypes.GET_AN_USER_FAIL:

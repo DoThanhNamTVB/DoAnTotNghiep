@@ -25,7 +25,13 @@ const getAnUseService = (id) => {
             const response = await db.User.findOne({
                 where: { id: id },
                 include: [
-                    { model: db.Product, include: [{ model: db.Color }] },
+                    {
+                        model: db.Product,
+                        as: "Product_Favourites",
+
+                        include: [{ model: db.Color }, { model: db.Category }],
+                    },
+                    // { model: db.Product, as: "Carts" },
                 ],
             });
             resolve({

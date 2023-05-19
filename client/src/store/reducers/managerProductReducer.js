@@ -11,19 +11,34 @@ const initState = {
     statusAdd: false,
     statusGet: false,
     statusGetAll: false,
-    statusPut: false,
-    statusDelete: false,
+    statusPut: null,
+    statusDelete: null,
     statusCategory: false,
     productAdd: {},
-    productCategory: [],
+    productCategory: null,
     msgNew: '',
     productNew: [],
     msgHot: '',
     productHot: [],
+    productSearchs: [],
+    msgSearch: '',
+    productSimilars: [],
+    msgSimilar: '',
+    productFilters: [],
+    statusFilter: null,
+    msgFilter: null,
 };
 
 const managerProductReducer = (state = initState, action) => {
     switch (action.type) {
+        case actionTypes.RESET_PRODUCT:
+            return {
+                ...state,
+                statusAdd: null,
+                productCategory: null,
+                statusDelete: null,
+            };
+
         case actionTypes.ADD_PRODUCT_SUCCESS:
             return {
                 ...state,
@@ -49,11 +64,11 @@ const managerProductReducer = (state = initState, action) => {
         case actionTypes.GET_ALL_PRODUCT_SUCCESS:
             return {
                 ...state,
-                statusAdd: false,
+                statusAdd: null,
                 statusGet: false,
                 statusGetAll: true,
-                statusPut: false,
-                statusDelete: false,
+                statusPut: null,
+                statusDelete: null,
                 products: action.products,
                 msgAdd: '',
                 msgGet: '',
@@ -67,7 +82,7 @@ const managerProductReducer = (state = initState, action) => {
                 statusGet: false,
                 statusGetAll: false,
                 statusPut: false,
-                statusDelete: false,
+                statusDelete: null,
                 msgGetAll: action.products,
                 msgAdd: '',
                 msgGet: '',
@@ -92,9 +107,10 @@ const managerProductReducer = (state = initState, action) => {
                 statusCategory: false,
                 productCategory: [],
                 statusGetAll: false,
-                statusPut: false,
-                statusDelete: false,
+                statusPut: null,
+                statusDelete: null,
                 statusAdd: false,
+                // productSimilars: [],
             };
         case actionTypes.GET_AN_PRODUCT_FAIL:
             return {
@@ -107,6 +123,7 @@ const managerProductReducer = (state = initState, action) => {
                 msgDelete: '',
                 statusCategory: false,
                 productCategory: [],
+                product: {},
             };
         case actionTypes.PUT_PRODUCT_SUCCESS:
             return {
@@ -117,7 +134,7 @@ const managerProductReducer = (state = initState, action) => {
                 msgPut: '',
                 msgGetAll: '',
                 msgDelete: '',
-                productAdd: {},
+                // productAdd: {},
             };
         case actionTypes.PUT_PRODUCT_FAIL:
             return {
@@ -128,22 +145,22 @@ const managerProductReducer = (state = initState, action) => {
                 msgGet: '',
                 msgGetAll: '',
                 msgDelete: '',
-                productAdd: {},
-                statusCategory: false,
-                productCategory: [],
+                // productAdd: {},
+                // statusCategory: false,
+                // productCategory: [],
             };
         case actionTypes.DELETE_PRODUCT_SUCCESS:
             return {
                 ...state,
                 statusDelete: true,
-                msgDelete: action.msg,
+                msgDelete: '',
                 msgAdd: '',
                 msgGet: '',
                 msgGetAll: '',
                 msgPut: '',
-                productAdd: {},
-                statusCategory: false,
-                productCategory: [],
+                // productAdd: {},
+                // statusCategory: false,
+                // productCategory: [],
             };
         case actionTypes.DELETE_PRODUCT_FAIL:
             return {
@@ -154,9 +171,9 @@ const managerProductReducer = (state = initState, action) => {
                 msgGet: '',
                 msgGetAll: '',
                 msgPut: '',
-                productAdd: {},
-                statusCategory: false,
-                productCategory: [],
+                // productAdd: {},
+                // statusCategory: false,
+                // productCategory: [],
             };
 
         case actionTypes.GET_PRODUCT_BY_CATEGORY_SUCCESS:
@@ -165,9 +182,8 @@ const managerProductReducer = (state = initState, action) => {
                 statusAdd: false,
                 statusGet: false,
                 statusGetAll: false,
-                statusPut: false,
-                statusDelete: false,
-                products: action.products,
+                statusPut: null,
+                statusDelete: null,
                 msgAdd: '',
                 msgGet: '',
                 msgPut: '',
@@ -175,15 +191,16 @@ const managerProductReducer = (state = initState, action) => {
                 productAdd: {},
                 statusCategory: true,
                 productCategory: action.productCategory,
+                product: {},
             };
         case actionTypes.GET_PRODUCT_BY_CATEGORY_FAIL:
             return {
                 ...state,
                 statusGet: false,
                 statusGetAll: false,
-                statusPut: false,
-                statusDelete: false,
-                msgGetAll: action.products,
+                statusPut: null,
+                statusDelete: null,
+                msgGetAll: action.productCategory,
                 msgAdd: '',
                 msgGet: '',
                 msgPut: '',
@@ -217,6 +234,47 @@ const managerProductReducer = (state = initState, action) => {
                 msgHot: '',
                 productHot: action.products,
             };
+
+        case actionTypes.GET_PRODUCT_SEARCH_SUCCESS:
+            return {
+                ...state,
+                msgSearch: '',
+                productSearchs: action.productSearchs,
+            };
+        case actionTypes.GET_PRODUCT_SEARCH_FAIL:
+            return {
+                ...state,
+                msgSearch: action.productSearchs,
+            };
+
+        case actionTypes.GET_PRODUCT_SIMILAR_SUCCESS:
+            return {
+                ...state,
+                productSimilars: action.productSimilars,
+                msgSimilar: '',
+            };
+        case actionTypes.GET_PRODUCT_SIMILAR_FAIL:
+            return {
+                ...state,
+                msgSimilar: action.productSimilars,
+            };
+
+        case actionTypes.GET_PRODUCT_FILTER_SUCCESS:
+            return {
+                ...state,
+                productFilters: action.productFilters,
+                statusFilter: true,
+                msgFilter: null,
+            };
+
+        case actionTypes.GET_PRODUCT_FILTER_FAIL:
+            return {
+                ...state,
+                productFilters: null,
+                statusFilter: false,
+                msgFilter: action.productFilters,
+            };
+
         default:
             return state;
     }

@@ -1,13 +1,12 @@
 // import { Link } from 'react-router-dom';
 // import routesConfig from '~/config/routes';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import formatter from '~/components/FuntionComponent/formatPrice';
 import './SideBarCheckout.scss';
 
 function SidebarCheckout() {
     //dispatch cart
-    const dispatch = useDispatch();
 
     //get user current
     const { user } = useSelector((state) => state.auth);

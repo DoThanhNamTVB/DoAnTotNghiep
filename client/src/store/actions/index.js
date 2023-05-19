@@ -8,3 +8,5 @@ export * from './managerProductColor';
 export * from './managerCart';
 export * from './managerOrder';
 export * from './setting';
+export * from './managerProductFavourite';
+export * from './chart';

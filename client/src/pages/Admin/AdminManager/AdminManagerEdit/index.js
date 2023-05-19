@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { getAllAdmin, deleteAdmin } from '~/store/actions/managerAdmin';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiFillSetting } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
@@ -12,16 +12,19 @@ import routesConfig from '~/config/routes';
 function AdminManagerEdit() {
     const dispatch = useDispatch();
 
+    const { adminCurrent } = useSelector((state) => state.auth);
     const { admins, statusDelete } = useSelector((state) => state.managerAdmin);
-
-    // console.log(admins);
 
     useEffect(() => {
         dispatch(getAllAdmin());
     }, [dispatch]);
 
     const handleDelete = (id) => {
-        dispatch(deleteAdmin(id));
+        if (adminCurrent?.id !== Number(id)) {
+            dispatch(deleteAdmin(id));
+        } else {
+            toast.error('Không thể xóa chính bạn !');
+        }
     };
 
     useEffect(() => {
@@ -61,27 +64,27 @@ function AdminManagerEdit() {
                 </thead>
                 <tbody>
                     {admins?.length > 0 &&
-                        admins.map((item, index) => {
+                        admins?.map((item, index) => {
                             return (
                                 <tr key={index}>
                                     <th scope="row">{index + 1}</th>
-                                    <td>{item.userName}</td>
-                                    <td>{item.email}</td>
-                                    <td>{item.phone}</td>
-                                    <td>{item.gender}</td>
-                                    <td>{item.role}</td>
+                                    <td>{item?.userName}</td>
+                                    <td>{item?.email}</td>
+                                    <td>{item?.phone}</td>
+                                    <td>{item?.gender}</td>
+                                    <td>{item?.role}</td>
                                     <td colSpan={2}>
                                         <div className="d-flex justify-content-center align-items-center">
                                             <div className="px-3 d-flex justify-content-center align-items-center">
                                                 <MdDelete
                                                     data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal"
+                                                    data-bs-target={`#admin${index}`}
                                                     className="fs-3 text-danger"
                                                 />
 
                                                 <div
                                                     className="modal fade"
-                                                    id="exampleModal"
+                                                    id={`admin${index}`}
                                                     tabIndex="-1"
                                                     aria-labelledby="exampleModalLabel"
                                                     aria-hidden="true"
@@ -90,7 +93,7 @@ function AdminManagerEdit() {
                                                         <div className="modal-content">
                                                             <div className="modal-header">
                                                                 <h1 className="modal-title fs-5" id="exampleModalLabel">
-                                                                    Xóa sản phẩm
+                                                                    Xóa tài khoản
                                                                 </h1>
                                                                 <button
                                                                     type="button"
@@ -100,7 +103,7 @@ function AdminManagerEdit() {
                                                                 ></button>
                                                             </div>
                                                             <div className="modal-body">
-                                                                Bạn có chắc muốn xóa sản phẩm {item.productName} không?
+                                                                Bạn có chắc muốn xóa tài khoản {item?.userName} không?
                                                                 <div className="modal-footer fs-3">
                                                                     <button
                                                                         type="button"
@@ -111,7 +114,7 @@ function AdminManagerEdit() {
                                                                     </button>
                                                                     <button
                                                                         type="button"
-                                                                        onClick={() => handleDelete(item.id)}
+                                                                        onClick={() => handleDelete(item?.id)}
                                                                         className="btn btn-primary fs-3"
                                                                         data-bs-dismiss="modal"
                                                                     >
@@ -136,7 +139,7 @@ function AdminManagerEdit() {
                         })}
                 </tbody>
             </table>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={200} /> */}
         </>
     );
 }

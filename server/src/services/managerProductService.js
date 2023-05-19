@@ -261,6 +261,126 @@ const getProductByCategoryService = (categorySlug) => {
     });
 };
 
+const getProductSearch = (keySearch) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await db.Product.findAll({
+                where: {
+                    [Op.or]: [
+                        {
+                            productName: {
+                                [Op.like]: "%" + keySearch + "%",
+                            },
+                        },
+                    ],
+                },
+                limit: 10,
+                include: [{ model: db.Category }, { model: db.Color }],
+                order: [["updatedAt", "DESC"]],
+            });
+
+            if (!keySearch) {
+                resolve({
+                    err: 0,
+                    msg: "Lấy thành công ! ",
+                    response: [],
+                });
+            } else {
+                resolve({
+                    err: 0,
+                    msg: "Lấy thành công ! ",
+                    response,
+                });
+            }
+            // resolve({
+            //     err: 0,
+            //     msg: "Lấy thành công ! ",
+            //     response,
+            // });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+const getProductSimilar = (price) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await db.Product.findAll({
+                where: {
+                    price: {
+                        [Op.gte]: Number(price) - 2000000,
+                        [Op.lte]: Number(price) + 2000000,
+                    },
+                },
+                limit: 6,
+                include: [{ model: db.Category }, { model: db.Color }],
+                order: [["updatedAt", "DESC"]],
+            });
+            resolve({
+                err: response ? 0 : 2,
+                msg: response ? "Lấy thành công ! " : "Lấy thát bại",
+                response,
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+const getProductFilter = (payload) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = {};
+            if (payload?.categoryId) {
+                data.where = {
+                    ...data.where,
+                    categoryId: payload?.categoryId,
+                };
+            }
+            if (payload?.price) {
+                const arr = payload?.price.split(",");
+                data.where = {
+                    ...data.where,
+                    price: { [Op.between]: [+arr[0], +arr[1]] },
+                };
+            }
+            if (payload?.gender) {
+                data.where = {
+                    ...data.where,
+                    genderFor: payload?.gender,
+                };
+            }
+            if (payload?.discount) {
+                const arr = payload?.discount.split(",");
+                data.where = {
+                    ...data.where,
+                    discount: { [Op.between]: [+arr[0], +arr[1]] },
+                };
+            }
+            const response = await db.Product.findAll(
+                {
+                    order: [["createdAt", "DESC"]],
+                    include: [
+                        { model: db.Category },
+                        { model: db.Color, order: [["quantity", "DESC"]] },
+                    ],
+                    ...data,
+                },
+                { raw: true },
+                { nest: true }
+            );
+
+            resolve({
+                err: response ? 0 : 2,
+                msg: response ? "SUCCESSFULL" : "Fail to get all products",
+                response,
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
 module.exports = {
     createProductService,
     getAllProductService,
@@ -270,4 +390,7 @@ module.exports = {
     getProductByCategoryService,
     getProductHot,
     getProductNew,
+    getProductSearch,
+    getProductSimilar,
+    getProductFilter,
 };

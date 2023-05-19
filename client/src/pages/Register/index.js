@@ -6,16 +6,20 @@ import './Register.scss';
 import routesConfig from '~/config/routes';
 import * as actions from '~/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function Register() {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
-    const { isLoggedIn } = useSelector((state) => state.auth);
+    const { isLoggedIn, role } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        isLoggedIn && navigate(routesConfig.home);
+        isLoggedIn && toast.success('Đăng kí thành công');
+        setTimeout(() => {
+            isLoggedIn && !role && navigate(routesConfig.home);
+        }, 2000);
     }, [isLoggedIn, navigate]);
 
     const [payload, setPayload] = useState({
@@ -36,20 +40,9 @@ function Register() {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // console.log(payload);
-        const formErrs = validateForm(payload);
-        if (Object.keys(formErrs).length > 0) {
-            setErrors(formErrs);
-        } else {
-            dispatch(actions.register(payload));
-        }
-        // console.log(response);
-    };
-
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     var regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+    var passwordRegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
     const validateForm = (values) => {
         const errors = {};
@@ -71,8 +64,8 @@ function Register() {
         }
         if (!values.password) {
             errors.password = 'Trường này là bắt buộc';
-        } else if (values.password.length < 8) {
-            errors.password = 'Mật khẩu phải lớn hơn 8 từ';
+        } else if (!values.password.match(passwordRegExp)) {
+            errors.password = 'Mật khẩu phải lớn hơn 8 kí tự, ít nhất 1 số, 1 chữ in thường, 1 chữ in hoa !';
         }
         if (!values.confirmPassword) {
             errors.confirmPassword = 'Trường này là bắt buộc';
@@ -80,6 +73,44 @@ function Register() {
             errors.confirmPassword = 'Mật khẩu không khớp';
         }
         return errors;
+    };
+
+    const { msg } = useSelector((state) => state.auth);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // console.log(payload);
+        const formErrs = validateForm(payload);
+        if (Object.keys(formErrs).length > 0) {
+            setErrors(formErrs);
+        } else {
+            dispatch(actions.reset());
+            dispatch(actions.register(payload));
+        }
+        // console.log(response);
+    };
+
+    useEffect(() => {
+        if (isLoggedIn === false) {
+            toast.error('Email đã tồn tại !');
+            dispatch(actions.reset());
+        }
+    }, [isLoggedIn, dispatch]);
+    //set type pw
+    const [type1, setType1] = useState('password');
+    const [type2, setType2] = useState('password');
+
+    const changeTypePW1 = () => {
+        setType1('text');
+        if (type1 === 'text') {
+            setType1('password');
+        }
+    };
+    const changeTypePW2 = () => {
+        setType2('text');
+        if (type2 === 'text') {
+            setType2('password');
+        }
     };
 
     return (
@@ -169,18 +200,15 @@ function Register() {
                             Mật khẩu
                         </label>
                         <input
-                            type="password"
+                            type={type1}
                             className="form-control"
                             id="password"
                             placeholder="Nhập mật khẩu ...."
                             value={payload.password}
                             onChange={handleChange}
                         />
-                        <span>
-                            <AiFillEye />
-                        </span>
-                        <span>
-                            <AiFillEyeInvisible />
+                        <span onClick={() => changeTypePW1()}>
+                            {type1 === 'text' ? <AiFillEye /> : <AiFillEyeInvisible />}
                         </span>
                         {errors?.password && <small className="text-danger">{errors.password}</small>}
                     </div>
@@ -189,18 +217,15 @@ function Register() {
                             Nhập lại mật khẩu
                         </label>
                         <input
-                            type="password"
+                            type={type2}
                             className="form-control"
                             id="confirmPassword"
                             placeholder="Nhập lại mật khẩu ...."
                             value={payload.confirmPassword}
                             onChange={handleChange}
                         />
-                        <span>
-                            <AiFillEye />
-                        </span>
-                        <span>
-                            <AiFillEyeInvisible />
+                        <span onClick={() => changeTypePW2()}>
+                            {type2 === 'text' ? <AiFillEye /> : <AiFillEyeInvisible />}
                         </span>
                         {errors?.password && <small className="text-danger">{errors.password}</small>}
                     </div>
@@ -220,6 +245,7 @@ function Register() {
                     </div>
                 </form>
             </div>
+            {/* <ToastContainer autoClose="200" /> */}
         </div>
     );
 }

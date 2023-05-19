@@ -24,6 +24,16 @@
             color: white;
         }
 
+        .pro-favourite {
+            position: absolute;
+            top: 1.2rem;
+            right: 0;
+            :hover {
+                transition-duration: 0.2s;
+                transform: scale(110%);
+            }
+        }
+
         .pro-image {
             img {
                 height: 218px;

@@ -1,11 +1,7 @@
-import { Link } from 'react-router-dom';
-import { FaRegHandPointRight } from 'react-icons/fa';
-
 import Silder from './components/Silder';
 import ProductNews from './components/ProductNews';
 import ProductHots from './components/ProductHots';
 import './Homepage.scss';
-import routesConfig from '~/config/routes';
 
 function Home() {
     return (

@@ -105,25 +105,28 @@ const updateStatusOrder = ({ status }, orderId) => {
     });
 };
 
-const deleteOrder = (orderId) => {
+const cancelOrder = (reason, orderId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await db.Order.destroy({
-                where: { id: orderId },
-            });
+            const response = await db.Order.update(
+                { reason: reason, status: "da-huy" },
+                {
+                    where: { id: orderId },
+                }
+            );
 
-            if (response) {
-                await db.OrderDetail.destroy({
-                    where: { orderId: orderId },
-                });
-            }
+            // if (response) {
+            //     await db.OrderDetail.destroy({
+            //         where: { orderId: orderId },
+            //     });
+            // }
 
             resolve({
                 err: response ? 0 : 2,
                 msg: response
-                    ? "Xóa đơn hàng thành công"
+                    ? "hủy đơn hàng thành công"
                     : "Không tìm thấy sản phẩm để xóa",
-                rseponse,
+                response,
             });
         } catch (error) {
             reject(error);
@@ -136,5 +139,5 @@ module.exports = {
     getOrderByUserId,
     getOrderByUserStatus,
     updateStatusOrder,
-    deleteOrder,
+    cancelOrder,
 };

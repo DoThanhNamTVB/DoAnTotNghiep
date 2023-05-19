@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { ToastContainer, toast } from 'react-toastify';
 
 import '~/components/CSSForm/index.scss';
 import routesConfig from '~/config/routes';
@@ -10,7 +9,9 @@ import ButtonModal from '~/components/ButtonModal';
 import noImage from '~/assets/images/no-image.png';
 import './UserManager.scss';
 import { getCurrentUser, putInfoUser } from '~/store/actions';
-import { ToastContainer, toast } from 'react-toastify';
+import ChangePassward from './ChangePassWord';
+
+import { toast } from 'react-toastify';
 
 function UserManagerInfo() {
     const { user } = useSelector((state) => state.auth);
@@ -20,11 +21,15 @@ function UserManagerInfo() {
     const dispatch = useDispatch();
 
     const [display, setDisplay] = useState('d-none');
+    const [displayChangePassword, setDisplayChangePW] = useState('d-none');
 
     const handleClick = () => {
         setDisplay('d-block');
         if (display === 'd-block') {
             setDisplay('d-none');
+        }
+        if (displayChangePassword === 'd-block') {
+            setDisplayChangePW('d-none');
         }
     };
 
@@ -82,7 +87,7 @@ function UserManagerInfo() {
             errors.productName = 'Trường này là bắt buộc !';
         }
         if (!value.phone) {
-            errors.categoryId = 'Trường này là bắt buộc !';
+            errors.phone = 'Trường này là bắt buộc !';
         } else if (!value.phone.match(regexPhoneNumber)) {
             errors.phone = 'Số điện thoại không hợp lệ';
         }
@@ -117,6 +122,7 @@ function UserManagerInfo() {
                 toast.success('Cập nhật thông tin thành công!');
                 dispatch(getCurrentUser());
                 setDisplay('d-none');
+                window.scrollTo({ top: '0px', behavior: 'smooth' });
             }
         }
     };
@@ -126,6 +132,17 @@ function UserManagerInfo() {
             dispatch(getCurrentUser());
         }
     }, [dispatch, statusPutInfo]);
+    //change password
+
+    const handleChangePassword = () => {
+        setDisplayChangePW('d-block');
+        if (display === 'd-block') {
+            setDisplay('d-none');
+        }
+        if (displayChangePassword === 'd-block') {
+            setDisplayChangePW('d-none');
+        }
+    };
 
     return (
         <div className="p-5">
@@ -153,30 +170,35 @@ function UserManagerInfo() {
                         )}
                     </div>
                     <div className="col-md-8 col-12 d-block user-info-detail px-0 ps-3">
-                        <div className="mb-3">
-                            <b>Tên người dùng : </b>
-                            <span>{user?.userName}</span>
-                        </div>
-                        <div className="mb-3">
-                            <b>Email : </b>
-                            <span>{user?.email}</span>
-                        </div>
-                        <div className="mb-3">
-                            <b>Số điện thoại : </b>
-                            <span>{user?.phone}</span>
-                        </div>
-                        <div className="mb-3">
-                            <b>Giới tính : </b>
-                            <span>{user?.gender}</span>
-                        </div>
-                        <div className="mb-3">
-                            <b>Địa chỉ : </b>
-                            <span>{user?.address}</span>
-                        </div>
-                        <div className="mb-3 button-setting">
-                            <button className="btn btn-primary fs-3" onClick={handleClick}>
-                                Chỉnh sửa thông tin
-                            </button>
+                        <div className=" d-flex flex-column">
+                            <div className="mb-3">
+                                <b>Tên người dùng : </b>
+                                <span>{user?.userName}</span>
+                            </div>
+                            <div className="mb-3">
+                                <b>Email : </b>
+                                <span>{user?.email}</span>
+                            </div>
+                            <div className="mb-3">
+                                <b>Số điện thoại : </b>
+                                <span>{user?.phone}</span>
+                            </div>
+                            <div className="mb-3">
+                                <b>Giới tính : </b>
+                                <span>{user?.gender}</span>
+                            </div>
+                            <div className="mb-3">
+                                <b>Địa chỉ : </b>
+                                <span>{user?.address}</span>
+                            </div>
+                            <div className="mb-3 button-setting ">
+                                <button className="btn btn-primary fs-3 me-3" onClick={handleClick}>
+                                    Chỉnh sửa thông tin
+                                </button>
+                                <button className="btn btn-primary fs-3 " onClick={handleChangePassword}>
+                                    Đổi mật khẩu
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -260,7 +282,7 @@ function UserManagerInfo() {
                             {user?.img && (
                                 <img
                                     src={process.env.REACT_APP_SERVER_URL + user?.img}
-                                    alt="anh mau san pham"
+                                    alt="anh dai dien"
                                     className="col-md-3 img-fluid px-0 me-4 rounded-2"
                                 />
                             )}
@@ -302,8 +324,12 @@ function UserManagerInfo() {
                         </div>
                     </div>
                 </div>
+
+                <div className={`register col-12 w-100 border border-2 rounded-5 ${displayChangePassword}`}>
+                    <ChangePassward />
+                </div>
             </div>
-            <ToastContainer autoClose="2000" />
+            {/* <ToastContainer autoClose="200" /> */}
         </div>
     );
 }

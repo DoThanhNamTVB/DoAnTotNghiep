@@ -1,6 +1,5 @@
 import './LayoutNone.scss';
 import images from '~/assets/images';
-
 function AdminLayoutNone({ children }) {
     return (
         <>

@@ -4,7 +4,7 @@ import routesConfig from '~/config/routes';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { AiFillSetting } from 'react-icons/ai';
 import { getAllSetting, getSetting, putSetting } from '~/store/actions/setting';
 
@@ -44,22 +44,23 @@ function SettingInfo() {
 
     const [errors, setErrors] = useState();
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
     const validateForm = (value) => {
         const error = {};
-        if (!value.email) {
+        if (!value?.email) {
             error.email = 'Trường này không được bỏ trống!';
-        } else if (!value.email.match(validRegex)) {
+        } else if (!value?.email?.match(validRegex)) {
             errors.email = 'email không hợp lệ';
         }
 
-        if (!value.time) {
+        if (!value?.time) {
             error.time = 'Trường này không được bỏ trống!';
         }
-        if (!value.phone) {
+        if (!value?.phone) {
             error.phone = 'Trường này không được bỏ trống!';
-        } else if (value.phone.length !== 10) {
-            errors.phone = 'Nhập số đt có 10 chữ số!';
+        } else if (!value?.phone?.match(regexPhoneNumber)) {
+            errors.phone = 'Hãy nhập đúng số điện thoại theo định dạng!';
         }
         return error;
     };
@@ -85,13 +86,12 @@ function SettingInfo() {
         } else {
             dispatch(putSetting(payload, payload.id));
             if (!msg) {
-                toast.success('Cập nhật thành công !');
+                toast.success('Cập nhật thành công !', { autoClose: 200 });
                 setDisplay('d-none');
                 dispatch(getAllSetting());
             } else {
                 toast.error('Cập nhật thất bại !');
             }
-            // dispatch(getAllSetting());
         }
     };
 
@@ -208,7 +208,6 @@ function SettingInfo() {
                     </div>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
         </>
     );
 }

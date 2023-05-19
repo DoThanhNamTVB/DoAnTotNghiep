@@ -1,5 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,12 +10,11 @@ import formatter from '~/components/FuntionComponent/formatPrice';
 
 function OrderStatusConfirmed() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    const { orderAllStatus, msg } = useSelector((state) => state.managerOrder);
+    const { orderAllStatus } = useSelector((state) => state.managerOrder);
 
     useEffect(() => {
-        dispatch(getOrderByStatus('da-xac-nhan'));
+        dispatch(getOrderByStatus('dang-giao'));
     }, [dispatch]);
 
     return (
@@ -27,7 +25,7 @@ function OrderStatusConfirmed() {
                         <Link to={routesConfig.admin}>Trang chủ</Link>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
-                        <Link to={routesConfig.orderConfirmed}>Đơn hàng đã xác nhận</Link>
+                        <Link to={routesConfig.orderConfirmed}>Đơn hàng đã xác nhận - đang giao</Link>
                     </li>
                 </ol>
             </nav>
@@ -77,7 +75,7 @@ function OrderStatusConfirmed() {
                                     </td>
                                     <td>
                                         <Link
-                                            to={`/admin/order-detail/${item.id}`}
+                                            to={`/admin/order-confirmed/${item.id}`}
                                             className="d-flex justify-content-center align-items-center bg-primary p-2 rounded-3 text-white"
                                         >
                                             Xem
@@ -93,7 +91,6 @@ function OrderStatusConfirmed() {
                     )}
                 </tbody>
             </table>
-            <ToastContainer autoClose={2000} />
         </>
     );
 }

@@ -8,7 +8,7 @@ function ButtonModal({ id, nameButtonAll, className, title, modalBody, nameButto
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">
+                            <h1 className="modal-title fs-3" id="exampleModalLabel">
                                 {title}
                             </h1>
                             <button
@@ -20,10 +20,15 @@ function ButtonModal({ id, nameButtonAll, className, title, modalBody, nameButto
                         </div>
                         <div className="modal-body">{modalBody}</div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                            <button type="button" className="btn btn-secondary fs-3" data-bs-dismiss="modal">
                                 {nameButtonClose}
                             </button>
-                            <button type="button" onClick={onclick} data-bs-dismiss="modal" className="btn btn-primary">
+                            <button
+                                type="button"
+                                onClick={onclick}
+                                data-bs-dismiss="modal"
+                                className="btn btn-primary fs-3"
+                            >
                                 {nameButtonSubmit}
                             </button>
                         </div>

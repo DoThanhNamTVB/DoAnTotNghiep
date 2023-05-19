@@ -13,6 +13,8 @@ const initState = {
     statusGetAll: false,
     statusPutStatus: false,
     statusGetAllStatus: false,
+    statusCancel: false,
+    statusGetOrderID: false,
 };
 
 const orderReducer = (state = initState, action) => {
@@ -24,6 +26,7 @@ const orderReducer = (state = initState, action) => {
                 dataAdd: action.data || [],
                 msgAdd: '',
                 statusAdd: true,
+                statusGetOrderID: false,
                 statusPutStatus: false,
             };
         case actionTypes.ADD_ORDER_FAIL:
@@ -32,6 +35,7 @@ const orderReducer = (state = initState, action) => {
                 orders: [],
                 msgAdd: action.msg,
                 statusAdd: false,
+                statusGetOrderID: false,
             };
         //get all
         case actionTypes.GET_ALL_ORDER_SUCCESS:
@@ -42,6 +46,7 @@ const orderReducer = (state = initState, action) => {
                 statusAdd: false,
                 statusPutStatus: false,
                 statusGetAll: true,
+                statusGetOrderID: false,
             };
         case actionTypes.GET_ALL_ORDER_FAIL:
             return {
@@ -51,6 +56,7 @@ const orderReducer = (state = initState, action) => {
                 statusGetAll: false,
                 statusPutStatus: false,
                 statusAdd: false,
+                statusGetOrderID: false,
             };
 
         //get 1
@@ -61,6 +67,7 @@ const orderReducer = (state = initState, action) => {
                 ordersUser: action.ordersUser || [],
                 statusPutStatus: false,
                 msg: '',
+                statusGetOrderID: false,
             };
         case actionTypes.GET_ORDER_BY_USERID_FAIL:
             return {
@@ -68,6 +75,7 @@ const orderReducer = (state = initState, action) => {
                 statusAdd: false,
                 ordersUser: [],
                 statusPutStatus: false,
+                statusGetOrderID: false,
                 msg: action.orders,
             };
 
@@ -81,6 +89,8 @@ const orderReducer = (state = initState, action) => {
                 msg: '',
                 order: {},
                 statusGetAllStatus: true,
+                statusCancel: false,
+                statusGetOrderID: false,
             };
         case actionTypes.GET_ALL_ORDER_BY_STATUS_FAIL:
             return {
@@ -91,6 +101,7 @@ const orderReducer = (state = initState, action) => {
                 statusGetAllStatus: false,
                 order: {},
                 msg: action.orders,
+                statusGetOrderID: false,
             };
 
         //get by id
@@ -98,6 +109,7 @@ const orderReducer = (state = initState, action) => {
             return {
                 ...state,
                 order: action.orderById,
+                statusGetOrderID: true,
                 statusAdd: false,
                 statusPutStatus: false,
                 msg: '',
@@ -107,6 +119,7 @@ const orderReducer = (state = initState, action) => {
             return {
                 ...state,
                 order: {},
+                statusGetOrderID: false,
                 statusAdd: false,
                 statusPutStatus: false,
                 statusGetAllStatus: false,
@@ -117,10 +130,12 @@ const orderReducer = (state = initState, action) => {
         case actionTypes.GET_ORDER_BY_STATUS_SUCCESS:
             return {
                 ...state,
-                orderStatus: action.orderStatus || [],
+                orderStatus: action.orderStatus,
                 msg: '',
                 statusAdd: false,
                 statusPutStatus: false,
+                statusCancel: false,
+                statusGetOrderID: false,
             };
         case actionTypes.GET_ORDER_BY_STATUS_FAIL:
             return {
@@ -129,6 +144,7 @@ const orderReducer = (state = initState, action) => {
                 statusAdd: false,
                 msg: action.orderStatus,
                 statusPutStatus: false,
+                statusGetOrderID: false,
             };
 
         //put1
@@ -136,15 +152,17 @@ const orderReducer = (state = initState, action) => {
             return {
                 ...state,
                 msg: '',
-                statusAdd: false,
                 statusPutStatus: true,
+                statusAdd: false,
+                statusGetOrderID: false,
             };
         case actionTypes.PUT_ORDER_STATUS_BY_ORDERID_FAIL:
             return {
                 ...state,
                 msg: action.msg,
-                statusAdd: false,
                 statusPutStatus: false,
+                statusAdd: false,
+                statusGetOrderID: false,
             };
 
         //put2
@@ -154,6 +172,7 @@ const orderReducer = (state = initState, action) => {
                 msg: '',
                 statusAdd: false,
                 statusPutStatus: false,
+                statusGetOrderID: false,
             };
         case actionTypes.PUT_ORDER_ORDERID_FAIL:
             return {
@@ -161,21 +180,26 @@ const orderReducer = (state = initState, action) => {
                 msg: action.msg,
                 statusAdd: false,
                 statusPutStatus: false,
+                statusGetOrderID: false,
             };
 
-        case actionTypes.DELETE_ORDER_SUCCESS:
+        case actionTypes.CANCEL_ORDER_SUCCESS:
             return {
                 ...state,
                 msg: '',
+                statusCancel: true,
                 statusAdd: false,
                 statusPutStatus: false,
+                statusGetOrderID: false,
             };
-        case actionTypes.DELETE_ORDER_FAIL:
+        case actionTypes.CANCEL_ORDER_FAIL:
             return {
                 ...state,
                 msg: action.msg,
+                statusCancel: false,
                 statusAdd: false,
                 statusPutStatus: false,
+                statusGetOrderID: false,
             };
 
         default:

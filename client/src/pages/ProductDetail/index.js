@@ -7,10 +7,10 @@ import { ProductsRelated } from './components';
 import routesConfig from '~/config/routes';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { addCart, getAnProduct, getCartByUserId, getCurrentUser } from '~/store/actions';
+import { addCart, getAnProduct, getCartByUserId, getCurrentUser, resetCart } from '~/store/actions';
 import formatter from '~/components/FuntionComponent/formatPrice';
 import Select from 'react-select';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 // import Button from '~/components/Button';
 
@@ -30,13 +30,18 @@ function ProductDetail() {
     const discountFormat = formatter.format(product.price - (product.price * product.discount) / 100);
 
     //get color
-    const colorsArr = product?.Colors;
+    const [colorsArr, setColorArr] = useState([]);
+    useEffect(() => {
+        setColorArr(product?.Colors);
+    }, [product]);
 
     const [colorOptions, setColorOptions] = useState([]);
     useEffect(() => {
-        const options = colorsArr?.map((color) => ({ value: color.id, label: color.colorName }));
-        setColorOptions(options);
-    }, [colorsArr]);
+        if (colorsArr?.length > 0) {
+            const options = colorsArr?.map((color) => ({ value: color?.id, label: color?.colorName }));
+            setColorOptions(options);
+        }
+    }, [colorsArr, product]);
 
     const [selectedOption, setSelectedOption] = useState('');
     useEffect(() => {
@@ -50,7 +55,7 @@ function ProductDetail() {
     };
     //add to cart
     //get curent user
-    const { user } = useSelector((state) => state.auth);
+    const { user, isLoggedIn } = useSelector((state) => state.auth);
 
     const payload = { userId: user?.id, productId: productId, colorId: selectedOption, quantity: count };
 
@@ -58,19 +63,27 @@ function ProductDetail() {
     // console.log(statusAdd);
 
     //set limited for product-color
-    const productColors = product?.Colors;
+    const [productColors, setProductColors] = useState([]);
+    useEffect(() => {
+        setProductColors(product?.Colors);
+    }, [product]);
 
     const [qtyDatabase, setQtyDataBase] = useState(0);
     useEffect(() => {
-        const qty = productColors?.find((color) => color.id === selectedOption)?.Product_Color?.quantity;
-        setQtyDataBase(qty);
-    }, [productColors, selectedOption]);
+        if (productColors?.length > 0) {
+            const qty = productColors?.find((color) => color?.id === selectedOption)?.Product_Color?.quantity;
+            setQtyDataBase(qty);
+        }
+        if (productColors?.length === 0) {
+            setQtyDataBase(0);
+        }
+    }, [productColors, selectedOption, product?.Colors]);
 
     //setting quantity
     const decrementCount = (e) => {
         e.preventDefault();
         if (count > 1) setCount(count - 1);
-        if (qtyDatabase === 0) setCount(0);
+        // if (qtyDatabase === 0) setCount(0);
     };
 
     const incrementCount = (e) => {
@@ -82,13 +95,22 @@ function ProductDetail() {
 
     const handlesubmit = (e) => {
         e.preventDefault();
-        dispatch(addCart(payload, user?.id, productId));
-        if (statusAdd === false) {
-            toast.error('Sản phẩm đã có trong giỏ hàng');
+        if (qtyDatabase > 0) {
+            dispatch(addCart(payload, user?.id, productId));
+        } else if (!qtyDatabase) {
+            toast.error('Xin lỗi sản phẩm đã hết hàng', { closeOnClick: true, pauseOnHover: false });
         }
     };
 
+    useEffect(() => {
+        if (statusAdd === false) {
+            toast.error('Sản phẩm đã có trong giỏ hàng', { closeOnClick: true, pauseOnHover: false });
+            dispatch(resetCart());
+        }
+    }, [dispatch, statusAdd]);
+
     const navigate = useNavigate();
+    // console.log(statusAdd);
     useEffect(() => {
         if (statusAdd === true) {
             dispatch(getCartByUserId(user?.id));
@@ -111,11 +133,11 @@ function ProductDetail() {
             </nav>
 
             <div className="product-deltail row py-3">
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-lg-6">
                     <CarouselProductDetail />
                 </div>
 
-                <div className="col-12 col-md-6 py-3 product-detail-content">
+                <div className="col-12 col-lg-6 py-3 product-detail-content">
                     <div className="title-product-detail text-center">
                         <h2>{product.productName}</h2>
                     </div>
@@ -154,32 +176,36 @@ function ProductDetail() {
                         <span>Số lượng kho : {qtyDatabase}</span>
                     </div>
                     <div className="row">
-                        <div className="col-md-6 d-flex p-0 px-5 py-3 justify-content-start align-items-center">
-                            <button className="px-3 fs-3 bolder border-0 btn-count" onClick={decrementCount}>
-                                -
-                            </button>
-                            <span className="px-3">{count}</span>
-                            <button className="px-3 fs-3 bolder border-0 btn-count" onClick={incrementCount}>
-                                +
-                            </button>
-                        </div>
+                        {qtyDatabase > 0 && (
+                            <div className="col-md-6 d-flex p-0 px-5 py-3 justify-content-start align-items-center">
+                                <button className="px-3 fs-3 bolder border-0 btn-count" onClick={decrementCount}>
+                                    -
+                                </button>
+                                <span className="px-3">{count}</span>
+                                <button className="px-3 fs-3 bolder border-0 btn-count" onClick={incrementCount}>
+                                    +
+                                </button>
+                            </div>
+                        )}
+
                         <div className="col-md-6 px-5 py-5">
-                            <Link
-                                id="btnCart-checkout"
-                                className="checkout-btn"
-                                to={routesConfig.cartPage}
-                                onClick={handlesubmit}
-                            >
-                                <div className="summary-button">Thêm vào giỏ hàng</div>
-                            </Link>
+                            {isLoggedIn ? (
+                                <Link id="btnCart-checkout" className="checkout-btn" onClick={handlesubmit}>
+                                    <div className="summary-button">Thêm vào giỏ hàng</div>
+                                </Link>
+                            ) : (
+                                <Link className="checkout-btn" to={routesConfig.loginPage}>
+                                    <div className="summary-button">Thêm vào giỏ hàng</div>
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
 
             <ProductDes />
-            <ProductsRelated />
-            <ToastContainer autoClose={2000} />
+            <ProductsRelated price={product?.price} />
+            {/* <ToastContainer autoClose={200} /> */}
         </div>
     );
 }

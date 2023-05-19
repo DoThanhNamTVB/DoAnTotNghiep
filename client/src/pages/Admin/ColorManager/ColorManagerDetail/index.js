@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import routesConfig from '~/config/routes';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
 import { AiFillSetting } from 'react-icons/ai';
 
 import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllColor, deleteColor } from '~/store/actions';
+import { getAllColor, deleteColor, resetColor } from '~/store/actions';
 
 function ColorManager() {
     const dispatch = useDispatch();
@@ -21,9 +21,16 @@ function ColorManager() {
     }, [dispatch]);
 
     const handleDelete = (id) => {
+        dispatch(resetColor());
         dispatch(deleteColor(id));
     };
+
+    console.log(statusDelete);
     useEffect(() => {
+        if (statusDelete === false) {
+            toast.error('Không thể xóa. Màu đang được sử dụng trong một số sản phẩm !');
+            dispatch(resetColor());
+        }
         if (statusDelete === true) {
             toast.success('Xóa màu thành công!');
             dispatch(getAllColor());
@@ -74,13 +81,13 @@ function ColorManager() {
                                             <div className="px-3 d-flex justify-content-center align-items-center">
                                                 <MdDelete
                                                     data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal"
+                                                    data-bs-target={`#color${index}`}
                                                     className="fs-3 text-danger"
                                                 />
 
                                                 <div
                                                     className="modal fade"
-                                                    id="exampleModal"
+                                                    id={`color${index}`}
                                                     tabIndex="-1"
                                                     aria-labelledby="exampleModalLabel"
                                                     aria-hidden="true"
@@ -137,7 +144,6 @@ function ColorManager() {
                         })}
                 </tbody>
             </table>
-            <ToastContainer autoClose={2000} />
         </>
     );
 }

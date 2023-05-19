@@ -3,15 +3,17 @@ import '~/components/CSSForm/index.scss';
 import ButtonModal from '~/components/ButtonModal';
 import routesConfig from '~/config/routes';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getAnAdmin, putAdmin } from '~/store/actions/managerAdmin';
+import { getAllAdmin, getAnAdmin, putAdmin } from '~/store/actions/managerAdmin';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { getCurrentAdmin } from '~/store/actions';
 
 function AdminMangerEditDetail() {
     const navigate = useNavigate();
 
     let { id } = useParams();
-    // const { admin } = useSelector((state) => state.managerAdmin);
+    const { adminCurrent } = useSelector((state) => state.auth);
     const { admin } = useSelector((state) => state.managerAdmin);
 
     const dispatch = useDispatch();
@@ -31,28 +33,89 @@ function AdminMangerEditDetail() {
     });
     useEffect(() => {
         if (admin) {
-            admin.userName &&
+            admin?.userName &&
                 setPayload((payload) => ({
                     ...payload,
-                    userName: admin.userName,
-                    email: admin.email,
-                    phone: admin.phone,
-                    gender: admin.gender,
-                    role: admin.role,
-                    address: admin.address,
-                    password: admin.password,
+                    userName: admin?.userName,
+                    email: admin?.email,
+                    phone: admin?.phone,
+                    gender: admin?.gender,
+                    role: admin?.role,
+                    address: admin?.address,
+                    password: admin?.password,
                 }));
         }
     }, [admin]);
+    const handChange = (e) => {
+        setPayload((pre) => ({ ...pre, [e.target.id]: e.target.value }));
+    };
+
+    const [errors, setErrors] = useState();
+
+    var regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+
+    const validateForm = (value) => {
+        const errors = {};
+        if (!value.userName) {
+            errors.productName = 'Trường này là bắt buộc !';
+        }
+        if (!value.phone) {
+            errors.phone = 'Trường này là bắt buộc !';
+        } else if (!value.phone.match(regexPhoneNumber)) {
+            errors.phone = 'Số điện thoại không hợp lệ';
+        }
+        if (!value.gender) {
+            errors.price = 'Trường này là bắt buộc !';
+        }
+        if (!value.address) {
+            errors.discount = 'Trường này là bắt buộc !';
+        }
+        return errors;
+    };
+
+    //set image
+    const [image, setImage] = useState('');
+    const [imagePreview, setImagePreview] = useState();
+
+    const handleChangeImage = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+        setImagePreview(URL.createObjectURL(file));
+    };
+
+    useEffect(() => {
+        return () => {
+            imagePreview && URL.revokeObjectURL(imagePreview);
+        };
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(putAdmin(payload, id));
-        navigate(routesConfig.adminManagerAccount);
-    };
+        const formErrs = validateForm(payload);
+        if (adminCurrent?.id === Number(id) && payload?.role !== 'Admin') {
+            toast.error('Bạn không thể đổi quyền quản trị của bạn!');
+            setPayload((pre) => ({ ...pre, role: 'Admin' }));
+        } else {
+            if (Object.keys(formErrs).length > 0) {
+                setErrors(formErrs);
+            } else {
+                const formData = new FormData();
 
-    const handChange = (e) => {
-        setPayload((pre) => ({ ...pre, [e.target.id]: e.target.value }));
+                for (let key in payload) {
+                    formData.append(key, payload[key] || '');
+                }
+                formData.append('img', image);
+                // for (const [key, value] of formData) {
+                //     console.log(`${key}: ${value}`);
+                // }
+                dispatch(putAdmin(formData, id));
+                dispatch(getAllAdmin());
+                toast.success('Cập nhật thành công!');
+                setTimeout(() => {
+                    navigate(routesConfig.adminManagerAccount);
+                }, 1000);
+            }
+        }
     };
 
     return (
@@ -84,10 +147,11 @@ function AdminMangerEditDetail() {
                                 type="text"
                                 className="form-control"
                                 id="userName"
-                                value={payload.userName}
+                                value={payload?.userName}
                                 onChange={handChange}
                                 aria-describedby="emailHelp"
                             />
+                            {errors?.userName && <small className="text-danger">{errors.userName}</small>}
                         </div>
                         <div className="mb-3 form-sample-item col-md-6 col-12">
                             <label htmlFor="email" className="form-label">
@@ -97,11 +161,12 @@ function AdminMangerEditDetail() {
                                 type="email"
                                 className="form-control"
                                 id="email"
-                                value={payload.email}
+                                value={payload?.email}
                                 onChange={handChange}
                                 aria-describedby="emailHelp"
                                 readOnly
                             />
+                            {errors?.email && <small className="text-danger">{errors.email}</small>}
                         </div>
                         <div className="mb-3 form-sample-item col-md-6">
                             <label htmlFor="phone" className="form-label">
@@ -110,11 +175,12 @@ function AdminMangerEditDetail() {
                             <input
                                 type="text"
                                 className="form-control"
-                                value={payload.phone}
+                                value={payload?.phone}
                                 onChange={handChange}
                                 id="phone"
                                 aria-describedby="emailHelp"
                             />
+                            {errors?.phone && <small className="text-danger">{errors.phone}</small>}
                         </div>
                         <div className="mb-3 form-sample-item col-md-3">
                             <label htmlFor="gender" className="form-label">
@@ -123,7 +189,7 @@ function AdminMangerEditDetail() {
                             <select
                                 className="form-select"
                                 id="gender"
-                                value={payload.gender}
+                                value={payload?.gender}
                                 onChange={handChange}
                                 aria-label=" select example"
                             >
@@ -138,7 +204,7 @@ function AdminMangerEditDetail() {
                             <select
                                 className="form-select"
                                 id="role"
-                                value={payload.role}
+                                value={payload?.role}
                                 onChange={handChange}
                                 aria-label=" select example"
                             >
@@ -147,10 +213,33 @@ function AdminMangerEditDetail() {
                             </select>
                         </div>
                         <div className="mb-3 col-12 col-md-12">
-                            <label htmlFor="img" className="form-label">
+                            <label htmlFor="avatar" className="form-label">
                                 Ảnh đại diện
                             </label>
-                            <input className="form-control" type="file" id="img" />
+                            <input
+                                className="form-control"
+                                type="file"
+                                id="avatar"
+                                name="img"
+                                onChange={handleChangeImage}
+                                accept="image/*"
+                            />
+                        </div>
+                        <div className="row">
+                            {admin?.img && (
+                                <img
+                                    src={process.env.REACT_APP_SERVER_URL + admin?.img}
+                                    alt="anh dai dien"
+                                    className="col-md-3 img-fluid px-0 me-4 rounded-2"
+                                />
+                            )}
+                            {imagePreview && (
+                                <img
+                                    src={imagePreview}
+                                    alt="anh dai dien"
+                                    className="col-md-3 img-fluid px-0 rounded-2"
+                                />
+                            )}
                         </div>
                         <div className="col-12 col-md-12">
                             <label htmlFor="address" className="form-label">
@@ -159,10 +248,11 @@ function AdminMangerEditDetail() {
                             <input
                                 type="text"
                                 className="form-control"
-                                value={payload.address}
+                                value={payload?.address}
                                 onChange={handChange}
                                 id="address"
                             />
+                            {errors?.address && <small className="text-danger">{errors.address}</small>}
                         </div>
                         <div className="row mt-3">
                             <Link

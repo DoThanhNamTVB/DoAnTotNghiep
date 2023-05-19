@@ -7,6 +7,7 @@ import routesConfig from '~/config/routes';
 import * as actions from '~/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 function Login() {
     const navigate = useNavigate();
@@ -17,6 +18,15 @@ function Login() {
     useEffect(() => {
         isLoggedIn && navigate(routesConfig.home);
     }, [isLoggedIn, navigate]);
+
+    //set type input password
+    const [type1, setType1] = useState('password');
+    const changeTypePW1 = () => {
+        setType1('text');
+        if (type1 === 'text') {
+            setType1('password');
+        }
+    };
 
     const [payload, setPayload] = useState({
         email: '',
@@ -44,15 +54,29 @@ function Login() {
     };
 
     // console.log(payload);
+    const [state, setState] = useState(0);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const formErrs = validateForm(payload);
         if (Object.keys(formErrs).length > 0) {
             setErrors(formErrs);
         } else {
+            dispatch(actions.reset);
             dispatch(actions.login(payload));
+            setState(Math.random() + Math.floor(Math.random() + 1));
         }
     };
+
+    useEffect(() => {
+        if (state !== 0) {
+            if (isLoggedIn && isLoggedIn === false) {
+                toast.error('Lỗi đăng nhập thất bại !');
+                dispatch(actions.reset());
+                setState(0);
+            }
+        }
+    }, [isLoggedIn, state, dispatch]);
 
     return (
         <div className="d-flex justify-content-center align-items-center py-5 mx-3">
@@ -73,6 +97,8 @@ function Login() {
                             placeholder="abc@gmail.com"
                             value={payload.email}
                             onChange={handChange}
+                            name="email"
+                            // autoComplete="off"
                         />
                         {errors?.email && <small className="text-danger">{errors.email}</small>}
                     </div>
@@ -81,22 +107,19 @@ function Login() {
                             <strong>Mật khẩu</strong>
                         </label>
                         <input
-                            type="password"
+                            type={type1}
                             className="form-control"
                             id="password"
                             placeholder="Nhập mật khẩu ...."
                             value={payload.password}
                             onChange={handChange}
                         />
-                        <span>
-                            <AiFillEye />
-                        </span>
-                        <span>
-                            <AiFillEyeInvisible />
+                        <span onClick={() => changeTypePW1()}>
+                            {type1 === 'text' ? <AiFillEye /> : <AiFillEyeInvisible />}
                         </span>
                         {errors?.password && <small className="text-danger">{errors.password}</small>}
                     </div>
-                    <button type="submit" onClick={handleSubmit} className="btn btn-primary mb-3">
+                    <button onClick={handleSubmit} className="btn btn-primary mb-3">
                         <strong>Đăng Nhập</strong>
                     </button>
 

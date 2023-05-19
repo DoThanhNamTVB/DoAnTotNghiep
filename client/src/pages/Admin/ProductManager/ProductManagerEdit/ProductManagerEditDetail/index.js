@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import '~/components/CSSForm/index.scss';
 import routesConfig from '~/config/routes';
@@ -15,12 +15,14 @@ import ProductColor from '../ProductColorManager';
 // import { IoLogoHackernews } from 'react-icons/io5';
 
 function ProductManagerEditDetail() {
+    const { role } = useSelector((state) => state.auth);
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     let { id } = useParams();
 
     const { categories } = useSelector((state) => state.managerCategory);
-    const { product, statusPut, msgPut } = useSelector((state) => state.managerProduct);
+    const { product, statusPut } = useSelector((state) => state.managerProduct);
 
     // console.log(product);
 
@@ -104,8 +106,8 @@ function ProductManagerEditDetail() {
         }
         if (!value.discount) {
             errors.discount = 'Trường này là bắt buộc !';
-        } else if (isNaN(value.discount)) {
-            errors.discount = 'Trường này hãy nhập số';
+        } else if (isNaN(value.discount) || value.discount >= 100) {
+            errors.discount = 'Trường này hãy nhập số và < 100';
         }
         if (!value.description) {
             errors.description = 'Trường này là bắt buộc !';
@@ -138,12 +140,6 @@ function ProductManagerEditDetail() {
         setSelectedOption(selectedOption?.value);
     };
 
-    useEffect(() => {
-        if (statusPut === true) {
-            navigate(routesConfig.productManagerEdit);
-        }
-    }, [statusPut, navigate]);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const finalPayload = { ...payload, categoryId: selectedOption };
@@ -156,11 +152,15 @@ function ProductManagerEditDetail() {
         }
     };
 
+    console.log(statusPut);
     useEffect(() => {
-        if (msgPut) {
-            toast.error(msgPut);
+        if (statusPut === false) {
+            toast.error('Tên sản phẩm đã tồn tại!');
         }
-    }, [msgPut]);
+        if (statusPut === true) {
+            navigate(routesConfig.productManagerEdit);
+        }
+    }, [statusPut, navigate]);
     return (
         <>
             <nav aria-label="breadcrumb">
@@ -337,28 +337,38 @@ function ProductManagerEditDetail() {
                             <ProductColor />
                         </div>
                         <div className="row mt-3">
-                            <Link to={routesConfig.productManagerEdit} className="col-12 col-md-6 p-0">
-                                <button className="btn btn-dark w-100">
-                                    <strong>Quay lại</strong>
-                                </button>
-                            </Link>
-                            <div className="col-12 col-md-6 p-0">
-                                <ButtonModal
-                                    id="btnUpdateCategory"
-                                    nameButtonAll="Cập nhật"
-                                    className="btn-primary w-100"
-                                    title="Cập nhật"
-                                    modalBody="Bạn có chắc chắn muốn thay đổi?"
-                                    nameButtonClose="Hủy"
-                                    nameButtonSubmit="Cập nhật"
-                                    onclick={handleSubmit}
-                                />
-                            </div>
+                            {role && role === 'Admin' ? (
+                                <Link to={routesConfig.productManagerEdit} className="col-12 col-md-6 p-0">
+                                    <button className="btn btn-dark w-100">
+                                        <strong>Quay lại</strong>
+                                    </button>
+                                </Link>
+                            ) : (
+                                <Link to={routesConfig.productManagerEdit} className="col-12 p-0">
+                                    <button className="btn btn-dark w-100">
+                                        <strong>Quay lại</strong>
+                                    </button>
+                                </Link>
+                            )}
+                            {role && role === 'Admin' && (
+                                <div className="col-12 col-md-6 p-0">
+                                    <ButtonModal
+                                        id="btnUpdateCategory"
+                                        nameButtonAll="Cập nhật"
+                                        className="btn-primary w-100"
+                                        title="Cập nhật"
+                                        modalBody="Bạn có chắc chắn muốn thay đổi?"
+                                        nameButtonClose="Hủy"
+                                        nameButtonSubmit="Cập nhật"
+                                        onclick={handleSubmit}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </form>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={2000} /> */}
         </>
     );
 }

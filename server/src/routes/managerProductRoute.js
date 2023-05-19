@@ -15,5 +15,14 @@ router.get(
 );
 router.get("/get/get-product-new", managerProductController.getProductNew);
 router.get("/get/get-product-hot", managerProductController.getProductHot);
+router.get(
+    "/get/get-product-search/:keySearch",
+    managerProductController.getProductSearch
+);
+router.get(
+    "/get/get-product-similar/:price",
+    managerProductController.getProductSimilar
+);
+router.get("/get/productFilter", managerProductController.getProductFilter);
 
 module.exports = router;

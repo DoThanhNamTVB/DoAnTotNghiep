@@ -9,6 +9,9 @@ import {
     apiGetProductByCategory,
     apiGetProductNew,
     apiGetProductHot,
+    apiGetProductSearch,
+    apiGetProductSimilar,
+    apiGetProductFilter,
 } from '~/service/managerProduct';
 
 export const addProduct = (payload) => async (dispatch) => {
@@ -197,3 +200,75 @@ export const getProductHot = () => async (dispatch) => {
         });
     }
 };
+
+export const getProductSearch = (keySearch) => async (dispatch) => {
+    try {
+        const response = await apiGetProductSearch(keySearch);
+        // console.log(response);
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_SEARCH_SUCCESS,
+                productSearchs: response.data.response,
+            });
+        } else {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_SEARCH_FAIL,
+                productSearchs: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionTypes.GET_PRODUCT_SEARCH_FAIL,
+            products: null,
+        });
+    }
+};
+
+export const getProductSimilar = (price) => async (dispatch) => {
+    try {
+        const response = await apiGetProductSimilar(price);
+        // console.log(response);
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_SIMILAR_SUCCESS,
+                productSimilars: response.data.response,
+            });
+        } else {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_SIMILAR_FAIL,
+                productSimilars: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionTypes.GET_PRODUCT_SIMILAR_FAIL,
+            productSimilars: null,
+        });
+    }
+};
+
+export const getProductFilter = (payload) => async (dispatch) => {
+    try {
+        const response = await apiGetProductFilter(payload);
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_FILTER_SUCCESS,
+                productFilters: response.data.response,
+            });
+        } else {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_FILTER_FAIL,
+                productFilters: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionTypes.GET_PRODUCT_FILTER_FAIL,
+            productFilters: null,
+        });
+    }
+};
+
+export const resetProduct = () => ({
+    type: actionTypes.RESET_PRODUCT,
+});

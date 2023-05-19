@@ -39,7 +39,7 @@ function CategoryPage() {
                 </ol>
             </nav>
 
-            <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+            <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
                 {productCategory?.length > 0 &&
                     productCategory?.map((item, index) => {
                         return (
@@ -47,7 +47,11 @@ function CategoryPage() {
                                 key={index}
                                 className="col"
                                 sale={item?.discount}
-                                image={process.env.REACT_APP_SERVER_URL + item?.Colors[0]?.Product_Color?.img}
+                                image={
+                                    item?.Colors?.length > 0
+                                        ? process.env.REACT_APP_SERVER_URL + item?.Colors[0]?.Product_Color?.img
+                                        : ''
+                                }
                                 name={item.productName}
                                 productId={item.id}
                                 categoryName={getCategoryName}

@@ -1,6 +1,5 @@
 import './LayoutCheckout.scss';
 import { Link } from 'react-router-dom';
-import routesConfig from '~/config/routes';
 
 // import Logo from '~/components/Logo';
 import SidebarCheckout from '../SidebarCheckout';

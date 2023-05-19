@@ -16,13 +16,15 @@ module.exports = (sequelize, DataTypes) => {
 
             Product.belongsToMany(models.User, {
                 through: "Cart",
+                // as: "Carts",
                 foreignKey: "productId",
             });
 
-            // Product.belongsToMany(models.User, {
-            //     through: "Product_Favourite",
-            //     foreignKey: "productId",
-            // });
+            Product.belongsToMany(models.User, {
+                through: "Product_Favourite",
+                as: "Product_Favourites",
+                foreignKey: "productId",
+            });
 
             Product.belongsToMany(models.Order, {
                 through: "Order_Detail",

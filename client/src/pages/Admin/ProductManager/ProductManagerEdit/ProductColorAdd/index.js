@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-// import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 import '~/components/CSSForm/index.scss';
 import routesConfig from '~/config/routes';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import InputLabel from '~/components/InputLabel';
 import Select from 'react-select';
 import { addProductColor, getAllColor } from '~/store/actions';
@@ -57,9 +56,9 @@ function ProductColorAdd() {
         } else if (isNaN(values.quantity)) {
             errors.quantity = 'Trường này là số';
         }
-        if (!values.status) {
-            errors.status = 'Trường này là bắt buộc';
-        }
+        // if (!values.status) {
+        //     errors.status = 'Trường này là bắt buộc';
+        // }
         return errors;
     };
 
@@ -85,9 +84,9 @@ function ProductColorAdd() {
                 formData.append(key, finalPayload[key] || '');
             }
             formData.append('image', image);
-            for (const [key, value] of formData) {
-                console.log(`${key}: ${value}`);
-            }
+            // for (const [key, value] of formData) {
+            //     console.log(`${key}: ${value}`);
+            // }
 
             dispatch(addProductColor(formData));
             if (msgAdd) {
@@ -169,7 +168,7 @@ function ProductColorAdd() {
                             onChange={handleChangeImage}
                             accept="image/*"
                         />
-                        <InputLabel
+                        {/* <InputLabel
                             className="mb-3 form-sample-item col-sm-6 col-12"
                             type="text"
                             id="status"
@@ -177,7 +176,7 @@ function ProductColorAdd() {
                             value={payload.status}
                             onChange={handleChange}
                             error={errors?.status && <small className="text-danger">{errors.status}</small>}
-                        />
+                        /> */}
                         {imagePreview && (
                             <div className="row">
                                 <img
@@ -206,7 +205,7 @@ function ProductColorAdd() {
                     </form>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={2000} /> */}
         </>
     );
 }

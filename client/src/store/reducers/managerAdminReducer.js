@@ -13,6 +13,11 @@ const initState = {
 
 const managerAdminReducer = (state = initState, action) => {
     switch (action.type) {
+        case actionTypes.RESET_ADMIN:
+            return {
+                ...state,
+                statusAdd: null,
+            };
         case actionTypes.ADD_ADMIN_SUCCESS:
             return {
                 ...state,
@@ -29,7 +34,7 @@ const managerAdminReducer = (state = initState, action) => {
         case actionTypes.GET_ALL_ADMIN_SUCCESS:
             return {
                 ...state,
-                statusAdd: false,
+                statusAdd: null,
                 statusGet: false,
                 statusGetAll: true,
                 statusPut: false,

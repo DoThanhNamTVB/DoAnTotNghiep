@@ -16,8 +16,12 @@ const managerProductColorRouter = require("./managerProductColorRoute");
 const managerOrderRouter = require("./managerOrderRoute");
 //manager setting
 const settingRouter = require("./settingRoute");
+//manage ProductFavourite
+const managerProductFavouriteRouter = require("./managerProductfavouriteRoute");
 //user
 const authRouter = require("./auth");
+//chart
+const chatRouter = require("./chartRoute");
 
 const initRoutes = (app) => {
     //admin
@@ -38,8 +42,12 @@ const initRoutes = (app) => {
     app.use("/api/managerOrder", managerOrderRouter);
     //manager setting
     app.use("/api/setting", settingRouter);
+    //manager setting
+    app.use("/api/managerProductFavourite", managerProductFavouriteRouter);
     //user
     app.use("/api/auth", authRouter);
+    //chart
+    app.use("/api/chart", chatRouter);
 
     return app.use("/", (req, res) => {
         res.send("server on ...");

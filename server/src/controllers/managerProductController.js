@@ -156,6 +156,48 @@ const getProductNew = async (req, res) => {
     }
 };
 
+const getProductSearch = async (req, res) => {
+    try {
+        const keySearch = req.params.keySearch;
+        const response = await managerProductService.getProductSearch(
+            keySearch
+        );
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at getProductSearch controller : " + error,
+        });
+    }
+};
+
+const getProductSimilar = async (req, res) => {
+    try {
+        const price = req.params.price;
+        const response = await managerProductService.getProductSimilar(price);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at getProductSimilar controller : " + error,
+        });
+    }
+};
+
+const getProductFilter = async (req, res) => {
+    try {
+        const response = await managerProductService.getProductFilter(
+            req.query
+        );
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at getProductFilter controller : " + error,
+        });
+    }
+};
+
 module.exports = {
     createProduct,
     getAllProduct,
@@ -165,4 +207,7 @@ module.exports = {
     getProductByCategory,
     getProductHot,
     getProductNew,
+    getProductSearch,
+    getProductSimilar,
+    getProductFilter,
 };

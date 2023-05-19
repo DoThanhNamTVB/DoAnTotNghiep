@@ -3,7 +3,7 @@ import actionTypes from '../actions/actionTypes';
 const initState = {
     msg: '',
     carts: [],
-    statusAdd: false,
+    statusAdd: null,
     statusGet: false,
     statusPut: false,
     statusDelete: false,
@@ -11,6 +11,12 @@ const initState = {
 
 const managerCartReducer = (state = initState, action) => {
     switch (action.type) {
+        case actionTypes.RESET_CART:
+            return {
+                ...state,
+                statusAdd: null,
+                msg: '',
+            };
         case actionTypes.ADD_CART_SUCCESS:
             return {
                 ...state,
@@ -34,7 +40,7 @@ const managerCartReducer = (state = initState, action) => {
         case actionTypes.GET_CART_SUCCESS:
             return {
                 ...state,
-                statusAdd: false,
+                statusAdd: null,
                 statusGet: true,
                 statusPut: false,
                 statusDelete: false,
@@ -44,7 +50,7 @@ const managerCartReducer = (state = initState, action) => {
         case actionTypes.GET_CART_FAIL:
             return {
                 ...state,
-                statusAdd: false,
+                statusAdd: null,
                 statusGet: false,
                 statusPut: false,
                 statusDelete: false,

@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 
 import '~/components/CSSForm/index.scss';
 import routesConfig from '~/config/routes';
-import { addCategory } from '~/store/actions';
-import { ToastContainer, toast } from 'react-toastify';
+import { addCategory, resetCategory } from '~/store/actions';
+import { toast } from 'react-toastify';
 import slugify from '@sindresorhus/slugify';
 
 function CategoryAdd() {
@@ -30,12 +30,6 @@ function CategoryAdd() {
         }
     };
 
-    useEffect(() => {
-        if (statusAdd === true) {
-            navigate(routesConfig.categoryManager);
-        }
-    }, [statusAdd, navigate]);
-
     const validateForm = (values) => {
         const errors = {};
         if (!values.categoryName) {
@@ -51,12 +45,22 @@ function CategoryAdd() {
             setErrors(formErrs);
         } else {
             const slug = slugify(payload.categoryName);
+            dispatch(resetCategory());
             dispatch(addCategory({ ...payload, slug }));
-            if (statusAdd === false) {
-                toast.error('Danh mục đã tồn tại !');
-            }
         }
     };
+
+    // console.log(statusAdd);
+    useEffect(() => {
+        if (statusAdd === false) {
+            toast.error('Danh mục đã tồn tại !');
+            dispatch(resetCategory());
+        }
+        if (statusAdd === true) {
+            navigate(routesConfig.categoryManager);
+            dispatch(resetCategory());
+        }
+    }, [statusAdd, navigate]);
     return (
         <>
             <nav aria-label="breadcrumb">
@@ -100,7 +104,7 @@ function CategoryAdd() {
                     </form>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={200} /> */}
         </>
     );
 }

@@ -107,3 +107,43 @@ export const apiGetProductHot = () =>
             reject(error);
         }
     });
+
+export const apiGetProductSearch = (keySearch) =>
+    new Promise(async (relsove, reject) => {
+        try {
+            const response = await axiosConfig({
+                method: 'get',
+                url: '/api/managerProduct/get/get-product-search/' + keySearch,
+            });
+            relsove(response);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+export const apiGetProductSimilar = (price) =>
+    new Promise(async (relsove, reject) => {
+        try {
+            const response = await axiosConfig({
+                method: 'get',
+                url: '/api/managerProduct/get/get-product-similar/' + price,
+            });
+            relsove(response);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+export const apiGetProductFilter = (payload) =>
+    new Promise(async (relsove, reject) => {
+        try {
+            const response = await axiosConfig({
+                method: 'get',
+                url: '/api/managerProduct/get/productFilter',
+                params: payload,
+            });
+            relsove(response);
+        } catch (error) {
+            reject(error);
+        }
+    });

@@ -60,6 +60,7 @@ const createOrder = (payload) => {
         }
     });
 };
+
 //getAllOrder
 const getAllOrder = () => {
     return new Promise(async (resolve, reject) => {
@@ -97,7 +98,7 @@ const getOrderByStatus = (statusOrder) => {
             const response = await db.Order.findAll(
                 {
                     where: { status: statusOrder },
-                    include: [{ model: db.User }],
+                    include: [{ model: db.User }, { model: db.Product }],
                 },
                 {
                     order: [["updatedAt", "DESC"]],
@@ -123,7 +124,16 @@ const getOrderById = (orderId) => {
             const response = await db.Order.findOne(
                 {
                     where: { id: orderId },
-                    include: [{ model: db.User }, { model: db.Product }],
+                    include: [
+                        { model: db.User },
+                        {
+                            model: db.Product,
+                            include: [
+                                { model: db.Color },
+                                { model: db.Category },
+                            ],
+                        },
+                    ],
                 },
                 {
                     order: [["updatedAt", "DESC"]],
@@ -151,11 +161,9 @@ const getOrderByUserStatus = (userId, statusOrder) => {
                     where: { userId: userId, status: statusOrder },
                     include: [
                         { model: db.User },
-                        // {
-                        //     model: db.Product,
-                        //     include: [{ model: db.OrderDetail }],
-                        //     order: [["updatedAt", "DESC"]],
-                        // },
+                        {
+                            model: db.Product,
+                        },
                     ],
                 },
                 {
@@ -210,11 +218,11 @@ const getOrderByUserId = (userId) => {
 
 //update status order
 
-const updateStatusOrder = (orderId) => {
+const updateStatusOrder = (payload, orderId) => {
     return new Promise(async (resolve, reject) => {
         try {
             await db.Order.update(
-                { status: "da-xac-nhan" },
+                { status: payload.status },
                 {
                     where: { id: orderId },
                 }
@@ -257,25 +265,36 @@ const updateOrderByUser = (payload, orderId) => {
     });
 };
 
-const deleteOrder = (orderId) => {
+const cancelOrder = (payload, orderId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await db.Order.destroy({
-                where: { id: orderId },
-            });
+            const response = await db.Order.update(
+                { reason: payload.reason, status: "da-huy" },
+                {
+                    where: { id: orderId },
+                }
+            );
 
             if (response) {
-                await db.OrderDetail.destroy({
-                    where: { orderId: orderId },
+                payload?.product?.forEach(async (item) => {
+                    await db.Product_Color.increment(
+                        { quantity: parseInt(item?.Order_Detail?.quantity) },
+                        {
+                            where: {
+                                productId: item?.Order_Detail?.productId,
+                                colorId: item?.Order_Detail?.color,
+                            },
+                        }
+                    );
                 });
             }
 
             resolve({
                 err: response ? 0 : 2,
                 msg: response
-                    ? "Xóa đơn hàng thành công"
+                    ? "Hủy đơn hàng thành công"
                     : "Không tìm thấy sản phẩm để xóa",
-                rseponse,
+                response,
             });
         } catch (error) {
             reject(error);
@@ -292,5 +311,5 @@ module.exports = {
     getOrderByUserStatus,
     updateStatusOrder,
     updateOrderByUser,
-    deleteOrder,
+    cancelOrder,
 };

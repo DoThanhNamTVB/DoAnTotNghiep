@@ -48,7 +48,7 @@ export const apiPutProductColor = (payload, idProduct, idColor) =>
                 url: '/api/managerProductColor/' + idProduct + '/' + idColor,
                 data: payload,
             });
-            console.log('abc', response);
+            // console.log('abc', response);
             resolve(response);
         } catch (error) {
             reject(error);

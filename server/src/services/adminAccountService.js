@@ -89,11 +89,16 @@ const getAnAdminService = (id) => {
 
 const updateAdminService = (admin, id) => {
     return new Promise(async (resolve, reject) => {
-        const { password, ...ad } = admin;
-        const hashPass = hashPassword(password);
         try {
             await db.Admin.update(
-                { ...ad, password: hashPass },
+                {
+                    userName: admin.userName,
+                    phone: admin.phone,
+                    gender: admin.gender,
+                    role: admin.role,
+                    address: admin.address,
+                    img: admin.img,
+                },
                 {
                     where: { id: id },
                 }

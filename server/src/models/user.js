@@ -11,12 +11,14 @@ module.exports = (sequelize, DataTypes) => {
             User.hasMany(models.Order, { foreignKey: "userId" });
             User.belongsToMany(models.Product, {
                 through: "Cart",
+                // as: "Carts",
                 foreignKey: "userId",
             });
-            // User.belongsToMany(models.Product, {
-            //     through: "Product_Favourite",
-            //     foreignKey: "userId",
-            // });
+            User.belongsToMany(models.Product, {
+                through: "Product_Favourite",
+                as: "Product_Favourites",
+                foreignKey: "userId",
+            });
         }
     }
     User.init(

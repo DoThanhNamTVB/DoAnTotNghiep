@@ -104,15 +104,25 @@ const updateColorService = (color, id) => {
 const deleteColorService = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const reponse = await db.Color.destroy({
-                where: { id: id },
+            const find = await db.Product_Color.count({
+                where: { colorId: id },
             });
+            if (find > 0) {
+                resolve({
+                    err: 2,
+                    msg: "Now color has many product delete",
+                });
+            } else {
+                const response = await db.Color.destroy({
+                    where: { id: id },
+                });
 
-            resolve({
-                err: reponse ? 0 : 2,
-                msg: reponse ? "DELETED" : "No find Color to delete",
-                reponse,
-            });
+                resolve({
+                    err: 0,
+                    msg: "DELETED",
+                    response,
+                });
+            }
         } catch (error) {
             reject(error);
         }

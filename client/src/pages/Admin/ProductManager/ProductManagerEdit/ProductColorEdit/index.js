@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import '~/components/CSSForm/index.scss';
 import routesConfig from '~/config/routes';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import InputLabel from '~/components/InputLabel';
 import Select from 'react-select';
 import { getByIdAnProductColor, getAllColor, putProductColor } from '~/store/actions';
@@ -48,7 +48,7 @@ function ProductColorEdit() {
                     colorId: productColor.colorId,
                     quantity: productColor.quantity,
                     img: productColor.img,
-                    status: productColor.status,
+                    // status: productColor.status,
                 }));
         }
     }, [productColor]);
@@ -90,9 +90,9 @@ function ProductColorEdit() {
         } else if (isNaN(values.quantity)) {
             errors.quantity = 'Trường này là số';
         }
-        if (!values.status) {
-            errors.status = 'Trường này là bắt buộc';
-        }
+        // if (!values.status) {
+        //     errors.status = 'Trường này là bắt buộc';
+        // }
         return errors;
     };
 
@@ -197,7 +197,7 @@ function ProductColorEdit() {
                             onChange={handleChangeImage}
                             accept="image/*"
                         />
-                        <InputLabel
+                        {/* <InputLabel
                             className="mb-3 form-sample-item col-sm-6 col-12"
                             type="text"
                             id="status"
@@ -205,7 +205,7 @@ function ProductColorEdit() {
                             value={payload.status}
                             onChange={handleChange}
                             error={errors?.status && <small className="text-danger">{errors.status}</small>}
-                        />
+                        /> */}
                         <div className="row">
                             {productColor?.img && (
                                 <img
@@ -240,7 +240,7 @@ function ProductColorEdit() {
                     </form>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={2000} /> */}
         </>
     );
 }

@@ -110,7 +110,10 @@ const getOrderByUserId = async (req, res) => {
 const updateStatusOrder = async (req, res) => {
     try {
         const orderId = req.params.orderId;
-        const response = await managerOrderService.updateStatusOrder(orderId);
+        const response = await managerOrderService.updateStatusOrder(
+            req.body,
+            orderId
+        );
         return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({
@@ -153,34 +156,22 @@ const updateOrderByUser = async (req, res) => {
     }
 };
 
-const deleteOrder = async (req, res) => {
+const cancelOrder = async (req, res) => {
     try {
         const orderId = req.params.orderId;
-        const response = await managerOrderService.deleteOrder(orderId);
+        const response = await managerOrderService.cancelOrder(
+            req.body,
+            orderId
+        );
         return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at deleteOrder controller : " + error,
+            msg: "Fail at cancelOrder controller : " + error,
         });
     }
 };
 
-const getProductByCategory = async (req, res) => {
-    try {
-        const categorySlug = req.params.categorySlug;
-        const response =
-            await managerProductService.getProductByCategoryService(
-                categorySlug
-            );
-        return res.status(200).json(response);
-    } catch (error) {
-        return res.status(500).json({
-            err: -1,
-            msg: "Fail at  getProductByCategory controller : " + error,
-        });
-    }
-};
 module.exports = {
     createOrder,
     getAllOrder,
@@ -190,5 +181,5 @@ module.exports = {
     getOrderByUserStatus,
     updateStatusOrder,
     updateOrderByUser,
-    deleteOrder,
+    cancelOrder,
 };

@@ -2,7 +2,7 @@ import { AiFillSetting } from 'react-icons/ai';
 import { BsDatabaseFillAdd } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,8 @@ import { deleteProductColor, getByIdAllProductColor } from '~/store/actions/mana
 // import routesConfig from '~/config/routes';
 
 function ProductColor() {
+    const { role } = useSelector((state) => state.auth);
+
     const dispatch = useDispatch();
 
     const { product } = useSelector((state) => state.managerProduct);
@@ -47,21 +49,23 @@ function ProductColor() {
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        <th colSpan="7" className="text-center py-5">
+                        <th colSpan="6" className="text-center py-5">
                             DANH SÁCH THÔNG TIN THEO MÀU SẢN PHẨM
                         </th>
                     </tr>
-                    <tr>
-                        <th colSpan={6}>Thêm mới</th>
-                        <td>
-                            <Link
-                                to={`/admin/productColor/add/${id}`}
-                                className="p-0 fs-3 d-flex justify-content-center align-items-center"
-                            >
-                                <BsDatabaseFillAdd />
-                            </Link>
-                        </td>
-                    </tr>
+                    {role && role === 'Admin' && (
+                        <tr>
+                            <th colSpan={5}>Thêm mới</th>
+                            <td>
+                                <Link
+                                    to={`/admin/productColor/add/${id}`}
+                                    className="p-0 fs-3 d-flex justify-content-center align-items-center"
+                                >
+                                    <BsDatabaseFillAdd />
+                                </Link>
+                            </td>
+                        </tr>
+                    )}
 
                     <tr>
                         <th scope="col">#</th>
@@ -72,15 +76,19 @@ function ProductColor() {
                         <th scope="col" className="text-center">
                             Số lượng
                         </th>
-                        <th scope="col" className="text-center">
+                        {/* <th scope="col" className="text-center">
                             Trạng thái
-                        </th>
-                        <th scope="col" className="text-center">
-                            Sửa
-                        </th>
-                        <th scope="col" className="text-center">
-                            Xóa
-                        </th>
+                        </th> */}
+                        {role && role === 'Admin' && (
+                            <th scope="col" className="text-center">
+                                Sửa
+                            </th>
+                        )}
+                        {role && role === 'Admin' && (
+                            <th scope="col" className="text-center">
+                                Xóa
+                            </th>
+                        )}
                     </tr>
                 </thead>
                 <tbody>
@@ -99,71 +107,74 @@ function ProductColor() {
                                     </td>
                                     <td>{handleGetColorName(item.colorId)}</td>
                                     <td className="text-center">{item.quantity}</td>
-                                    <td className="text-center">{item.status}</td>
-
-                                    <td className="text-center">
-                                        <Link
-                                            to={`/admin/productColor/edit/${item.productId}/${item.colorId}`}
-                                            className=" fs-3 d-flex justify-content-center align-items-center"
-                                        >
-                                            <AiFillSetting />
-                                        </Link>
-                                    </td>
-                                    <td className="text-center">
-                                        <div className="d-flex justify-content-center align-items-center">
-                                            <MdDelete
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"
-                                                className="fs-3 text-danger"
-                                            />
-
-                                            <div
-                                                className="modal fade"
-                                                id="exampleModal"
-                                                tabIndex="-1"
-                                                aria-labelledby="exampleModalLabel"
-                                                aria-hidden="true"
+                                    {/* <td className="text-center">{item.status}</td> */}
+                                    {role && role === 'Admin' && (
+                                        <td className="text-center">
+                                            <Link
+                                                to={`/admin/productColor/edit/${item.productId}/${item.colorId}`}
+                                                className=" fs-3 d-flex justify-content-center align-items-center"
                                             >
-                                                <div className="modal-dialog">
-                                                    <div className="modal-content">
-                                                        <div className="modal-header">
-                                                            <h1 className="modal-title fs-5" id="exampleModalLabel">
-                                                                Xóa sản phẩm
-                                                            </h1>
-                                                            <button
-                                                                type="button"
-                                                                className="btn-close"
-                                                                data-bs-dismiss="modal"
-                                                                aria-label="Close"
-                                                            ></button>
-                                                        </div>
-                                                        <div className="modal-body">
-                                                            Bạn có chắc muốn xóa sản phẩm {item.productName} không?
-                                                            <div className="modal-footer fs-3">
+                                                <AiFillSetting />
+                                            </Link>
+                                        </td>
+                                    )}
+                                    {role && role === 'Admin' && (
+                                        <td className="text-center">
+                                            <div className="d-flex justify-content-center align-items-center">
+                                                <MdDelete
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"
+                                                    className="fs-3 text-danger"
+                                                />
+
+                                                <div
+                                                    className="modal fade"
+                                                    id="exampleModal"
+                                                    tabIndex="-1"
+                                                    aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true"
+                                                >
+                                                    <div className="modal-dialog">
+                                                        <div className="modal-content">
+                                                            <div className="modal-header">
+                                                                <h1 className="modal-title fs-5" id="exampleModalLabel">
+                                                                    Xóa sản phẩm
+                                                                </h1>
                                                                 <button
                                                                     type="button"
-                                                                    className="btn btn-secondary"
+                                                                    className="btn-close"
                                                                     data-bs-dismiss="modal"
-                                                                >
-                                                                    Hủy
-                                                                </button>
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() =>
-                                                                        handleDelete(item.productId, item.colorId)
-                                                                    }
-                                                                    className="btn btn-primary"
-                                                                    data-bs-dismiss="modal"
-                                                                >
-                                                                    Xóa
-                                                                </button>
+                                                                    aria-label="Close"
+                                                                ></button>
+                                                            </div>
+                                                            <div className="modal-body">
+                                                                Bạn có chắc muốn xóa sản phẩm {item.productName} không?
+                                                                <div className="modal-footer fs-3">
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn btn-secondary"
+                                                                        data-bs-dismiss="modal"
+                                                                    >
+                                                                        Hủy
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() =>
+                                                                            handleDelete(item.productId, item.colorId)
+                                                                        }
+                                                                        className="btn btn-primary"
+                                                                        data-bs-dismiss="modal"
+                                                                    >
+                                                                        Xóa
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    )}
                                 </tr>
                             );
                         })}
@@ -176,7 +187,7 @@ function ProductColor() {
                     )}
                 </tbody>
             </table>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={2000} /> */}
         </>
     );
 }

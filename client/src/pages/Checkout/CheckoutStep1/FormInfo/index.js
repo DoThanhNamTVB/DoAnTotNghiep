@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { FaMoneyBillAlt, FaMoneyCheckAlt } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
+import { FaMoneyBillAlt } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 import './Form.scss';
 import routesConfig from '~/config/routes';
@@ -13,7 +13,7 @@ function FormInfo() {
     const navigate = useNavigate();
     //get user current
     const { user } = useSelector((state) => state.auth);
-    const { statusAdd, dataAdd, msg } = useSelector((state) => state.managerOrder);
+    const { msg } = useSelector((state) => state.managerOrder);
 
     // console.log(user);
 
@@ -219,7 +219,7 @@ function FormInfo() {
                                 onChange={handleChange}
                                 value="COD"
                             />
-                            <label className="form-check-label" htmlFor="cod">
+                            <label className="form-check-label" htmlFor="payment">
                                 <FaMoneyBillAlt />
                                 <span className="ms-4">Thanh toán khi giao hàng</span>
                             </label>
@@ -259,7 +259,7 @@ function FormInfo() {
                     </Link>
                 </div>
             </div>
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={200} /> */}
         </div>
     );
 }

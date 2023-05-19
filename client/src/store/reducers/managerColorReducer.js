@@ -11,12 +11,18 @@ const initState = {
     statusAdd: false,
     statusGet: false,
     statusGetAll: false,
-    statusPut: false,
-    statusDelete: false,
+    statusPut: null,
+    statusDelete: null,
 };
 
 const managerColorReducer = (state = initState, action) => {
     switch (action.type) {
+        case actionTypes.RESET_COLOR:
+            return {
+                ...state,
+                statusDelete: null,
+                statusPut: null,
+            };
         case actionTypes.ADD_COLOR_SUCCESS:
             return {
                 ...state,
@@ -43,8 +49,8 @@ const managerColorReducer = (state = initState, action) => {
                 statusAdd: false,
                 statusGet: false,
                 statusGetAll: true,
-                statusPut: false,
-                statusDelete: false,
+                statusPut: null,
+                statusDelete: null,
                 colors: action.colors,
                 msgAdd: '',
                 msgGet: '',
@@ -56,8 +62,8 @@ const managerColorReducer = (state = initState, action) => {
                 ...state,
                 statusGet: false,
                 statusGetAll: false,
-                statusPut: false,
-                statusDelete: false,
+                statusPut: null,
+                statusDelete: null,
                 msgGetAll: action.colors,
                 msgAdd: '',
                 msgGet: '',
@@ -110,7 +116,7 @@ const managerColorReducer = (state = initState, action) => {
             return {
                 ...state,
                 statusDelete: true,
-                msgDelete: action.msg,
+                msgDelete: '',
                 msgAdd: '',
                 msgGet: '',
                 msgGetAll: '',

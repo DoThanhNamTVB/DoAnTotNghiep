@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 // import { Link } from 'react-router-dom';
 
 import '~/components/CSSForm/index.scss';
 import routesConfig from '~/config/routes';
-import { addAdmin } from '~/store/actions';
+import { addAdmin, resetAdmin } from '~/store/actions';
 
 function AdminManagerAdd() {
     const navigate = useNavigate();
@@ -37,25 +37,23 @@ function AdminManagerAdd() {
         }
     };
 
-    useEffect(() => {
-        if (statusAdd === true) {
-            navigate(routesConfig.adminManagerAccount);
-        }
-    }, [statusAdd, navigate]);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formErrs = validateForm(payload);
-        if (Object.keys(formErrs).length > 0) {
-            setErrors(formErrs);
-        } else {
-            dispatch(addAdmin(payload));
-            if (statusAdd === false) {
-                toast.error('Email đã tồn tại !');
-            }
+    //set type input password
+    const [type1, setType1] = useState('password');
+    const [type2, setType2] = useState('password');
+    const changeTypePW1 = () => {
+        setType1('text');
+        if (type1 === 'text') {
+            setType1('password');
         }
     };
-
+    const changeTypePW2 = () => {
+        setType2('text');
+        if (type2 === 'text') {
+            setType2('password');
+        }
+    };
+    var passwordRegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    var regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     const validateForm = (values) => {
@@ -70,16 +68,16 @@ function AdminManagerAdd() {
         }
         if (!values.phone) {
             errors.phone = 'Trường này là bắt buộc';
-        } else if (values.phone.length !== 10) {
-            errors.phone = 'Nhập số đt có 10 chữ số!';
+        } else if (!values.phone.match(regexPhoneNumber)) {
+            errors.phone = 'Số điện thoại không hợp lệ!';
         }
         if (!values.address) {
             errors.address = 'Trường này là bắt buộc';
         }
         if (!values.password) {
             errors.password = 'Trường này là bắt buộc';
-        } else if (values.password.length < 8) {
-            errors.password = 'Mật khẩu phải lớn hơn 8 từ';
+        } else if (!values.password.match(passwordRegExp)) {
+            errors.password = 'Mật khẩu phải lớn hơn 8 kí tự, ít nhất 1 số, 1 chữ in thường, 1 chữ in hoa !';
         }
         if (!values.confirmPassword) {
             errors.confirmPassword = 'Trường này là bắt buộc';
@@ -88,6 +86,32 @@ function AdminManagerAdd() {
         }
         return errors;
     };
+
+    const [state, setState] = useState();
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formErrs = validateForm(payload);
+        if (Object.keys(formErrs).length > 0) {
+            setErrors(formErrs);
+        } else {
+            dispatch(resetAdmin());
+            dispatch(addAdmin(payload));
+            setState(Math.random() + Math.floor(Math.random() + 1));
+        }
+    };
+
+    useEffect(() => {
+        if (statusAdd === true) {
+            navigate(routesConfig.adminManagerAccount);
+        }
+        if (state) {
+            if (statusAdd === false) {
+                toast.error('Email đã tồn tại !');
+                dispatch(resetAdmin());
+            }
+        }
+    }, [statusAdd, navigate, dispatch, state]);
+
     return (
         <>
             <nav aria-label="breadcrumb">
@@ -204,18 +228,15 @@ function AdminManagerAdd() {
                                 Mật khẩu
                             </label>
                             <input
-                                type="password"
+                                type={type1}
                                 className="form-control"
                                 id="password"
                                 placeholder="Mật khẩu phải lớn hơn 8"
                                 value={payload.password}
                                 onChange={handleChange}
                             />
-                            <span>
-                                <AiFillEye />
-                            </span>
-                            <span>
-                                <AiFillEyeInvisible />
+                            <span onClick={() => changeTypePW1()}>
+                                {type1 === 'text' ? <AiFillEye /> : <AiFillEyeInvisible />}
                             </span>
                             {errors?.password && <small className="text-danger">{errors.password}</small>}
                         </div>
@@ -224,18 +245,15 @@ function AdminManagerAdd() {
                                 Nhập lại mật khẩu
                             </label>
                             <input
-                                type="password"
+                                type={type2}
                                 className="form-control"
                                 id="confirmPassword"
                                 placeholder="Nhập lại mật khẩu ...."
                                 value={payload.confirmPassword}
                                 onChange={handleChange}
                             />
-                            <span>
-                                <AiFillEye />
-                            </span>
-                            <span>
-                                <AiFillEyeInvisible />
+                            <span onClick={() => changeTypePW2()}>
+                                {type2 === 'text' ? <AiFillEye /> : <AiFillEyeInvisible />}
                             </span>
                             {errors?.confirmPassword && <small className="text-danger">{errors.confirmPassword}</small>}
                         </div>
@@ -246,7 +264,6 @@ function AdminManagerAdd() {
                     </form>
                 </div>
             </div>
-            <ToastContainer autoClose={1000} />
         </>
     );
 }
