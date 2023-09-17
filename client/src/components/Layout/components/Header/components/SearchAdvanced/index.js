@@ -31,7 +31,7 @@ function SearchAdvanced() {
     useEffect(() => {
         dispatch(getProductByCategory('casio-edifice'));
     }, [dispatch]);
-    const { productCategory } = useSelector((state) => state.managerProduct);
+    // const { productCategory } = useSelector((state) => state.managerProduct);
     // console.log(productCategory);
 
     const [payload, setPayLoad] = useState({});
@@ -255,7 +255,7 @@ function SearchAdvanced() {
                                 );
                             })}
                     </div>
-                    {!productFilters || (productFilters?.length == 0 && <h2>Không có kết quả phù hợp</h2>)}
+                    {!productFilters || (productFilters?.length === 0 && <h2>Không có kết quả phù hợp</h2>)}
                 </div>
             </div>
         </div>

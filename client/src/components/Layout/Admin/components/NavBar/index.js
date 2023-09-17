@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BsFillPersonFill, BsSmartwatch } from 'react-icons/bs';
 import { AiOutlineCaretDown, AiFillHome, AiFillSetting } from 'react-icons/ai';
 import { FaUserAlt, FaShoppingCart } from 'react-icons/fa';

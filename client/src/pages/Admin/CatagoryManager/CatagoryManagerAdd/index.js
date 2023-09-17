@@ -60,7 +60,7 @@ function CategoryAdd() {
             navigate(routesConfig.categoryManager);
             dispatch(resetCategory());
         }
-    }, [statusAdd, navigate]);
+    }, [statusAdd, navigate, dispatch]);
     return (
         <>
             <nav aria-label="breadcrumb">

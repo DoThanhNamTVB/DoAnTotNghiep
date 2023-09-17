@@ -23,7 +23,7 @@ function UserDetail() {
         phone: '',
         gender: '',
         img: '',
-        status: '',
+        // status: '',
         address: '',
         password: '',
     });
@@ -37,7 +37,7 @@ function UserDetail() {
                     phone: account.phone || '',
                     gender: account.gender || '',
                     img: account.img || '',
-                    status: account.status || '',
+                    // status: account.status || '',
                     address: account.address || '',
                     password: account.password || '',
                 }));
@@ -111,7 +111,7 @@ function UserDetail() {
                                 readOnly
                             />
                         </div>
-                        <div className="mb-3 form-sample-item col-md-3">
+                        <div className="mb-3 form-sample-item col-md-6">
                             <label htmlFor="gender" className="form-label">
                                 Giới tính
                             </label>
@@ -124,7 +124,7 @@ function UserDetail() {
                                 readOnly
                             />
                         </div>
-                        <div className="mb-3 form-sample-item col-md-3">
+                        {/* <div className="mb-3 form-sample-item col-md-3">
                             <label htmlFor="status" className="form-label">
                                 Status
                             </label>
@@ -137,7 +137,7 @@ function UserDetail() {
                                 aria-label=" select example"
                                 readOnly
                             />
-                        </div>
+                        </div> */}
                         <div className="mb-3 col-12 col-md-12">
                             <span>Ảnh đại diện</span>
                             <div>

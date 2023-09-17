@@ -4,6 +4,7 @@ const routes = {
     store: '/store',
     blog: '/blog',
     categoryPage: '/:categorySlug',
+    categoryLimit: '/danhmuc',
     searchAdvanced: '/search-advanced',
     historyOrder: '/history-order',
     historyOrderDetail: '/history-order/detail/:orderId',

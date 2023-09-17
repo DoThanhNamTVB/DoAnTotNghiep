@@ -7,7 +7,7 @@ import { getAllAdmin, getAnAdmin, putAdmin } from '~/store/actions/managerAdmin'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { getCurrentAdmin } from '~/store/actions';
+// import { getCurrentAdmin } from '~/store/actions';
 
 function AdminMangerEditDetail() {
     const navigate = useNavigate();

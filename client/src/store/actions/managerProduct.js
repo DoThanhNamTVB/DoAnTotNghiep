@@ -12,6 +12,7 @@ import {
     apiGetProductSearch,
     apiGetProductSimilar,
     apiGetProductFilter,
+    apiGetProductLimit,
 } from '~/service/managerProduct';
 
 export const addProduct = (payload) => async (dispatch) => {
@@ -151,6 +152,29 @@ export const getProductByCategory = (categorySlug) => async (dispatch) => {
         dispatch({
             type: actionTypes.GET_PRODUCT_BY_CATEGORY_FAIL,
             productCategory: null,
+        });
+    }
+};
+
+export const getProductLimit = (categorySlug, page) => async (dispatch) => {
+    try {
+        const response = await apiGetProductLimit(categorySlug, page);
+        // console.log(response);
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_LIMIT_SUCCESS,
+                productLimits: response.data.response,
+            });
+        } else {
+            dispatch({
+                type: actionTypes.GET_PRODUCT_LIMIT_FAIL,
+                productLimits: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionTypes.GET_PRODUCT_LIMIT_FAIL,
+            productLimits: null,
         });
     }
 };

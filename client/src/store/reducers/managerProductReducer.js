@@ -27,6 +27,8 @@ const initState = {
     productFilters: [],
     statusFilter: null,
     msgFilter: null,
+    productLimits: [],
+    msgProductLimits: '',
 };
 
 const managerProductReducer = (state = initState, action) => {
@@ -201,6 +203,41 @@ const managerProductReducer = (state = initState, action) => {
                 statusPut: null,
                 statusDelete: null,
                 msgGetAll: action.productCategory,
+                msgAdd: '',
+                msgGet: '',
+                msgPut: '',
+                msgDelete: '',
+                productAdd: {},
+                statusCategory: false,
+                productCategory: [],
+            };
+
+        case actionTypes.GET_PRODUCT_LIMIT_SUCCESS:
+            return {
+                ...state,
+                statusAdd: false,
+                statusGet: false,
+                statusGetAll: false,
+                statusPut: null,
+                statusDelete: null,
+                msgAdd: '',
+                msgGet: '',
+                msgPut: '',
+                msgDelete: '',
+                productAdd: {},
+                statusCategory: true,
+                productLimits: action.productLimits,
+                msgProductLimits: '',
+                product: {},
+            };
+        case actionTypes.GET_PRODUCT_LIMIT_FAIL:
+            return {
+                ...state,
+                statusGet: false,
+                statusGetAll: false,
+                statusPut: null,
+                statusDelete: null,
+                msgProductLimits: action.msgProductLimits,
                 msgAdd: '',
                 msgGet: '',
                 msgPut: '',

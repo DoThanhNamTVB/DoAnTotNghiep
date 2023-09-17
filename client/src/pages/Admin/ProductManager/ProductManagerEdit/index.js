@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 
 import routesConfig from '~/config/routes';
-import { getAllProduct, deleteProduct } from '~/store/actions/managerProduct';
+import { deleteProduct } from '~/store/actions/managerProduct';
 import { getAllCategory, getProductByCategory } from '~/store/actions';
 import Select from 'react-select';
 import { useEffect, useState } from 'react';

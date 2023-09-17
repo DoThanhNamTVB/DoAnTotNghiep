@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { chartRevenueMonth, resetChart } from '~/store/actions';
 import { Line } from 'react-chartjs-2';
-import { Chart as Chartjs } from 'chart.js/auto';
+// import { Chart as Chartjs } from 'chart.js/auto';
 import Select from 'react-select';
 
 function ChartRevenueMounth() {
@@ -45,7 +45,7 @@ function ChartRevenueMounth() {
     useEffect(() => {
         let total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         if (dataRevenueMonth?.length > 0) {
-            dataRevenueMonth?.map((item) => {
+            dataRevenueMonth?.forEach((item) => {
                 if (item?.year === selectedOption?.value) {
                     total[Number(item?.month) - 1] = item?.total;
                 }

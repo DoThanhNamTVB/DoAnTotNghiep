@@ -2,7 +2,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { useState, useEffect } from 'react';
 import ButtonModal from '~/components/ButtonModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser, putPasswordUser, reset, resetMsg } from '~/store/actions';
+import { getCurrentUser, putPasswordUser, resetMsg } from '~/store/actions';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import routesConfig from '~/config/routes';

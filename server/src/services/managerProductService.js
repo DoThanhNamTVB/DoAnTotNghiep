@@ -1,4 +1,3 @@
-const { response } = require("express");
 const db = require("../models/index");
 const { Op } = require("sequelize");
 
@@ -261,6 +260,42 @@ const getProductByCategoryService = (categorySlug) => {
     });
 };
 
+const getProductCategoryLimit = (categorySlug, page) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const pageNumber = +page;
+            const getLimit = +process.env.LIMIT;
+
+            const getCategoryId = await db.Category.findOne({
+                where: { slug: categorySlug },
+                attributes: ["id"],
+            });
+
+            console.log("categoryId", getCategoryId.id);
+
+            if (getCategoryId) {
+                const response = await db.Product.findAndCountAll({
+                    where: { categoryId: getCategoryId.id },
+                    offset: getLimit * (pageNumber - 1) || 0,
+                    limit: getLimit,
+                    // attributes: ["id", "categoryId", "productName"],
+                    include: [{ model: db.Category }, { model: db.Color }],
+                    distinct: true,
+                });
+                resolve({
+                    err: response ? 0 : 2,
+                    msg: response
+                        ? "Lấy danh sách thành công <3 "
+                        : "Lấy danh sách limit không thành công!",
+                    response,
+                });
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 const getProductSearch = (keySearch) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -393,4 +428,5 @@ module.exports = {
     getProductSearch,
     getProductSimilar,
     getProductFilter,
+    getProductCategoryLimit,
 };

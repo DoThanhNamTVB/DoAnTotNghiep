@@ -61,6 +61,7 @@ import {
     OrderStatusSuccess,
     OrderCancel,
 } from '~/pages/Admin/OrderManager';
+import ProductCategoryLimit from '~/pages/ProductCategoryLimit';
 
 //No login required to access the route
 const publicRoutes = [
@@ -73,6 +74,7 @@ const publicRoutes = [
     { path: routesConfig.historyOrderDetail, component: HistoryOrderDetail, layout: HeaderFooterLayout },
 
     { path: routesConfig.categoryPage, component: CategoryPage, layout: HeaderFooterLayout },
+    { path: routesConfig.categoryLimit, component: ProductCategoryLimit, layout: HeaderFooterLayout },
 
     { path: routesConfig.cartPage, component: Cart, layout: HeaderFooterLayout },
     { path: routesConfig.checkoutstep1Page, component: CheckoutStep1, layout: HeaderFooterLayout },

@@ -72,7 +72,7 @@ function ColorEdit() {
         if (statusPut === true) {
             navigate(routesConfig.colorManager);
         }
-    }, [statusPut]);
+    }, [statusPut, dispatch, navigate]);
     return (
         <>
             <nav aria-label="breadcrumb">

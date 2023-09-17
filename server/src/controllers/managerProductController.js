@@ -132,6 +132,23 @@ const getProductByCategory = async (req, res) => {
     }
 };
 
+const getProductCategoryLimit = async (req, res) => {
+    try {
+        const { categorySlug, page } = req.query;
+        // console.log("category", categorySlug);
+        const response = await managerProductService.getProductCategoryLimit(
+            categorySlug,
+            page
+        );
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({
+            err: -1,
+            msg: "Fail at  getProductCategoryLimit controller : " + error,
+        });
+    }
+};
+
 const getProductHot = async (req, res) => {
     try {
         const response = await managerProductService.getProductHot();
@@ -210,4 +227,5 @@ module.exports = {
     getProductSearch,
     getProductSimilar,
     getProductFilter,
+    getProductCategoryLimit,
 };

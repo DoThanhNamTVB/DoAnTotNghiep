@@ -13,6 +13,12 @@ router.get(
     "/getCategory/:categorySlug",
     managerProductController.getProductByCategory
 );
+
+//sử dụng query string
+router.get(
+    "/getLimit/get-Limit-Category",
+    managerProductController.getProductCategoryLimit
+);
 router.get("/get/get-product-new", managerProductController.getProductNew);
 router.get("/get/get-product-hot", managerProductController.getProductHot);
 router.get(

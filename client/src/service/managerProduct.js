@@ -147,3 +147,17 @@ export const apiGetProductFilter = (payload) =>
             reject(error);
         }
     });
+
+export const apiGetProductLimit = (categorySlug, page) =>
+    new Promise(async (relsove, reject) => {
+        try {
+            const response = await axiosConfig({
+                method: 'get',
+                url: '/api/managerProduct/getLimit/get-Limit-Category',
+                params: { categorySlug, page },
+            });
+            relsove(response);
+        } catch (error) {
+            reject(error);
+        }
+    });

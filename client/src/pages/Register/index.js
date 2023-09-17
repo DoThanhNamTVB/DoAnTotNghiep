@@ -20,7 +20,7 @@ function Register() {
         setTimeout(() => {
             isLoggedIn && !role && navigate(routesConfig.home);
         }, 2000);
-    }, [isLoggedIn, navigate]);
+    }, [isLoggedIn, navigate, role]);
 
     const [payload, setPayload] = useState({
         userName: '',
@@ -75,7 +75,7 @@ function Register() {
         return errors;
     };
 
-    const { msg } = useSelector((state) => state.auth);
+    // const { msg } = useSelector((state) => state.auth);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -90,6 +90,7 @@ function Register() {
         // console.log(response);
     };
 
+    console.log(isLoggedIn);
     useEffect(() => {
         if (isLoggedIn === false) {
             toast.error('Email đã tồn tại !');

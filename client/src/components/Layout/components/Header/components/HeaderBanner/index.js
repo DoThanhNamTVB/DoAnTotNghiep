@@ -168,7 +168,7 @@ function HeaderBanner() {
                             categoryArr.slice(-2).map((item, index) => {
                                 return (
                                     <li className="nav-item" key={index}>
-                                        <Link className="nav-link" to={`/${item?.slug}`}>
+                                        <Link className="nav-link" to={`/danhmuc?categorySlug=${item?.slug}&page=1`}>
                                             {item?.categoryName}
                                         </Link>
                                     </li>
@@ -189,7 +189,10 @@ function HeaderBanner() {
                                     categoryArr.slice(0, -2).map((item, index) => {
                                         return (
                                             <li className="nav-item fs-4" key={index}>
-                                                <Link className="nav-link" to={`/${item?.slug}`}>
+                                                <Link
+                                                    className="nav-link"
+                                                    to={`/danhmuc?categorySlug=${item?.slug}&page=1`}
+                                                >
                                                     {item?.categoryName}
                                                 </Link>
                                             </li>

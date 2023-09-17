@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import ChartRevenueMounth from './Chart/ChartRevenueMounth';
-import ChartOrder from './Chart/ChartOrder';
+// import ChartOrder from './Chart/ChartOrder';
 import { useDispatch, useSelector } from 'react-redux';
-import { chartOrder, resetChart } from '~/store/actions';
+import { chartOrder } from '~/store/actions';
 import './dashboard.scss';
 import routesConfig from '~/config/routes';
 import { Link } from 'react-router-dom';
@@ -21,7 +21,7 @@ function Dashboard() {
     const [statusDaHuy, setStatusDaHuy] = useState(0);
 
     useEffect(() => {
-        dataOrder?.map((item) => {
+        dataOrder?.forEach((item) => {
             if (item?.status === 'da-giao') {
                 setStatusDaGiao(item?.count);
             }
@@ -35,7 +35,7 @@ function Dashboard() {
                 setStatusChuaXN(item?.count);
             }
         });
-    });
+    }, [dataOrder]);
 
     return (
         <>
