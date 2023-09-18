@@ -10,11 +10,6 @@ User =[
 
 Admin = [
     {
-        Email : namadmin@gmail.com,
-        Password: Namadmin5658,
-        Role: Admin
-    },
-    {
         Email : nhanvien@gmail.com,
         Password: Nhanvien6486,
         Role: nhanvien

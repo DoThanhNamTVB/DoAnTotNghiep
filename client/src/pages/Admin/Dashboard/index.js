@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import ChartRevenueMounth from './Chart/ChartRevenueMounth';
-// import ChartOrder from './Chart/ChartOrder';
 import { useDispatch, useSelector } from 'react-redux';
 import { chartOrder } from '~/store/actions';
 import './dashboard.scss';
@@ -63,6 +62,9 @@ function Dashboard() {
                 <div className="col-lg-9 col-12">
                     <ChartRevenueMounth />
                 </div>
+                {/* <div className="col-lg-9 col-12">
+                    <ChartOrder />
+                </div> */}
             </div>
         </>
     );

@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getAllCategory, getProductLimit } from '~/store/actions';
 import '../Catagory/Category.scss';
-import Pagenation from './Pagenation';
+import Pagenation from '~/components/Pagenation';
 
 function ProductCategoryLimit() {
     const dispatch = useDispatch();
@@ -15,7 +15,6 @@ function ProductCategoryLimit() {
     // const { categorySlug, page } = useParams();
     const [categorySlug, setcategorySlug] = useState(params.get('categorySlug'));
     const [page, setpage] = useState(params.get('page'));
-    // console.log(categorySlug);
     // const [params, setParams] = useState(new URLSearchParams(window.location.search));
     useEffect(() => {
         // setParams(new URLSearchParams(window.location.search));
@@ -78,7 +77,7 @@ function ProductCategoryLimit() {
                         );
                     })}
             </div>
-            <Pagenation count={productLimits?.count} currentNumber={page} currentSlug={categorySlug} />
+            <Pagenation count={productLimits?.count} currentNumber={page} currentSlug={categorySlug} length={12} />
         </>
     );
 }

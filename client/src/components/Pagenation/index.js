@@ -5,7 +5,7 @@ import { FaBackward } from 'react-icons/fa';
 import { TbPlayerTrackNextFilled } from 'react-icons/tb';
 import { useEffect, useState } from 'react';
 
-function Pagenation({ count, currentNumber, currentSlug }) {
+function Pagenation({ count, currentNumber, currentSlug, length }) {
     const navigate = useNavigate();
     // const [numberPage, setNumberPage] = useState(+currentNumber);
 
@@ -14,10 +14,10 @@ function Pagenation({ count, currentNumber, currentSlug }) {
     // }, [currentNumber]);
 
     // let [searchParams, setSearchParams] = useSearchParams(new URLSearchParams(window.location.search));
-    const limitNumber = 12;
+    // const limitNumber = 12;
     // const limitNumber = process.env.REACT_APP_LIMIT_NUMBER;
     // console.log('Limit : ', limitNumber);
-    const pageNumbers = Math.ceil(count / limitNumber);
+    const pageNumbers = Math.ceil(count / length);
     const arrNumber = [];
     for (let i = 1; i <= pageNumbers; i++) {
         arrNumber.push(i);
