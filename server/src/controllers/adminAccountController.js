@@ -1,25 +1,16 @@
-const multer = require("multer");
-const path = require("path");
+const multer = require('multer');
+const path = require('path');
 
-const adminAccountService = require("../services/adminAccountService");
+const adminAccountService = require('../services/adminAccountService');
 
 const createAdminAccount = async (req, res) => {
-    const { userName, email, password, gender, address, phone, role } =
-        req.body;
+    const { userName, email, password, gender, address, phone, role } = req.body;
 
     try {
-        if (
-            !userName ||
-            !email ||
-            !password ||
-            !gender ||
-            !address ||
-            !phone ||
-            !role
-        ) {
+        if (!userName || !email || !password || !gender || !address || !phone || !role) {
             return res.status(400).json({
                 err: 1,
-                msg: "Missing inputs !",
+                msg: 'Missing inputs !',
             });
         }
         const reponse = await adminAccountService.createAdminService(req.body);
@@ -27,7 +18,7 @@ const createAdminAccount = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at admin Account controller : " + error,
+            msg: 'Fail at admin Account controller : ' + error,
         });
     }
 };
@@ -39,7 +30,7 @@ const getAllAdminAccount = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at getAllAdminAccount controller : " + error,
+            msg: 'Fail at getAllAdminAccount controller : ' + error,
         });
     }
 };
@@ -52,7 +43,7 @@ const getAnAdminAccount = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at getAnAdminAccount controller : " + error,
+            msg: 'Fail at getAnAdminAccount controller : ' + error,
         });
     }
 };
@@ -75,14 +66,14 @@ const updateAdminAccount = async (req, res) => {
             role: req.body.role,
         };
         if (req.file) {
-            info.img = "/storageUploads/avartarAdmins/" + req.file.filename;
+            info.img = '/storageUploads/avartarAdmins/' + req.file.filename;
         }
         const response = await adminAccountService.updateAdminService(info, id);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at updateAdminAccount controller : " + error,
+            msg: 'Fail at updateAdminAccount controller : ' + error,
         });
     }
 };
@@ -95,24 +86,24 @@ const deleteAdminAccount = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at deleteAdminAccount controller : " + error,
+            msg: 'Fail at deleteAdminAccount controller : ' + error,
         });
     }
 };
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "src/public/storageUploads/avartarAdmins/");
+        cb(null, 'src/public/storageUploads/avartarAdmins/');
     },
     filename: (req, file, cb) => {
-        const fileName = file.originalname.toLowerCase().split(" ").join("-");
-        cb(null, Date.now() + "-" + fileName);
+        const fileName = file.originalname.toLowerCase().split(' ').join('-');
+        cb(null, Date.now() + '-' + fileName);
     },
 });
 
 const upload = multer({
     storage,
-    limits: { fileSize: "30000000" },
+    limits: { fileSize: '30000000' },
     fileFilter: (req, file, cb) => {
         const fileTypes = /jpeg|jpg|png|gif/;
         const mimeType = fileTypes.test(file.mimetype);
@@ -121,9 +112,9 @@ const upload = multer({
         if (mimeType && extname) {
             return cb(null, true);
         }
-        cb("Give proper files format to upload");
+        cb('Give proper files format to upload');
     },
-}).single("img");
+}).single('img');
 module.exports = {
     createAdminAccount,
     getAllAdminAccount,

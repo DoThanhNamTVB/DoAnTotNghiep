@@ -1,4 +1,4 @@
-const managerColorService = require("../services/managerColorservice");
+const managerColorService = require('../services/managerColorservice');
 
 const createColor = async (req, res) => {
     const { colorName, description } = req.body;
@@ -7,7 +7,7 @@ const createColor = async (req, res) => {
         if (!colorName || !description) {
             return res.status(400).json({
                 err: 1,
-                msg: "Missing inputs !",
+                msg: 'Missing inputs !',
             });
         }
         const reponse = await managerColorService.createColorService(req.body);
@@ -15,7 +15,7 @@ const createColor = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at create Color controller : " + error,
+            msg: 'Fail at create Color controller : ' + error,
         });
     }
 };
@@ -27,7 +27,7 @@ const getAllColor = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at getAllColor controller : " + error,
+            msg: 'Fail at getAllColor controller : ' + error,
         });
     }
 };
@@ -40,7 +40,7 @@ const getAnColor = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at getAnColor controller : " + error,
+            msg: 'Fail at getAnColor controller : ' + error,
         });
     }
 };
@@ -51,20 +51,17 @@ const updateColor = async (req, res) => {
         if (!colorName || !description) {
             return res.status(400).json({
                 err: 1,
-                msg: "Missing inputs !",
+                msg: 'Missing inputs !',
             });
         }
         const id = req.params.id;
-        const response = await managerColorService.updateColorService(
-            req.body,
-            id
-        );
+        const response = await managerColorService.updateColorService(req.body, id);
         // console.log(response);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at updateColor controller : " + error,
+            msg: 'Fail at updateColor controller : ' + error,
         });
     }
 };
@@ -77,7 +74,7 @@ const deleteColor = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at deleteAdminAccount controller : " + error,
+            msg: 'Fail at deleteAdminAccount controller : ' + error,
         });
     }
 };

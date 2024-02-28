@@ -25,7 +25,7 @@ function HistoryOrder() {
 
     const { user } = useSelector((state) => state.auth);
     const { orderStatus, statusPutStatus, statusCancel, statusGetOrderID, order } = useSelector(
-        (state) => state.managerOrder,
+        (state) => state.managerOrder
     );
 
     // console.log(orderStatus);

@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Color extends Model {
         /**
@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             Color.belongsToMany(models.Product, {
-                through: "Product_Color",
-                foreignKey: "colorId",
+                through: 'Product_Color',
+                foreignKey: 'colorId',
             });
         }
     }
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            modelName: "Color",
+            modelName: 'Color',
         }
     );
     return Color;

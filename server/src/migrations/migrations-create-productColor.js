@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable("Product_Colors", {
+        await queryInterface.createTable('Product_Colors', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -31,7 +31,7 @@ module.exports = {
             },
         });
     },
-    async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable("Product_Colors");
+    async down(queryInterface) {
+        await queryInterface.dropTable('Product_Colors');
     },
 };

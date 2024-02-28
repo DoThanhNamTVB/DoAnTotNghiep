@@ -1,10 +1,9 @@
 var bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
-const db = require("../models/index");
+const db = require('../models/index');
 
-
-let createNewUser = async (data)=>{
-    return new Promise( async(resolve, reject)=>{
+let createNewUser = async (data) => {
+    {
         try {
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
             await db.User.create({
@@ -14,26 +13,26 @@ let createNewUser = async (data)=>{
                 gender: data.gender === '1' ? true : false,
                 address: data.address,
                 phone: data.phone,
-            })
+            });
 
-            resolve('already created user')
+            return 'already created user';
         } catch (error) {
-            reject(error);
+            throw new Error(error);
         }
-    })
-}
+    }
+};
 
-let hashUserPassword = (password) =>{
-    return new Promise(async (resolve, reject)=>{
+let hashUserPassword = async (password) => {
+    {
         try {
             var hashPassword = await bcrypt.hashSync(password, salt);
-            resolve(hashPassword)
+            return hashPassword;
         } catch (error) {
-            reject(error)
+            throw new Error(error);
         }
-    })
-}
+    }
+};
 
-module.exports ={
-    createNewUser: createNewUser,
-}
+module.exports = {
+    createNewUser,
+};

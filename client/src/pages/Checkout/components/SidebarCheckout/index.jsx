@@ -64,7 +64,7 @@ function SidebarCheckout() {
                                             <div className="text-end">
                                                 <span>
                                                     {formatter.format(
-                                                        item?.price - (item?.price * item?.discount) / 100,
+                                                        item?.price - (item?.price * item?.discount) / 100
                                                     )}
                                                 </span>
                                             </div>

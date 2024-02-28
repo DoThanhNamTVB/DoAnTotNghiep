@@ -115,7 +115,7 @@ function Cart() {
                                                         img={
                                                             process.env.REACT_APP_SERVER_URL +
                                                             item?.Colors?.find(
-                                                                (color) => color.id === item?.Cart?.colorId,
+                                                                (color) => color.id === item?.Cart?.colorId
                                                             )?.Product_Color?.img
                                                         }
                                                         handleDelete={() => handleDelete(user.id, item.id)}
@@ -124,19 +124,19 @@ function Cart() {
                                                         productName={item?.productName}
                                                         color={
                                                             item?.Colors.find(
-                                                                (color) => color.id === item?.Cart?.colorId,
+                                                                (color) => color.id === item?.Cart?.colorId
                                                             )?.colorName
                                                         }
                                                         countCurrent={item?.Cart?.quantity}
                                                         productId={item.id}
                                                         colorId={
                                                             item?.Colors?.find(
-                                                                (color) => color.id === item?.Cart?.colorId,
+                                                                (color) => color.id === item?.Cart?.colorId
                                                             )?.id
                                                         }
                                                         qtyDatabase={
                                                             item?.Colors?.find(
-                                                                (color) => color.id === item?.Cart?.colorId,
+                                                                (color) => color.id === item?.Cart?.colorId
                                                             )?.Product_Color?.quantity
                                                         }
                                                     />

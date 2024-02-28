@@ -226,7 +226,7 @@ function HeaderContact() {
                                                                                 {formatter.format(
                                                                                     (item.price *
                                                                                         (100 - item.discount)) /
-                                                                                        100,
+                                                                                        100
                                                                                 )}
                                                                             </span>
                                                                             <del>{formatter.format(item.price)}</del>

@@ -1,4 +1,4 @@
-const authService = require("../services/auth");
+const authService = require('../services/auth');
 
 const register = async (req, res) => {
     const { userName, email, password, gender, address, phone } = req.body;
@@ -7,7 +7,7 @@ const register = async (req, res) => {
         if (!userName || !email || !password || !gender || !address || !phone) {
             return res.status(400).json({
                 err: 1,
-                msg: "Missing inputs !",
+                msg: 'Missing inputs !',
             });
         }
         const response = await authService.registerService(req.body);
@@ -15,7 +15,7 @@ const register = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at auth controller : " + error,
+            msg: 'Fail at auth controller : ' + error,
         });
     }
 };
@@ -27,7 +27,7 @@ const login = async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({
                 err: 1,
-                msg: "Missing inputs !",
+                msg: 'Missing inputs !',
             });
         }
         const response = await authService.loginService(req.body);
@@ -35,7 +35,7 @@ const login = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at auth controller : " + error,
+            msg: 'Fail at auth controller : ' + error,
         });
     }
 };
@@ -47,7 +47,7 @@ const loginAdmin = async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({
                 err: 1,
-                msg: "Missing inputs !",
+                msg: 'Missing inputs !',
             });
         }
         const response = await authService.loginAdminService(req.body);
@@ -55,7 +55,7 @@ const loginAdmin = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at loginAdmin controller : " + error,
+            msg: 'Fail at loginAdmin controller : ' + error,
         });
     }
 };
@@ -68,7 +68,7 @@ const getCurrentUser = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Failed at user controller: " + error,
+            msg: 'Failed at user controller: ' + error,
         });
     }
 };
@@ -81,7 +81,7 @@ const getCurrentAdmin = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Failed at admincurrent controller: " + error,
+            msg: 'Failed at admincurrent controller: ' + error,
         });
     }
 };
@@ -89,15 +89,12 @@ const getCurrentAdmin = async (req, res) => {
 const updatePasswordUser = async (req, res) => {
     const id = req.params.id;
     try {
-        const response = await authService.updatePasswordUserService(
-            req.body,
-            id
-        );
+        const response = await authService.updatePasswordUserService(req.body, id);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Failed at updatePasswordUser controller: " + error,
+            msg: 'Failed at updatePasswordUser controller: ' + error,
         });
     }
 };

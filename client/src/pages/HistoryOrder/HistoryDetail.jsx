@@ -65,12 +65,12 @@ function HistoryOrderDetail() {
                             {order?.status === 'chua-xac-nhan'
                                 ? 'Chưa xác nhận'
                                 : order?.status === 'dang-giao'
-                                ? 'Đang giao'
-                                : order?.status === 'da-giao'
-                                ? 'Đã giao'
-                                : order?.status === 'da-huy'
-                                ? 'Đã hủy'
-                                : ''}
+                                  ? 'Đang giao'
+                                  : order?.status === 'da-giao'
+                                    ? 'Đã giao'
+                                    : order?.status === 'da-huy'
+                                      ? 'Đã hủy'
+                                      : ''}
                         </span>
                     </div>
                     <div className="col-md-6 col-12">
@@ -179,7 +179,7 @@ function HistoryOrderDetail() {
                                             {formatter.format(
                                                 ((item?.Order_Detail?.price * (100 - item?.Order_Detail?.discount)) /
                                                     100) *
-                                                    item?.Order_Detail?.quantity,
+                                                    item?.Order_Detail?.quantity
                                             )}
                                         </td>
                                     </tr>

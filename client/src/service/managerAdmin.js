@@ -1,70 +1,65 @@
 import axiosConfig from '../axiosConfig';
 
-export const apiAddAdmin = (payload) =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'post',
-                url: '/api/adminAccountRouter/admin/create-account',
-                data: payload,
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiAddAdmin = async (payload) => {
+    try {
+        const response = await axiosConfig({
+            method: 'post',
+            url: '/api/adminAccountRouter/admin/create-account',
+            data: payload,
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiGetAllAdmin = () =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'get',
-                url: '/api/adminAccountRouter/admin/account',
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiGetAllAdmin = async () => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: '/api/adminAccountRouter/admin/account',
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiGetAnAdmin = (id) =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'get',
-                url: '/api/adminAccountRouter/admin/' + id,
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiGetAnAdmin = async (id) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: '/api/adminAccountRouter/admin/' + id,
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiPutAdmin = (payload, id) =>
-    new Promise(async (resolve, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'put',
-                url: '/api/adminAccountRouter/admin/' + id,
-                data: payload,
-            });
+export const apiPutAdmin = async (payload, id) => {
+    try {
+        const response = await axiosConfig({
+            method: 'put',
+            url: '/api/adminAccountRouter/admin/' + id,
+            data: payload,
+        });
 
-            resolve(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiDeleteAdmin = (id) =>
-    new Promise(async (resolve, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'delete',
-                url: '/api/adminAccountRouter/admin/' + id,
-            });
+export const apiDeleteAdmin = async (id) => {
+    try {
+        const response = await axiosConfig({
+            method: 'delete',
+            url: '/api/adminAccountRouter/admin/' + id,
+        });
 
-            resolve(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};

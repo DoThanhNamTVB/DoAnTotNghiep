@@ -62,12 +62,12 @@ function OrderDetail() {
                             {order?.status === 'chua-xac-nhan'
                                 ? 'Chưa xác nhận'
                                 : order?.status === 'dang-giao'
-                                ? 'Đang giao'
-                                : order?.status === 'da-giao'
-                                ? 'Đã giao'
-                                : order?.status === 'da-huy'
-                                ? 'Đã hủy'
-                                : ''}
+                                  ? 'Đang giao'
+                                  : order?.status === 'da-giao'
+                                    ? 'Đã giao'
+                                    : order?.status === 'da-huy'
+                                      ? 'Đã hủy'
+                                      : ''}
                         </span>
                     </div>
                     <div className="col-md-6 col-12">

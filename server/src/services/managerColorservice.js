@@ -1,132 +1,122 @@
-const db = require("../models/index");
-const { Op } = require("sequelize");
+const db = require('../models/index');
+const { Op } = require('sequelize');
 
 //create an
-const createColorService = (payload) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const countName = await db.Color.count({
-                where: { slug: payload.slug },
-            });
+const createColorService = async (payload) => {
+    try {
+        const countName = await db.Color.count({
+            where: { slug: payload.slug },
+        });
 
-            if (countName > 0) {
-                resolve({
-                    err: 2,
-                    msg: "Màu này đã tồn tại",
-                });
-            } else {
-                const response = await db.Color.create(payload);
-                resolve({
-                    err: 0,
-                    msg: "Tạo màu thành công",
-                    response,
-                });
-            }
-        } catch (error) {
-            reject(error);
+        if (countName > 0) {
+            return {
+                err: 2,
+                msg: 'Màu này đã tồn tại',
+            };
+        } else {
+            const response = await db.Color.create(payload);
+            return {
+                err: 0,
+                msg: 'Tạo màu thành công',
+                response,
+            };
         }
-    });
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 //get all Color
-const getAllColorService = () => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const response = await db.Color.findAll(
-                {
-                    order: [["createdAt", "DESC"]],
-                },
-                { raw: true }
-            );
+const getAllColorService = async () => {
+    try {
+        const response = await db.Color.findAll(
+            {
+                order: [['createdAt', 'DESC']],
+            },
+            { raw: true }
+        );
 
-            resolve({
-                err: response ? 0 : 2,
-                msg: response ? "SUCCESSFULL" : "Fail to get all Colors",
-                response,
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
+        return {
+            err: response ? 0 : 2,
+            msg: response ? 'SUCCESSFULL' : 'Fail to get all Colors',
+            response,
+        };
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 //get an Color
-const getAnColorService = (id) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const response = await db.Color.findOne({
-                where: { id },
-            });
+const getAnColorService = async (id) => {
+    try {
+        const response = await db.Color.findOne({
+            where: { id },
+        });
 
-            resolve({
-                err: response ? 0 : 2,
-                msg: response ? "SUCCESSFULL" : "Color is not exits",
-                response,
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
+        return {
+            err: response ? 0 : 2,
+            msg: response ? 'SUCCESSFULL' : 'Color is not exits',
+            response,
+        };
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 //update an Color
 
-const updateColorService = (color, id) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const findName = await db.Color.count({
-                where: {
-                    id: { [Op.ne]: id },
-                    colorName: color.colorName,
-                },
+const updateColorService = async (color, id) => {
+    try {
+        const findName = await db.Color.count({
+            where: {
+                id: { [Op.ne]: id },
+                colorName: color.colorName,
+            },
+        });
+        if (findName > 0) {
+            return {
+                err: 2,
+                msg: 'Tên màu đã tồn tại !',
+            };
+        } else {
+            await db.Color.update(color, {
+                where: { id: id },
             });
-            if (findName > 0) {
-                resolve({
-                    err: 2,
-                    msg: "Tên màu đã tồn tại !",
-                });
-            } else {
-                await db.Color.update(color, {
-                    where: { id: id },
-                });
 
-                resolve({
-                    err: 0,
-                    msg: "Updated for Color",
-                });
-            }
-        } catch (error) {
-            reject(error);
+            return {
+                err: 0,
+                msg: 'Updated for Color',
+            };
         }
-    });
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
-const deleteColorService = (id) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const find = await db.Product_Color.count({
-                where: { colorId: id },
+const deleteColorService = async (id) => {
+    try {
+        const find = await db.Product_Color.count({
+            where: { colorId: id },
+        });
+        if (find > 0) {
+            return {
+                err: 2,
+                msg: 'Now color has many product delete',
+            };
+        } else {
+            const response = await db.Color.destroy({
+                where: { id: id },
             });
-            if (find > 0) {
-                resolve({
-                    err: 2,
-                    msg: "Now color has many product delete",
-                });
-            } else {
-                const response = await db.Color.destroy({
-                    where: { id: id },
-                });
 
-                resolve({
-                    err: 0,
-                    msg: "DELETED",
-                    response,
-                });
-            }
-        } catch (error) {
-            reject(error);
+            return {
+                err: 0,
+                msg: 'DELETED',
+                response,
+            };
         }
-    });
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 module.exports = {

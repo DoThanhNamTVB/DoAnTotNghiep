@@ -1,4 +1,4 @@
-const managerCategoryService = require("../services/managerCategoryService");
+const managerCategoryService = require('../services/managerCategoryService');
 
 const createCategory = async (req, res) => {
     const { categoryName } = req.body;
@@ -7,17 +7,15 @@ const createCategory = async (req, res) => {
         if (!categoryName) {
             return res.status(400).json({
                 err: 1,
-                msg: "Missing inputs !",
+                msg: 'Missing inputs !',
             });
         }
-        const reponse = await managerCategoryService.createCategoryService(
-            req.body
-        );
+        const reponse = await managerCategoryService.createCategoryService(req.body);
         return res.status(200).json(reponse);
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at Category  controller : " + error,
+            msg: 'Fail at Category  controller : ' + error,
         });
     }
 };
@@ -29,7 +27,7 @@ const getAllCategory = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at getAllCategory controller : " + error,
+            msg: 'Fail at getAllCategory controller : ' + error,
         });
     }
 };
@@ -42,7 +40,7 @@ const getAnCategory = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at getAnCategory controller : " + error,
+            msg: 'Fail at getAnCategory controller : ' + error,
         });
     }
 };
@@ -53,19 +51,16 @@ const updateCategory = async (req, res) => {
         if (!categoryName) {
             return res.status(400).json({
                 err: 1,
-                msg: "Missing inputs !",
+                msg: 'Missing inputs !',
             });
         }
         const id = req.params.id;
-        const response = await managerCategoryService.updateCategoryService(
-            req.body,
-            id
-        );
+        const response = await managerCategoryService.updateCategoryService(req.body, id);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at updateCategory controller : " + error,
+            msg: 'Fail at updateCategory controller : ' + error,
         });
     }
 };
@@ -78,7 +73,7 @@ const deleteCategory = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at deleteCategory controller : " + error,
+            msg: 'Fail at deleteCategory controller : ' + error,
         });
     }
 };

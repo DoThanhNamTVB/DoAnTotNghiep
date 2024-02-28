@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express');
 
 const router = express.Router();
 
-const chartController = require("../controllers/chartController");
+const chartController = require('../controllers/chartController');
 
-router.get("/chartRevenueMonth", chartController.chartRevenueMonth);
-router.get("/chartOrder", chartController.chartOrder);
+router.get('/chartRevenueMonth', chartController.chartRevenueMonth);
+router.get('/chartOrder', chartController.chartOrder);
 
 module.exports = router;

@@ -1,137 +1,124 @@
-const db = require("../models/index");
-const { Op } = require("sequelize");
+const db = require('../models/index');
 
 //create an
-const createOrderDetail = (payload) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const response = await db.Order_Detail.create(payload);
-            resolve({
-                err: response ? 0 : 2,
-                msg: response ? "Thêm thành công" : "Thêm thất bại thất bại",
-                response,
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
+const createOrderDetail = async (payload) => {
+    try {
+        const response = await db.Order_Detail.create(payload);
+        return {
+            err: response ? 0 : 2,
+            msg: response ? 'Thêm thành công' : 'Thêm thất bại thất bại',
+            response,
+        };
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 //get all order
 
-const getOrderByUserStatus = (userId, status) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const response = await db.Order.findAll(
-                {
-                    where: { userId: userId, status: status },
-                    include: [
-                        { model: db.User },
-                        {
-                            model: db.Product,
-                            include: [{ model: db.OrderDetail }],
-                            order: [["updatedAt", "DESC"]],
-                        },
-                    ],
-                },
-                {
-                    order: [["updatedAt", "DESC"]],
-                },
-                { raw: true }
-            );
+const getOrderByUserStatus = async (userId, status) => {
+    try {
+        const response = await db.Order.findAll(
+            {
+                where: { userId: userId, status: status },
+                include: [
+                    { model: db.User },
+                    {
+                        model: db.Product,
+                        include: [{ model: db.OrderDetail }],
+                        order: [['updatedAt', 'DESC']],
+                    },
+                ],
+            },
+            {
+                order: [['updatedAt', 'DESC']],
+            },
+            { raw: true }
+        );
 
-            resolve({
-                err: response ? 0 : 2,
-                msg: response ? "Lấy thành công" : "Chưa có đơn hàng nào",
-                response,
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
+        return {
+            err: response ? 0 : 2,
+            msg: response ? 'Lấy thành công' : 'Chưa có đơn hàng nào',
+            response,
+        };
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 //get all order by userId
-const getOrderByUserId = (userId) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const response = await db.Order.findAll(
-                {
-                    where: { userId: userId },
-                    include: [
-                        { model: db.User },
-                        {
-                            model: db.Product,
-                            include: [{ model: db.OrderDetail }],
-                            order: [["updatedAt", "DESC"]],
-                        },
-                    ],
-                },
-                {
-                    order: [["updatedAt", "DESC"]],
-                },
-                { raw: true }
-            );
+const getOrderByUserId = async (userId) => {
+    try {
+        const response = await db.Order.findAll(
+            {
+                where: { userId: userId },
+                include: [
+                    { model: db.User },
+                    {
+                        model: db.Product,
+                        include: [{ model: db.OrderDetail }],
+                        order: [['updatedAt', 'DESC']],
+                    },
+                ],
+            },
+            {
+                order: [['updatedAt', 'DESC']],
+            },
+            { raw: true }
+        );
 
-            resolve({
-                err: response ? 0 : 2,
-                msg: response ? "SUCCESSFULL" : "Fail to get all Carts",
-                response,
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
+        return {
+            err: response ? 0 : 2,
+            msg: response ? 'SUCCESSFULL' : 'Fail to get all Carts',
+            response,
+        };
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 //update status order
 
-const updateStatusOrder = ({ status }, orderId) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            await db.Order.update(
-                { status: status },
-                {
-                    where: { id: orderId },
-                }
-            );
-            resolve({
-                err: 0,
-                msg: "Updated for Cart",
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
+const updateStatusOrder = async ({ status }, orderId) => {
+    try {
+        await db.Order.update(
+            { status: status },
+            {
+                where: { id: orderId },
+            }
+        );
+        return {
+            err: 0,
+            msg: 'Updated for Cart',
+        };
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
-const cancelOrder = (reason, orderId) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const response = await db.Order.update(
-                { reason: reason, status: "da-huy" },
-                {
-                    where: { id: orderId },
-                }
-            );
+const cancelOrder = async (reason, orderId) => {
+    try {
+        const response = await db.Order.update(
+            { reason: reason, status: 'da-huy' },
+            {
+                where: { id: orderId },
+            }
+        );
 
-            // if (response) {
-            //     await db.OrderDetail.destroy({
-            //         where: { orderId: orderId },
-            //     });
-            // }
+        // if (response) {
+        //     await db.OrderDetail.destroy({
+        //         where: { orderId: orderId },
+        //     });
+        // }
 
-            resolve({
-                err: response ? 0 : 2,
-                msg: response
-                    ? "hủy đơn hàng thành công"
-                    : "Không tìm thấy sản phẩm để xóa",
-                response,
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
+        return {
+            err: response ? 0 : 2,
+            msg: response ? 'hủy đơn hàng thành công' : 'Không tìm thấy sản phẩm để xóa',
+            response,
+        };
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 module.exports = {

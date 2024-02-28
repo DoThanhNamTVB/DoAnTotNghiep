@@ -18,7 +18,7 @@ root.render(
                 </GlobalStyles>
             </PersistGate>
         </Provider>
-    </React.StrictMode>,
+    </React.StrictMode>
 );
 
 reportWebVitals();

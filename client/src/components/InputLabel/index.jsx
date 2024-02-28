@@ -1,6 +1,6 @@
 function InputLabel({
     textarea,
-    select,
+    // select,
     row,
     label,
     readonly = false,

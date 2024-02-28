@@ -199,7 +199,7 @@ function ProductManagerEditDetail() {
                                 <Select
                                     key={[categoryOptions, payload.categoryName]}
                                     defaultValue={categoryOptions?.find(
-                                        (option) => option.label === payload.categoryName,
+                                        (option) => option.label === payload.categoryName
                                     )}
                                     onChange={handleChangeSelect}
                                     options={categoryOptions}

@@ -65,7 +65,7 @@ function FormInfo() {
             (accumulator, currentValue) =>
                 accumulator +
                 ((currentValue?.price * (100 - currentValue?.discount)) / 100) * currentValue?.Cart?.quantity,
-            0,
+            0
         );
         setTotalPrice(sumPrice + 35000);
     }, [products]);

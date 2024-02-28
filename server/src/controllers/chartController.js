@@ -1,4 +1,4 @@
-const chartService = require("../services/chartService");
+const chartService = require('../services/chartService');
 
 const chartRevenueMonth = async (req, res) => {
     try {
@@ -7,7 +7,7 @@ const chartRevenueMonth = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at chartRevenueMonth Controller : " + error,
+            msg: 'Fail at chartRevenueMonth Controller : ' + error,
         });
     }
 };
@@ -19,7 +19,7 @@ const chartOrder = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             err: -1,
-            msg: "Fail at chartOrder Controller : " + error,
+            msg: 'Fail at chartOrder Controller : ' + error,
         });
     }
 };

@@ -116,7 +116,7 @@ function HeaderBanner() {
                                                                 <div>
                                                                     <span className="pe-4 text-danger">
                                                                         {formatter.format(
-                                                                            (item.price * (100 - item.discount)) / 100,
+                                                                            (item.price * (100 - item.discount)) / 100
                                                                         )}
                                                                     </span>
                                                                     <del>{formatter.format(item.price)}</del>

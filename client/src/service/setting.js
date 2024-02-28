@@ -1,42 +1,39 @@
 import axiosConfig from '../axiosConfig';
 
-export const apiGetSetting = (id) =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'get',
-                url: '/api/setting/get/' + id,
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiGetSetting = async (id) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: '/api/setting/get/' + id,
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiGetAllSetting = () =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'get',
-                url: '/api/setting/getAll',
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiGetAllSetting = async () => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: '/api/setting/getAll',
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiPutSetting = (payload, id) =>
-    new Promise(async (resolve, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'put',
-                url: '/api/setting/put/' + id,
-                data: payload,
-            });
+export const apiPutSetting = async (payload, id) => {
+    try {
+        const response = await axiosConfig({
+            method: 'put',
+            url: '/api/setting/put/' + id,
+            data: payload,
+        });
 
-            resolve(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};

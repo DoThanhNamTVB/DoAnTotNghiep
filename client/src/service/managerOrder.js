@@ -1,123 +1,114 @@
 import axiosConfig from '../axiosConfig';
 
-export const apiAddOrder = (payload) =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'post',
-                url: '/api/managerOrder/create',
-                data: payload,
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiAddOrder = async (payload) => {
+    try {
+        const response = await axiosConfig({
+            method: 'post',
+            url: '/api/managerOrder/create',
+            data: payload,
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apigetAllOrder = () =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'get',
-                url: '/api/managerOrder/getAll',
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apigetAllOrder = async () => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: '/api/managerOrder/getAll',
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiGetOrderByStatus = (statusOrder) =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'get',
-                url: '/api/managerOrder/getStatus/' + statusOrder,
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiGetOrderByStatus = async (statusOrder) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: '/api/managerOrder/getStatus/' + statusOrder,
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiGetOrderById = (orderId) =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'get',
-                url: '/api/managerOrder/get/' + orderId,
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiGetOrderById = async (orderId) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: '/api/managerOrder/get/' + orderId,
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiGetOrderByUserId = (userId) =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'get',
-                url: '/api/managerOrder/get/' + userId,
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiGetOrderByUserId = async (userId) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: '/api/managerOrder/get/' + userId,
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiGetOrderByUserStatus = (userId, statusOrder) =>
-    new Promise(async (relsove, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'get',
-                url: '/api/managerOrder/get/' + userId + '/' + statusOrder,
-            });
-            relsove(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiGetOrderByUserStatus = async (userId, statusOrder) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: '/api/managerOrder/get/' + userId + '/' + statusOrder,
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiPutOrderStatus = (payload, orderId) =>
-    new Promise(async (resolve, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'put',
-                url: '/api/managerOrder/status/' + orderId,
-                data: payload,
-            });
-            resolve(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiPutOrderStatus = async (payload, orderId) => {
+    try {
+        const response = await axiosConfig({
+            method: 'put',
+            url: '/api/managerOrder/status/' + orderId,
+            data: payload,
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiPutUserOrderId = (payload, orderId) =>
-    new Promise(async (resolve, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'put',
-                url: '/api/managerOrder/user/' + orderId,
-                data: payload,
-            });
-            resolve(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+export const apiPutUserOrderId = async (payload, orderId) => {
+    try {
+        const response = await axiosConfig({
+            method: 'put',
+            url: '/api/managerOrder/user/' + orderId,
+            data: payload,
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
-export const apiCancelOrder = (payload, orderId) =>
-    new Promise(async (resolve, reject) => {
-        try {
-            const response = await axiosConfig({
-                method: 'put',
-                url: '/api/managerOrder/cancel/' + orderId,
-                data: payload,
-            });
+export const apiCancelOrder = async (payload, orderId) => {
+    try {
+        const response = await axiosConfig({
+            method: 'put',
+            url: '/api/managerOrder/cancel/' + orderId,
+            data: payload,
+        });
 
-            resolve(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+        return response;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
